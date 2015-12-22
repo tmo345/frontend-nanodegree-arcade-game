@@ -29,12 +29,12 @@ var grid = {
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.recentLocation = 60 + (Math.floor(Math.random() * (3 - 0))) * 83;
+    this.initialLocation = this.setStart();
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = -101;
-    this.y = this.recentLocation;
+    this.y = this.initialLocation;
     this.speed = 100 + (Math.floor(Math.random() * (250 - 50)));
 };
 
@@ -44,15 +44,16 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    var numberX = this.x;
     numberX += this.speed * dt;
     if (numberX > 505) {
         this.x = -101;
-        this.recentLocation = (60 + (Math.floor(Math.random() * (3 - 0))) * 83);
-        this.y = this.recentLocation;
+        this.initialLocation = this.setStart();
+        this.y = this.initialLocation;
         this.speed = 50 + (Math.floor(Math.random() * (250 - 50)));
     } else {
         this.x = numberX;
-        this.y = this.recentLocation;
+        this.y = this.initialLocation;
     }
 
     if (this.x >= (player.x) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
@@ -67,6 +68,19 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+Enemy.prototype.setStart = function() {
+    var possibleStarts = [
+            grid.y.stone1,
+            grid.y.stone2,
+            grid.y.stone3
+    ];
+    var randomNumber = Math.floor(Math.random() * 3);
+    var startLocation = possibleStarts[randomNumber];
+    console.log(startLocation);
+    return startLocation;
+}
+
+
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -79,7 +93,7 @@ var Player = function() {
 
 
 Player.prototype.update = function() {
-    console.log(player.x, player.y);
+    // console.log(player.x, player.y);
 };
 
 Player.prototype.render = function() {
