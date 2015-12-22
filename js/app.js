@@ -47,8 +47,8 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     var currentX = this.x;
     var updatedX = currentX + (this.speed * dt);
-    if (currentX > 505) {
-        this.x = -101;
+    if (updatedX > 505) {
+        this.x = grid.x.offScreen;
         this.y = this.setStart();
         this.speed = this.setSpeed();
     } else {
