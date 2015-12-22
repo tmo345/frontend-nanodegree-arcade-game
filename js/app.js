@@ -50,8 +50,7 @@ Enemy.prototype.update = function(dt) {
     }
 
     if (this.x >= (player.x) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
-        player.x = grid.x.tile3;
-        player.y = grid.y.grass2;
+        player.resetSprite();
     }
 
 };
@@ -88,10 +87,13 @@ Enemy.prototype.resetSprite = function() {
 // a handleInput() method.
 var Player = function() {
     this.sprite = 'images/char-boy.png';
+    this.resetSprite();
+};
+
+Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;
 };
-
 
 Player.prototype.update = function() {
     // console.log(player.x, player.y);
@@ -128,7 +130,7 @@ Player.prototype.handleInput = function (keyCode) {
         }
 
     }
-}
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
