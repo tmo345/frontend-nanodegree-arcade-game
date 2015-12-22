@@ -27,14 +27,13 @@ var grid = {
 // Enemies our player must avoid
 
 var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    this.initialLocation = this.setStart();
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = -101;
-    this.y = this.initialLocation;
+
+    this.x = grid.x.offScreen;
+    this.y = this.setStart();
+
     this.speed = 100 + (Math.floor(Math.random() * (250 - 50)));
 };
 
@@ -48,12 +47,10 @@ Enemy.prototype.update = function(dt) {
     var updatedX = currentX + (this.speed * dt);
     if (currentX > 505) {
         this.x = -101;
-        this.initialLocation = this.setStart();
-        this.y = this.initialLocation;
+        this.y = this.setStart();
         this.speed = 50 + (Math.floor(Math.random() * (250 - 50)));
     } else {
         this.x = updatedX;
-        // this.y = this.initialLocation;
     }
 
     if (this.x >= (player.x) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
