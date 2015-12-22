@@ -56,8 +56,8 @@ Enemy.prototype.update = function(dt) {
     }
 
     if (this.x >= (player.x) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
-        player.x = 202;
-        player.y = 385;
+        player.x = grid.x.tile3;
+        player.y = grid.y.grass2;
     }
 
 };
@@ -73,8 +73,8 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-    this.x = 202;
-    this.y = 385;
+    this.x = grid.x.tile3;
+    this.y = grid.y.grass2;
 };
 
 
