@@ -1,3 +1,5 @@
+// Game tile grid and player movement boundaries
+
 var grid = {
     x: {
         offScreen: -101,
@@ -34,7 +36,7 @@ var Enemy = function() {
     this.x = grid.x.offScreen;
     this.y = this.setStart();
 
-    this.speed = 100 + (Math.floor(Math.random() * (250 - 50)));
+    this.speed = this.setSpeed();
 };
 
 // Update the enemy's position, required method for game
@@ -48,7 +50,7 @@ Enemy.prototype.update = function(dt) {
     if (currentX > 505) {
         this.x = -101;
         this.y = this.setStart();
-        this.speed = 50 + (Math.floor(Math.random() * (250 - 50)));
+        this.speed = this.setSpeed();
     } else {
         this.x = updatedX;
     }
@@ -74,6 +76,10 @@ Enemy.prototype.setStart = function() {
     var randomNumber = Math.floor(Math.random() * 3);
     var startLocation = possibleStarts[randomNumber];
     return startLocation;
+}
+
+Enemy.prototype.setSpeed = function() {
+    return 100 + (Math.floor(Math.random() * (250 - 50)));
 }
 
 
