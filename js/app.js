@@ -44,16 +44,16 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    var numberX = this.x;
-    numberX += this.speed * dt;
-    if (numberX > 505) {
+    var currentX = this.x;
+    var updatedX = currentX + (this.speed * dt);
+    if (currentX > 505) {
         this.x = -101;
         this.initialLocation = this.setStart();
         this.y = this.initialLocation;
         this.speed = 50 + (Math.floor(Math.random() * (250 - 50)));
     } else {
-        this.x = numberX;
-        this.y = this.initialLocation;
+        this.x = updatedX;
+        // this.y = this.initialLocation;
     }
 
     if (this.x >= (player.x) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
@@ -76,7 +76,6 @@ Enemy.prototype.setStart = function() {
     ];
     var randomNumber = Math.floor(Math.random() * 3);
     var startLocation = possibleStarts[randomNumber];
-    console.log(startLocation);
     return startLocation;
 }
 
