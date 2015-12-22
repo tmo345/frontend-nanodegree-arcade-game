@@ -1,4 +1,31 @@
+var grid = {
+    x: {
+        offScreen: -101,
+        tile1: 0,
+        tile2: 101,
+        tile3: 202,
+        tile4: 303,
+        tile5: 404
+    },
+    y: {
+        water: 0,
+        stone1: 60,
+        stone2: 143,
+        stone3: 226,
+        grass1: 309,
+        grass2: 392
+    },
+    moveBoundaries: {
+        left: 0,
+        right: 404,
+        upper: 53,
+        lower: 385
+    }
+}
+
+
 // Enemies our player must avoid
+
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -17,7 +44,6 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    var numberX = this.x;
     numberX += this.speed * dt;
     if (numberX > 505) {
         this.x = -101;
@@ -40,6 +66,7 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
 
 // Now write your own player class
 // This class requires an update(), render() and
