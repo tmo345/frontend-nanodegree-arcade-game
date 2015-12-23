@@ -1,4 +1,4 @@
-// Game tile grid and player movement boundaries
+// Game tile grid
 
 var grid = {
     x: {
@@ -16,12 +16,6 @@ var grid = {
         stone3: 226,
         grass1: 309,
         grass2: 392
-    },
-    moveBoundaries: {
-        left: 0,
-        right: 404,
-        upper: 60,
-        lower: 385
     }
 };
 
@@ -32,7 +26,12 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.spriteBounds = {
+        left: -101,
+        right: 505
+    };
     this.resetSprite();
+    console.log(this.spriteBounds);
 };
 
 // Update the enemy's position, required method for game
@@ -42,7 +41,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     var updatedX = this.x + (this.speed * dt);
-    if (updatedX > 505) {
+    if (updatedX > this.spriteBounds.right) {
         this.resetSprite();
     } else {
         this.x = updatedX;
@@ -71,11 +70,11 @@ Enemy.prototype.setStart = function() {
 };
 
 Enemy.prototype.setSpeed = function() {
-    return Math.floor(Math.random() * (400 - 100));
+    return 50 + Math.floor(Math.random() * 300);
 };
 
 Enemy.prototype.resetSprite = function() {
-    this.x = grid.x.offScreen;
+    this.x = this.spriteBounds.left;
     this.y = this.setStart();
     this.speed = this.setSpeed();
 };
@@ -92,6 +91,13 @@ var Player = function() {
 Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;
+
+    this.spriteBounds = {
+        left: 0,
+        right: 404,
+        upper: 60,
+        lower: 392
+    };
 };
 
 Player.prototype.update = function() {
@@ -109,22 +115,21 @@ Player.prototype.handleInput = function (keyCode) {
         down = 'down';
 
     if (keyCode === left) {
-        if (this.x > 0) {
+        if (this.x > this.spriteBounds.left) {
             this.x -= 101;
         }
     } else if (keyCode === right) {
-        if (this.x < 404) {
+        if (this.x < this.spriteBounds.right) {
             this.x += 101;
         }
     } else if (keyCode === up) {
-        if (this.y > 60) {
+        if (this.y > this.spriteBounds.upper) {
             this.y -= 83;
         } else {
-            this.x = 202;
-            this.y = 385;
+            this.resetSprite();
         }
     } else if (keyCode === down) {
-        if (this.y < 385) {
+        if (this.y < this.spriteBounds.lower) {
             this.y += 83;
         }
 
