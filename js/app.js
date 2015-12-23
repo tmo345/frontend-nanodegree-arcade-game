@@ -32,7 +32,12 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.spriteBounds = {
+        left: -101,
+        right: 505
+    };
     this.resetSprite();
+    console.log(this.spriteBounds);
 };
 
 // Update the enemy's position, required method for game
@@ -43,7 +48,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     var currentX = this.x;
     var updatedX = currentX + (this.speed * dt);
-    if (updatedX > 505) {
+    if (updatedX > this.spriteBounds.right) {
         this.resetSprite();
     } else {
         this.x = updatedX;
@@ -72,11 +77,11 @@ Enemy.prototype.setStart = function() {
 };
 
 Enemy.prototype.setSpeed = function() {
-    return Math.floor(Math.random() * (400 - 100));
+    return 50 + Math.floor(Math.random() * 300);
 };
 
 Enemy.prototype.resetSprite = function() {
-    this.x = grid.x.offScreen;
+    this.x = this.spriteBounds.left;
     this.y = this.setStart();
     this.speed = this.setSpeed();
 }
