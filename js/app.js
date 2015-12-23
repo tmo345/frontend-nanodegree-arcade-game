@@ -26,20 +26,21 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+
+    // Left starting point and right edge
     this.spriteBounds = {
         left: -101,
         right: 505
     };
+
+    // Set enemy at x = -101 and give random starting y and random speed
     this.resetSprite();
-    console.log(this.spriteBounds);
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+
     var updatedX = this.x + (this.speed * dt);
     if (updatedX > this.spriteBounds.right) {
         this.resetSprite();
@@ -64,13 +65,17 @@ Enemy.prototype.setStart = function() {
             grid.y.stone2,
             grid.y.stone3
     ];
+    // Random generate 0, 1, or 2 to correspond to possibleStarts array indices
     var randomNumber = Math.floor(Math.random() * 3);
     var startLocation = possibleStarts[randomNumber];
     return startLocation;
 };
 
+
 Enemy.prototype.setSpeed = function() {
-    return 50 + Math.floor(Math.random() * 300);
+    var minSpeed = 50;
+    var maxSpeed = 300;
+    return minSpeed + Math.floor(Math.random() * maxSpeed);
 };
 
 Enemy.prototype.resetSprite = function() {
