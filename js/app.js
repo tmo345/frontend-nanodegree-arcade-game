@@ -20,10 +20,10 @@ var grid = {
     moveBoundaries: {
         left: 0,
         right: 404,
-        upper: 53,
+        upper: 60,
         lower: 385
     }
-}
+};
 
 
 // Enemies our player must avoid
@@ -69,11 +69,11 @@ Enemy.prototype.setStart = function() {
     var randomNumber = Math.floor(Math.random() * 3);
     var startLocation = possibleStarts[randomNumber];
     return startLocation;
-}
+};
 
 Enemy.prototype.setSpeed = function() {
-    return 100 + (Math.floor(Math.random() * (250 - 50)));
-}
+    return Math.floor(Math.random() * (400 - 100));
+};
 
 Enemy.prototype.resetSprite = function() {
     this.x = grid.x.offScreen;
@@ -96,7 +96,7 @@ Player.prototype.resetSprite = function(){
 };
 
 Player.prototype.update = function() {
-    // console.log(player.x, player.y);
+    console.log(this.x, this.y);
 };
 
 Player.prototype.render = function() {
@@ -118,7 +118,7 @@ Player.prototype.handleInput = function (keyCode) {
             this.x += 101;
         }
     } else if (keyCode === up) {
-        if (this.y > 53) {
+        if (this.y > 60) {
             this.y -= 83;
         } else {
             this.x = 202;
