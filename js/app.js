@@ -1,4 +1,4 @@
-// Game tile grid and player movement boundaries
+// Game tile grid
 
 var grid = {
     x: {
@@ -16,12 +16,6 @@ var grid = {
         stone3: 226,
         grass1: 309,
         grass2: 392
-    },
-    moveBoundaries: {
-        left: 0,
-        right: 404,
-        upper: 60,
-        lower: 385
     }
 };
 
@@ -98,6 +92,13 @@ var Player = function() {
 Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;
+
+    this.spriteBounds = {
+        left: 0,
+        right: 404,
+        upper: 60,
+        lower: 392
+    };
 };
 
 Player.prototype.update = function() {
@@ -115,22 +116,22 @@ Player.prototype.handleInput = function (keyCode) {
         down = 'down';
 
     if (keyCode === left) {
-        if (this.x > 0) {
+        if (this.x > this.spriteBounds.left) {
             this.x -= 101;
         }
     } else if (keyCode === right) {
-        if (this.x < 404) {
+        if (this.x < this.spriteBounds.right) {
             this.x += 101;
         }
     } else if (keyCode === up) {
-        if (this.y > 60) {
+        if (this.y > this.spriteBounds.upper) {
             this.y -= 83;
         } else {
             this.x = 202;
             this.y = 385;
         }
     } else if (keyCode === down) {
-        if (this.y < 385) {
+        if (this.y < this.spriteBounds.lower) {
             this.y += 83;
         }
 
