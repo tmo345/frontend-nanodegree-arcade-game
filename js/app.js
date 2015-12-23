@@ -127,8 +127,7 @@ Player.prototype.handleInput = function (keyCode) {
         if (this.y > this.spriteBounds.upper) {
             this.y -= 83;
         } else {
-            this.x = 202;
-            this.y = 385;
+            this.resetSprite();
         }
     } else if (keyCode === down) {
         if (this.y < this.spriteBounds.lower) {
