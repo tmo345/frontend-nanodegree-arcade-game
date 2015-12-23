@@ -41,8 +41,7 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    var currentX = this.x;
-    var updatedX = currentX + (this.speed * dt);
+    var updatedX = this.x + (this.speed * dt);
     if (updatedX > 505) {
         this.resetSprite();
     } else {
@@ -79,7 +78,7 @@ Enemy.prototype.resetSprite = function() {
     this.x = grid.x.offScreen;
     this.y = this.setStart();
     this.speed = this.setSpeed();
-}
+};
 
 
 // Now write your own player class
