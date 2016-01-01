@@ -1,4 +1,13 @@
-// Game tile grid
+// Game Grid
+// OS = Offscreen / T = Tile / E = Enemy / P = Player
+//          OS  T1  T2  T3  T4  T5
+//  water      |   |   |   |   |   |
+//  stone1  E  |   |   |   |   |   |
+//  stone2  E  |   |   |   |   |   |
+//  stone3  E  |   |   |   |   |   |
+//  grass1     |   |   |   |   |   |
+//  grass2     |   |   | P |   |   |
+
 
 var grid = {
     x: {
@@ -10,14 +19,15 @@ var grid = {
         tile5: 404
     },
     y: {
-        water: 0, // Top water row
-        stone1: 60, // Stone 1 of 3
-        stone2: 143, // Stone 2 of 3
-        stone3: 226, // Stone 3 of 3
-        grass1: 309, // Grass 1 of 2
-        grass2: 392 // Grass 2 of 2
+        water: 0,
+        stone1: 60,
+        stone2: 143,
+        stone3: 226,
+        grass1: 309,
+        grass2: 392
     }
 };
+
 
 
 // Enemies our player must avoid
@@ -106,28 +116,26 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function (keyCode) {
-    var left = 'left',
-        right = 'right',
-        up = 'up',
-        down = 'down';
+    var oneTileX = 101;
+    var oneTileY = 83;
 
-    if (keyCode === left) {
+    if (keyCode === 'left') {
         if (this.x > this.leftBoundary) {
-            this.x -= 101;
+            this.x -= oneTileX;
         }
-    } else if (keyCode === right) {
+    } else if (keyCode === 'right') {
         if (this.x < this.rightBoundary) {
-            this.x += 101;
+            this.x += oneTileX;
         }
-    } else if (keyCode === up) {
+    } else if (keyCode === 'up') {
         if (this.y > this.topBoundary) {
-            this.y -= 83;
+            this.y -= oneTileY;
         } else {
             this.resetSprite();
         }
-    } else if (keyCode === down) {
+    } else if (keyCode === 'down') {
         if (this.y < this.bottomBoundary) {
-            this.y += 83;
+            this.y += oneTileY;
         }
 
     }
