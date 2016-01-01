@@ -91,12 +91,10 @@ Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;
 
-    this.spriteBounds = {
-        left: 0,
-        right: 404,
-        upper: 60,
-        lower: 392
-    };
+    this.leftBoundary = 0;
+    this.rightBoundary = 404;
+    this.topBoundary = 60;
+    this.bottomBoundary = 392;
 };
 
 Player.prototype.update = function() {
@@ -114,21 +112,21 @@ Player.prototype.handleInput = function (keyCode) {
         down = 'down';
 
     if (keyCode === left) {
-        if (this.x > this.spriteBounds.left) {
+        if (this.x > this.leftBoundary) {
             this.x -= 101;
         }
     } else if (keyCode === right) {
-        if (this.x < this.spriteBounds.right) {
+        if (this.x < this.rightBoundary) {
             this.x += 101;
         }
     } else if (keyCode === up) {
-        if (this.y > this.spriteBounds.upper) {
+        if (this.y > this.topBoundary) {
             this.y -= 83;
         } else {
             this.resetSprite();
         }
     } else if (keyCode === down) {
-        if (this.y < this.spriteBounds.lower) {
+        if (this.y < this.bottomBoundary) {
             this.y += 83;
         }
 
