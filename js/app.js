@@ -94,17 +94,18 @@ Enemy.prototype.resetSprite = function() {
 // a handleInput() method.
 var Player = function() {
     this.sprite = 'images/char-boy.png';
+
+    this.leftBoundary = 0;
+    this.rightBoundary = 404;
+    this.topBoundary = 60;
+    this.bottomBoundary = 392;
+
     this.resetSprite();
 };
 
 Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;
-
-    this.leftBoundary = 0;
-    this.rightBoundary = 404;
-    this.topBoundary = 60;
-    this.bottomBoundary = 392;
 };
 
 Player.prototype.update = function() {
