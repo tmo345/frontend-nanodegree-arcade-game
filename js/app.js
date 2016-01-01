@@ -10,12 +10,12 @@ var grid = {
         tile5: 404
     },
     y: {
-        water: 0,
-        stone1: 60,
-        stone2: 143,
-        stone3: 226,
-        grass1: 309,
-        grass2: 392
+        water: 0, // Top water row
+        stone1: 60, // Stone 1 of 3
+        stone2: 143, // Stone 2 of 3
+        stone3: 226, // Stone 3 of 3
+        grass1: 309, // Grass 1 of 2
+        grass2: 392 // Grass 2 of 2
     }
 };
 
@@ -48,7 +48,7 @@ Enemy.prototype.update = function(dt) {
         this.x = updatedX;
     }
 
-    if (this.x >= (player.x) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
+    if (this.x >= (player.x - 50) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
         player.resetSprite();
     }
 
