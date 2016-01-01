@@ -23,18 +23,12 @@ var grid = {
 // Enemies our player must avoid
 
 var Enemy = function() {
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+
     this.sprite = 'images/enemy-bug.png';
+    this.startingX = -101; // Offscreen
+    this.rightBoundary = 505;
 
-    // Left starting point and right edge
-    this.spriteBounds = {
-        left: -101,
-        right: 505
-    };
-
-    // Set enemy at x = -101 and give random starting y and random speed
-    this.resetSprite();
+    this.resetSprite(); // set at startingX and give random speed and y
 };
 
 // Update the enemy's position, required method for game
@@ -42,7 +36,7 @@ var Enemy = function() {
 Enemy.prototype.update = function(dt) {
 
     var updatedX = this.x + (this.speed * dt);
-    if (updatedX > this.spriteBounds.right) {
+    if (updatedX > this.rightBoundary) {
         this.resetSprite();
     } else {
         this.x = updatedX;
@@ -79,7 +73,7 @@ Enemy.prototype.setSpeed = function() {
 };
 
 Enemy.prototype.resetSprite = function() {
-    this.x = this.spriteBounds.left;
+    this.x = this.startingX;
     this.y = this.setStart();
     this.speed = this.setSpeed();
 };
