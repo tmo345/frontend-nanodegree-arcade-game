@@ -110,7 +110,6 @@ Player.prototype.resetSprite = function(){
 
 Player.prototype.update = function() {
     if (this.y < this.topBoundary) {
-        score.scoreChange();
         player.resetSprite();
     }
 };
@@ -159,6 +158,12 @@ ScoreDisplay.prototype.render = function() {
 
 ScoreDisplay.prototype.scoreChange = function() {
     this.score += 1;
+};
+
+ScoreDisplay.prototype.update = function() {
+    if (player.y < player.topBoundary) {
+        this.scoreChange();
+    }
 };
 
 // Now instantiate your objects.

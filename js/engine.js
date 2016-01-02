@@ -79,6 +79,8 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        // Call updateGameInformation before updateEntitiies so score can update before sprites are reset
+        updateGameInformation();
         updateEntities(dt);
         // checkCollisions();
     }
@@ -95,6 +97,10 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    function updateGameInformation() {
+        score.update();
     }
 
     /* This function initially draws the "game level", it will then call
