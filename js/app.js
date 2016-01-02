@@ -142,6 +142,17 @@ Player.prototype.handleInput = function (keyCode) {
     }
 };
 
+var ScoreDisplay = function() {
+    this.score = 0;
+    this.x = 40;
+    this.y = 100;
+};
+
+ScoreDisplay.prototype.render = function() {
+    ctx.font = "36px sans-serif";
+    ctx.fillText(this.score, this.x, this.y);
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -150,6 +161,7 @@ var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 
 var player = new Player();
 
+var score = new ScoreDisplay();
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
