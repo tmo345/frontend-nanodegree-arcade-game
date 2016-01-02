@@ -109,7 +109,10 @@ Player.prototype.resetSprite = function(){
 };
 
 Player.prototype.update = function() {
-    console.log(this.x, this.y);
+    if (this.y < this.topBoundary) {
+        score.scoreChange();
+        player.resetSprite();
+    }
 };
 
 Player.prototype.render = function() {
@@ -129,12 +132,12 @@ Player.prototype.handleInput = function (keyCode) {
             this.x += oneTileX;
         }
     } else if (keyCode === 'up') {
-        if (this.y > this.topBoundary) {
+        // if (this.y > this.topBoundary) {
             this.y -= oneTileY;
-        } else {
-            score.scoreChange();
-            this.resetSprite();
-        }
+        // } else {
+        //     score.scoreChange();
+        //     this.resetSprite();
+        // }
     } else if (keyCode === 'down') {
         if (this.y < this.bottomBoundary) {
             this.y += oneTileY;
