@@ -132,6 +132,7 @@ Player.prototype.handleInput = function (keyCode) {
         if (this.y > this.topBoundary) {
             this.y -= oneTileY;
         } else {
+            score.scoreChange();
             this.resetSprite();
         }
     } else if (keyCode === 'down') {
@@ -151,6 +152,10 @@ var ScoreDisplay = function() {
 ScoreDisplay.prototype.render = function() {
     ctx.font = "36px sans-serif";
     ctx.fillText(this.score, this.x, this.y);
+};
+
+ScoreDisplay.prototype.scoreChange = function() {
+    this.score += 1;
 };
 
 // Now instantiate your objects.
