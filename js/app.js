@@ -152,13 +152,21 @@ ScoreDisplay.prototype.render = function() {
     ctx.fillText(this.score, this.x, this.y);
 };
 
-ScoreDisplay.prototype.scoreChange = function() {
-    this.score += 1;
+ScoreDisplay.prototype.scoreChange = function(directionOfChange) {
+    if (directionOfChange === 'up') {
+        this.score += 1;
+    } else if (directionOfChange === 'down') {
+        this.score -= 1;
+    }
+
 };
 
 ScoreDisplay.prototype.update = function() {
     if (player.y < player.topBoundary) {
-        this.scoreChange();
+        this.scoreChange('up');
+    } else if (collisionChecker.enemyPlayerCollided) {
+        this.scoreChange('down');
+        collisionChecker.enemyPlayerCollided = false;
     }
 };
 
@@ -170,20 +178,21 @@ var CollisionChecker = function() {
 CollisionChecker.prototype.update = function() {
     allEnemies.forEach(function(enemy) {
          if (enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101) && enemy.y >= (player.y) && enemy.y <= (player.y + 171)) {
-            this.enemyPlayerCollided = true;
+            collisionChecker.enemyPlayerCollided = true;
             player.resetSprite();
         }
     });
-
 };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var collisionChecker = new CollisionChecker();
+
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
 var score = new ScoreDisplay();
-var collisionChecker = new CollisionChecker();
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
