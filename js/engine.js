@@ -82,7 +82,7 @@ var Engine = (function(global) {
         // Call updateGameInformation before updateEntitiies so score can update before sprites are reset
         updateGameInformation();
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -101,6 +101,10 @@ var Engine = (function(global) {
 
     function updateGameInformation() {
         score.update();
+    }
+
+    function checkCollisions() {
+        collisionChecker.update();
     }
 
     /* This function initially draws the "game level", it will then call

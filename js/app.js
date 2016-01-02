@@ -52,10 +52,6 @@ Enemy.prototype.update = function(dt) {
         this.x = updatedX;
     }
 
-    if (this.x >= (player.x - 50) && this.x <= (player.x + 101) && this.y >= (player.y) && this.y <= (player.y + 171)) {
-        player.resetSprite();
-    }
-
 };
 
 // Draw the enemy on the screen, required method for game
@@ -166,15 +162,29 @@ ScoreDisplay.prototype.update = function() {
     }
 };
 
+
+var CollisionChecker = function() {
+    this.enemyPlayerCollided = false;
+};
+
+CollisionChecker.prototype.update = function() {
+    allEnemies.forEach(function(enemy) {
+         if (enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101) && enemy.y >= (player.y) && enemy.y <= (player.y + 171)) {
+            this.enemyPlayerCollided = true;
+            player.resetSprite();
+        }
+    });
+
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
-
-
 var player = new Player();
-
 var score = new ScoreDisplay();
+var collisionChecker = new CollisionChecker();
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
