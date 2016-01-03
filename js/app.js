@@ -102,10 +102,13 @@ var Player = function() {
 Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;
+
+    collisionChecker.enemyPlayerCollided = false;
+    collisionChecker.playerInTheWater = false;
 };
 
 Player.prototype.update = function() {
-    if (this.y < this.topBoundary) {
+    if (collisionChecker.playerInTheWater || collisionChecker.enemyPlayerCollided) {
         player.resetSprite();
     }
 };
@@ -162,36 +165,47 @@ ScoreDisplay.prototype.scoreChange = function(directionOfChange) {
 };
 
 ScoreDisplay.prototype.update = function() {
-    if (player.y < player.topBoundary) {
+    if (collisionChecker.playerInTheWater) {
         this.scoreChange('up');
     } else if (collisionChecker.enemyPlayerCollided) {
         this.scoreChange('down');
-        collisionChecker.enemyPlayerCollided = false;
     }
 };
 
 
 var CollisionChecker = function() {
+    // No collisions detected at initiation of game loop
     this.enemyPlayerCollided = false;
+    this.playerInTheWater = false;
 };
 
 CollisionChecker.prototype.update = function() {
+    this.detectEnemyPlayerCollision();
+    this.detectPlayerInTheWater();
+};
+
+CollisionChecker.prototype.detectEnemyPlayerCollision = function() {
     allEnemies.forEach(function(enemy) {
          if (enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101) && enemy.y >= (player.y) && enemy.y <= (player.y + 171)) {
             collisionChecker.enemyPlayerCollided = true;
-            player.resetSprite();
         }
     });
+};
+
+CollisionChecker.prototype.detectPlayerInTheWater = function() {
+    if (player.y < player.topBoundary) {
+        collisionChecker.playerInTheWater = true;
+    }
 };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var collisionChecker = new CollisionChecker();
-
+var score = new ScoreDisplay();
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
-var score = new ScoreDisplay();
+
 
 
 // This listens for key presses and sends the keys to your

@@ -79,10 +79,10 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        // Call updateGameInformation before updateEntitiies so score can update before sprites are reset
+        checkCollisions();
         updateGameInformation();
         updateEntities(dt);
-        checkCollisions();
+
     }
 
     /* This is called by the update function and loops through all of the
