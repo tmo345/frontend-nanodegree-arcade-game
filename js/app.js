@@ -130,12 +130,7 @@ Player.prototype.handleInput = function (keyCode) {
             this.x += oneTileX;
         }
     } else if (keyCode === 'up') {
-        // if (this.y > this.topBoundary) {
             this.y -= oneTileY;
-        // } else {
-        //     score.scoreChange();
-        //     this.resetSprite();
-        // }
     } else if (keyCode === 'down') {
         if (this.y < this.bottomBoundary) {
             this.y += oneTileY;
@@ -174,7 +169,6 @@ ScoreDisplay.prototype.update = function() {
 
 
 var CollisionChecker = function() {
-    // No collisions detected at initiation of game loop
     this.enemyPlayerCollided = false;
     this.playerInTheWater = false;
 };
@@ -198,15 +192,35 @@ CollisionChecker.prototype.detectPlayerInTheWater = function() {
     }
 };
 
+var GameTimer = function() {
+    this.timeLimit = 60000;
+    this.x = 430;
+    this.y = 100;
+};
+
+GameTimer.prototype.startTimer = function() {
+   window.setInterval(function(){
+       timer.timeLimit -= 1000;
+   }, 1000);
+};
+
+GameTimer.prototype.render = function() {
+    var timeInSeconds = this.timeLimit / 1000;
+
+    ctx.font = "36px sans-serif";
+    ctx.fillText(timeInSeconds, this.x, this.y);
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var timer = new GameTimer();
 var collisionChecker = new CollisionChecker();
 var score = new ScoreDisplay();
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
 
-
+timer.startTimer();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
