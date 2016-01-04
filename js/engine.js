@@ -70,6 +70,7 @@ var Engine = (function(global) {
      */
     function init() {
         reset();
+        timer.startTimer();
         lastTime = Date.now();
         main();
     }
