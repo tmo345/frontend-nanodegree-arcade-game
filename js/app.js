@@ -224,7 +224,8 @@ var GameEndScreen = function() {
 
 GameEndScreen.prototype.render = function() {
     this.scoreText = 'You scored ' + score.score + ' points!';
-    // ctx.font = '48px VT323';
+    this.playAgainText = 'To play again: press spacebar';
+    ctx.font = '36px sans-serif';
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
     ctx.fillRect(50, 200, 400, 300);
@@ -233,10 +234,28 @@ GameEndScreen.prototype.render = function() {
     // ctx.strokeStyle = '#ccc';
     ctx.fillStyle = '#000';
     // ctx.lineWidth = 2;
-    ctx.fillText(this.scoreText, canvas.width/2, (canvas.height/2) - 30);
+    ctx.fillText(this.scoreText, canvas.width/2, (canvas.height/2));
+    ctx.font = '24px sans-serif';
+    ctx.fillText(this.playAgainText, canvas.width/2, (canvas.height/2) + 100);
     // ctx.strokeText(this.text, canvas.width/2, (canvas.height/2) - 30);
 
 
+};
+
+GameEndScreen.prototype.addRestartEventListener = function() {
+    document.addEventListener('keyup', function(e) {
+        e.keycode;
+        gameEndScreen.handleInput(e.keyCode);
+    });
+};
+
+GameEndScreen.prototype.handleInput = function(keyCode) {
+    console.log('hmm');
+    gameState.gameEnded = false;
+    document.removeEventListener('keyup');
+    if (keyCode === 32) {
+        init();
+    }
 };
 
 var gameState = {

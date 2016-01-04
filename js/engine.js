@@ -35,6 +35,8 @@ var Engine = (function(global) {
     function main() {
 
         if (gameState.gameEnded) {
+            gameEndScreen.addRestartEventListener();
+            console.log('calling addRestartEventListener');
             return;
         }
 
@@ -74,6 +76,12 @@ var Engine = (function(global) {
         lastTime = Date.now();
         main();
     }
+
+    function startScreenInit() {
+        ctx.fillText('This is the start of the game', 100, 100);
+        ctx.fillRect(200, 200, 200, 200);
+    }
+
 
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
@@ -118,6 +126,10 @@ var Engine = (function(global) {
         if (timer.timeLimit === 0) {
             gameState.gameEnded = true;
         }
+    }
+
+    function restartGame() {
+        gameEndScreen.handleInput();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -206,7 +218,7 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png'
     ]);
-    Resources.onReady(init);
+    Resources.onReady(startScreenInit);
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
@@ -214,5 +226,6 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
     global.canvas = canvas;
+    global.init = init;
 
 })(this);
