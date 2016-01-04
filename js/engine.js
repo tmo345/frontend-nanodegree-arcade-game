@@ -33,6 +33,11 @@ var Engine = (function(global) {
      * and handles properly calling the update and render methods.
      */
     function main() {
+
+        if (gameOver.gameEndConditionMet) {
+            return;
+        }
+
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -79,6 +84,7 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        checkTimer();
         checkCollisions();
         updateGameInformation();
         updateEntities(dt);
@@ -105,6 +111,12 @@ var Engine = (function(global) {
 
     function checkCollisions() {
         collisionChecker.update();
+    }
+
+    function checkTimer() {
+        if (timer.timeLimit === 0) {
+            gameOver.endGame();
+        }
     }
 
     /* This function initially draws the "game level", it will then call
@@ -175,7 +187,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        score.reset();
+        timer.reset();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -196,4 +209,5 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+
 })(this);
