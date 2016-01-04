@@ -167,6 +167,9 @@ ScoreDisplay.prototype.update = function() {
     }
 };
 
+ScoreDisplay.prototype.reset = function() {
+    this.score = 0;
+};
 
 var CollisionChecker = function() {
     this.enemyPlayerCollided = false;
@@ -211,6 +214,21 @@ GameTimer.prototype.render = function() {
     ctx.fillText(timeInSeconds, this.x, this.y);
 };
 
+GameTimer.prototype.reset = function() {
+    this.timeLimit = 60000;
+};
+
+
+var GameOver = function() {
+    this.gameEndConditionMet = false;
+};
+
+GameOver.prototype.endGame = function() {
+        this.gameEndConditionMet = true;
+};
+
+
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -219,6 +237,7 @@ var collisionChecker = new CollisionChecker();
 var score = new ScoreDisplay();
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
+var gameOver = new GameOver();
 
 timer.startTimer();
 
