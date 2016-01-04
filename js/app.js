@@ -219,15 +219,19 @@ GameTimer.prototype.reset = function() {
 };
 
 
-var GameOver = function() {
-    this.gameEndConditionMet = false;
+// var GameOver = function() {
+//     this.gameEndConditionMet = false;
+// };
+
+// GameOver.prototype.endGame = function() {
+//         this.gameEndConditionMet = true;
+// };
+
+
+var gameState = {
+    'gamePaused': false,
+    'gameEnded': false
 };
-
-GameOver.prototype.endGame = function() {
-        this.gameEndConditionMet = true;
-};
-
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -237,7 +241,7 @@ var collisionChecker = new CollisionChecker();
 var score = new ScoreDisplay();
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
-var gameOver = new GameOver();
+// var gameOver = new GameOver();
 
 timer.startTimer();
 

@@ -34,7 +34,7 @@ var Engine = (function(global) {
      */
     function main() {
 
-        if (gameOver.gameEndConditionMet) {
+        if (gameState.gameEnded) {
             return;
         }
 
@@ -115,7 +115,7 @@ var Engine = (function(global) {
 
     function checkTimer() {
         if (timer.timeLimit === 0) {
-            gameOver.endGame();
+            gameState.gameEnded = true;
         }
     }
 
