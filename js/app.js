@@ -196,7 +196,7 @@ CollisionChecker.prototype.detectPlayerInTheWater = function() {
 };
 
 var GameTimer = function() {
-    this.timeLimit = 60000;
+    // this.timeLimit = 60000;
     this.x = 430;
     this.y = 100;
 };
@@ -215,22 +215,32 @@ GameTimer.prototype.render = function() {
 };
 
 GameTimer.prototype.reset = function() {
-    this.timeLimit = 60000;
+    this.timeLimit = 2000;
 };
 
+var GameEndScreen = function() {
 
-// var GameOver = function() {
-//     this.gameEndConditionMet = false;
-// };
+};
 
-// GameOver.prototype.endGame = function() {
-//         this.gameEndConditionMet = true;
-// };
+GameEndScreen.prototype.render = function() {
+    this.scoreText = 'You scored ' + score.score + ' points!';
+    // ctx.font = '48px VT323';
 
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+    ctx.fillRect(50, 200, 400, 300);
+
+    ctx.textAlign = 'center';
+    // ctx.strokeStyle = '#ccc';
+    ctx.fillStyle = '#000';
+    // ctx.lineWidth = 2;
+    ctx.fillText(this.scoreText, canvas.width/2, (canvas.height/2) - 30);
+    // ctx.strokeText(this.text, canvas.width/2, (canvas.height/2) - 30);
+
+
+};
 
 var gameState = {
-    'gamePaused': false,
-    'gameEnded': false
+    gameEnded: false
 };
 
 // Now instantiate your objects.
@@ -241,9 +251,8 @@ var collisionChecker = new CollisionChecker();
 var score = new ScoreDisplay();
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
-// var gameOver = new GameOver();
+var gameEndScreen = new GameEndScreen();
 
-// timer.startTimer();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
