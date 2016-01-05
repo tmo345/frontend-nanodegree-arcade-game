@@ -172,6 +172,8 @@ var app = (function() {
         this.score = 0;
     };
 
+    // CollisionStatus Class
+
     var CollisionStatus = function() {
         this.enemyPlayerCollided = false;
         this.playerInTheWater = false;
@@ -185,13 +187,15 @@ var app = (function() {
         }
     };
 
-
-
-    CollisionStatus.prototype.detectPlayerInTheWater = function() {
-        if (player.y < player.topBoundary) {
-            collisionChecker.playerInTheWater = true;
+    CollisionStatus.prototype.togglePlayerInWaterStatus = function() {
+        if (! this.playerInTheWater) {
+            this.playerInTheWater = true;
+        } else {
+            this.playerInTheWater = false;
         }
-    };
+    }
+
+
 
     var GameTimer = function() {
         // this.timeLimit = 60000;
@@ -254,6 +258,7 @@ var app = (function() {
     };
 
     var gameState = {
+        gamePlaying: false,
         gameEnded: false
     };
 

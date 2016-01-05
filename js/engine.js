@@ -124,9 +124,11 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        updateEntities(dt);
-        checkTimer();
         checkCollisions();
+        updateEntities(dt);
+
+        checkTimer();
+
         updateGameInformation();
 
 
@@ -166,7 +168,11 @@ var Engine = (function(global) {
             }
         });
 
+        playerInTheWater = player.y < player.topBoundary;
 
+        if (playerInTheWater) {
+            collisionStatus.togglePlayerInWaterStatus();
+        }
 
     }
 
