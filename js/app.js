@@ -104,12 +104,12 @@ var app = (function() {
         this.x = grid.x.tile3;
         this.y = grid.y.grass2;
 
-        collisionChecker.enemyPlayerCollided = false;
-        collisionChecker.playerInTheWater = false;
+        collisionStatus.enemyPlayerCollided = false;
+        collisionStatus.playerInTheWater = false;
     };
 
     Player.prototype.update = function() {
-        if (collisionChecker.playerInTheWater || collisionChecker.enemyPlayerCollided) {
+        if (collisionStatus.playerInTheWater || collisionStatus.enemyPlayerCollided) {
             player.resetSprite();
         }
     };
@@ -161,9 +161,9 @@ var app = (function() {
     };
 
     ScoreDisplay.prototype.update = function() {
-        if (collisionChecker.playerInTheWater) {
+        if (collisionStatus.playerInTheWater) {
             this.scoreChange('up');
-        } else if (collisionChecker.enemyPlayerCollided) {
+        } else if (collisionStatus.enemyPlayerCollided) {
             this.scoreChange('down');
         }
     };
@@ -172,25 +172,22 @@ var app = (function() {
         this.score = 0;
     };
 
-    var CollisionChecker = function() {
+    var CollisionStatus = function() {
         this.enemyPlayerCollided = false;
         this.playerInTheWater = false;
     };
 
-    CollisionChecker.prototype.update = function() {
-        this.detectEnemyPlayerCollision();
-        this.detectPlayerInTheWater();
+    CollisionStatus.prototype.toggleCollisionStatus = function() {
+        if (! this.enemyPlayerCollided) {
+            this.enemyPlayerCollided = true;
+        } else {
+            this.enemyPlayerCollided = false;
+        }
     };
 
-    CollisionChecker.prototype.detectEnemyPlayerCollision = function() {
-        allEnemies.forEach(function(enemy) {
-             if (enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101) && enemy.y >= (player.y) && enemy.y <= (player.y + 171)) {
-                collisionChecker.enemyPlayerCollided = true;
-            }
-        });
-    };
 
-    CollisionChecker.prototype.detectPlayerInTheWater = function() {
+
+    CollisionStatus.prototype.detectPlayerInTheWater = function() {
         if (player.y < player.topBoundary) {
             collisionChecker.playerInTheWater = true;
         }
@@ -216,7 +213,7 @@ var app = (function() {
     };
 
     GameTimer.prototype.reset = function() {
-        this.timeLimit = 2000;
+        this.timeLimit = 60000;
     };
 
     var GameEndScreen = function() {
@@ -264,7 +261,7 @@ var app = (function() {
     // Place all enemy objects in an array called allEnemies
     // Place the player object in a variable called player
     var timer = new GameTimer();
-    var collisionChecker = new CollisionChecker();
+    var collisionStatus = new CollisionStatus();
     var score = new ScoreDisplay();
     var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
     var player = new Player();
@@ -288,7 +285,7 @@ var app = (function() {
         grid: grid,
         gameState: gameState,
         player: player,
-        collisionChecker: collisionChecker,
+        collisionStatus: collisionStatus,
         score: score,
         allEnemies: allEnemies,
         timer: timer,

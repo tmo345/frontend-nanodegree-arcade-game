@@ -23,6 +23,9 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        player = app.player,
+        collisionStatus = app.collisionStatus,
+        grid = app.grid,
         lastTime;
 
     canvas.width = 505;
@@ -77,6 +80,40 @@ var Engine = (function(global) {
         main();
     }
 
+    function startScreenInit() {
+        // Render Game map
+        render();
+        // Instruction text
+        ctx.font = '24px "Audiowide"';
+        ctx.fillText('Steve Crosses the Road', 5, 40);
+        ctx.font = '18px "Audiowide"';
+        ctx.rotate(-3 * Math.PI / 180);
+        ctx.fillText('Into Water for Some Reason', 200, 120);
+        ctx.resetTransform();
+        ctx.font = '24px "Audiowide"';
+        ctx.fillText('Press', grid.x.tile2 + 10, grid.y.grass1 + 125);
+        ctx.fillText('Enter', grid.x.tile3 + 10, grid.y.grass1 + 125);
+        ctx.fillText('To', grid.x.tile4 + 10, grid.y.grass1 + 125);
+        ctx.fillText('Start', grid.x.tile2 + 10, grid.y.grass2 + 125);
+        ctx.fillText('Game', grid.x.tile3 + 10, grid.y.grass2 + 125);
+        // Draw player and bug
+        ctx.drawImage(Resources.get('images/char-boy.png'), grid.x.tile5, grid.y.stone2);
+        ctx.drawImage(Resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone1);
+        ctx.drawImage(Resources.get('images/enemy-bug.png'), grid.x.tile3, grid.y.stone2);
+        ctx.drawImage(Resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone3);
+    }
+
+    document.addEventListener('keyup', function(e) {
+        var keyCode = e.keyCode;
+        console.log(keyCode);
+        if (keyCode === 13) {
+            app.gameState.startScreen = false;
+            app.gameState.gamePlaying = true;
+            init();
+        }
+    });
+
+
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -114,8 +151,26 @@ var Engine = (function(global) {
     }
 
     function checkCollisions() {
-        app.collisionChecker.update();
+        var occupySameX,
+            occupySameY,
+            enemyPlayerCollided,
+            playerInTheWater;
+
+        app.allEnemies.forEach(function(enemy) {
+            occupySameX = enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101);
+            occupySameY = enemy.y >= (player.y) && enemy.y <= (player.y + 171);
+            enemyPlayerCollided = occupySameX && occupySameY;
+
+            if (enemyPlayerCollided) {
+                collisionStatus.toggleCollisionStatus();
+            }
+        });
+
+
+
     }
+
+
 
     function checkTimer() {
         if (app.timer.timeLimit === 0) {
@@ -165,9 +220,10 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
-        renderEntities();
-        renderGameInformation();
+        if (app.gameState.gamePlaying) {
+            renderEntities();
+            renderGameInformation();
+        }
     }
 
     /* This function is called by the render function and is called on each game
@@ -213,7 +269,7 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png'
     ]);
-    Resources.onReady(init);
+    Resources.onReady(startScreenInit);
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
