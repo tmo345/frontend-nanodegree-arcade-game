@@ -34,9 +34,9 @@ var Engine = (function(global) {
      */
     function main() {
 
-        if (gameState.gameEnded) {
-            gameEndScreen.addRestartEventListener();
-            console.log('calling addRestartEventListener');
+        if (app.gameState.gameEnded) {
+            app.gameEndScreen.addRestartEventListener();
+
             return;
         }
 
@@ -72,16 +72,10 @@ var Engine = (function(global) {
      */
     function init() {
         reset();
-        timer.startTimer();
+        app.timer.startTimer();
         lastTime = Date.now();
         main();
     }
-
-    function startScreenInit() {
-        ctx.fillText('This is the start of the game', 100, 100);
-        ctx.fillRect(200, 200, 200, 200);
-    }
-
 
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
@@ -93,10 +87,11 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        updateEntities(dt);
         checkTimer();
         checkCollisions();
         updateGameInformation();
-        updateEntities(dt);
+
 
     }
 
@@ -108,28 +103,28 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        app.allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        app.player.update();
     }
 
     function updateGameInformation() {
-        score.update();
+        app.score.update();
     }
 
     function checkCollisions() {
-        collisionChecker.update();
+        app.collisionChecker.update();
     }
 
     function checkTimer() {
-        if (timer.timeLimit === 0) {
-            gameState.gameEnded = true;
+        if (app.timer.timeLimit === 0) {
+            app.gameState.gameEnded = true;
         }
     }
 
     function restartGame() {
-        gameEndScreen.handleInput();
+        app.gameEndScreen.handleInput();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -183,18 +178,18 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        app.allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
-        player.render();
+        app.player.render();
     }
 
     function renderGameInformation() {
-        score.render();
-        timer.render();
-        if (gameState.gameEnded) {
-            gameEndScreen.render();
+        app.score.render();
+        app.timer.render();
+        if (app.gameState.gameEnded) {
+            app.gameEndScreen.render();
         }
     }
 
@@ -203,8 +198,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        score.reset();
-        timer.reset();
+        app.score.reset();
+        app.timer.reset();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -218,7 +213,7 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png'
     ]);
-    Resources.onReady(startScreenInit);
+    Resources.onReady(init);
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
@@ -226,6 +221,5 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
     global.canvas = canvas;
-    global.init = init;
 
 })(this);
