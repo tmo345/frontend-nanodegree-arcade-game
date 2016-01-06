@@ -129,14 +129,11 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        checkCollisions();
+        checkEnemyPlayerCollision();
+        checkPlayerInWater();
         updateGameInformation();
-        updateEntities(dt);
         checkTimer();
-
-
-
-
+        updateEntities(dt);
     }
 
     /* This is called by the update function and loops through all of the
@@ -157,11 +154,12 @@ var Engine = (function(global) {
         score.update();
     }
 
-    function checkCollisions() {
+
+    // Check for collision and toggle collision status if collision detected
+    function checkEnemyPlayerCollision() {
         var occupySameX,
             occupySameY,
-            enemyPlayerCollided,
-            playerInTheWater;
+            enemyPlayerCollided;
 
         allEnemies.forEach(function(enemy) {
             occupySameX = (enemy.x + 96) >= (player.x + 17) && enemy.x <= (player.x + 83);
@@ -172,13 +170,15 @@ var Engine = (function(global) {
                 collisionStatus.toggleCollisionStatus();
             }
         });
+    }
 
-        playerInTheWater = player.y < player.topBoundary;
+    // Check for player in water and toggle player in water status if detected
+    function checkPlayerInWater() {
+        var playerInTheWater = player.y < player.topBoundary;
 
         if (playerInTheWater) {
             collisionStatus.togglePlayerInWaterStatus();
         }
-
     }
 
 
