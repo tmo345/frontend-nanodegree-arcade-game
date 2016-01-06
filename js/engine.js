@@ -131,8 +131,8 @@ var Engine = (function(global) {
     function update(dt) {
         checkEnemyPlayerCollision();
         checkPlayerInWater();
-        updateGameInformation();
         checkTimer();
+        updateGameInformation();
         updateEntities(dt);
     }
 
@@ -151,9 +151,16 @@ var Engine = (function(global) {
     }
 
     function updateGameInformation() {
-        score.update();
+        processScoreChange();
     }
 
+    function processScoreChange() {
+        if (collisionStatus.playerInTheWater) {
+            score.update('up');
+        } else if (collisionStatus.enemyPlayerCollided) {
+            score.update('down');
+        }
+    }
 
     // Check for collision and toggle collision status if collision detected
     function checkEnemyPlayerCollision() {

@@ -151,22 +151,13 @@ var app = (function() {
         ctx.fillText(this.score, this.x, this.y);
     };
 
-    ScoreDisplay.prototype.scoreChange = function(directionOfChange) {
+    ScoreDisplay.prototype.update = function(directionOfChange) {
         if (directionOfChange === 'up') {
             this.score += 1;
         } else if (directionOfChange === 'down') {
             this.score -= 1;
         }
 
-    };
-
-    ScoreDisplay.prototype.update = function() {
-        if (collisionStatus.playerInTheWater) {
-            console.log('yup');
-            this.scoreChange('up');
-        } else if (collisionStatus.enemyPlayerCollided) {
-            this.scoreChange('down');
-        }
     };
 
     ScoreDisplay.prototype.reset = function() {
