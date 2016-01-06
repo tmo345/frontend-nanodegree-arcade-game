@@ -44,11 +44,6 @@ var Engine = (function(global) {
      */
     function main() {
 
-        if (app.gameState.gameEnded) {
-            app.gameEndScreen.addRestartEventListener();
-
-            return;
-        }
 
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
@@ -58,7 +53,6 @@ var Engine = (function(global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-
         /* Call our update/render/cleanUp functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
@@ -82,8 +76,10 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        gameState.gamePlaying = true;
+        gameEndScreen.addRestartEventListener();
         reset();
-        app.timer.startTimer();
+        timer.startTimer();
         lastTime = Date.now();
         main();
     }
@@ -190,11 +186,10 @@ var Engine = (function(global) {
         }
     }
 
-
-
     function checkTimer() {
-        if (app.timer.timeLimit === 0) {
-            app.gameState.gameEnded = true;
+        if (timer.timeLimit === 0) {
+            gameState.gameEnded = true;
+            window.clearInterval(timer.timerInterval);
         }
     }
 
@@ -278,6 +273,7 @@ var Engine = (function(global) {
     function reset() {
         score.reset();
         timer.reset();
+        gameState.gameEnded = false;
     }
 
 
@@ -309,5 +305,6 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
     global.canvas = canvas;
+    global.init = init;
 
 })(this);

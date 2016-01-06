@@ -103,9 +103,6 @@ var app = (function() {
     Player.prototype.resetSprite = function(){
         this.x = grid.x.tile3;
         this.y = grid.y.grass2;
-
-        // collisionStatus.enemyPlayerCollided = false;
-        // collisionStatus.playerInTheWater = false;
     };
 
     Player.prototype.update = function() {
@@ -190,13 +187,15 @@ var app = (function() {
 
 
     var GameTimer = function() {
-        // this.timeLimit = 60000;
+        this.timeLimit;
+        this.reset();
         this.x = 430;
         this.y = 100;
     };
 
     GameTimer.prototype.startTimer = function() {
-       window.setInterval(function(){
+       this.timerInterval = window.setInterval(function(){
+           console.log('calling interval');
            timer.timeLimit -= 1000;
        }, 1000);
     };
@@ -209,7 +208,7 @@ var app = (function() {
     };
 
     GameTimer.prototype.reset = function() {
-        this.timeLimit = 60000;
+        this.timeLimit = 3000;
     };
 
     var GameEndScreen = function() {
@@ -237,19 +236,24 @@ var app = (function() {
     };
 
     GameEndScreen.prototype.addRestartEventListener = function() {
-        document.addEventListener('keydown', function(e) {
-            e.keycode;
-            gameEndScreen.handleInput(e.keyCode);
+        document.addEventListener('keyup', function(e) {
+            if (gameState.gameEnded) {
+                if (e.keyCode === 32) {
+                    gameState.gameEnded = false;
+                    init();
+                }
+
+            }
         });
+
     };
 
     GameEndScreen.prototype.handleInput = function(keyCode) {
-        if (keyCode === '32') {
-            init();
-        }
+
     };
 
     var gameState = {
+        startScreen: false,
         gamePlaying: false,
         gameEnded: false
     };
