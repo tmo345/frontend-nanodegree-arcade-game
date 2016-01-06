@@ -23,15 +23,17 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        player = app.player,
-        collisionStatus = app.collisionStatus,
+        lastTime,
+        // For convenience, set vars for app namespace
         grid = app.grid,
-        score = app.score,
-        timer = app.timer,
         gameState = app.gameState,
         allEnemies = app.allEnemies,
-        gameEndScreen = app.gameEndScreen,
-        lastTime;
+        player = app.player,
+        collisionStatus = app.collisionStatus,
+        score = app.score,
+        timer = app.timer,
+        gameEndScreen = app.gameEndScreen;
+
 
     canvas.width = 505;
     canvas.height = 606;
@@ -88,7 +90,7 @@ var Engine = (function(global) {
 
     function startScreenInit() {
         // Render Game map
-        render();
+        renderGameGrid();
         // Instruction text
         ctx.font = '24px "Audiowide"';
         ctx.fillText('Steve Crosses the Road', 5, 40);
@@ -207,6 +209,12 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
+        renderGameGrid();
+        renderEntities();
+        renderGameInformation();
+    }
+
+    function renderGameGrid() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -237,10 +245,6 @@ var Engine = (function(global) {
                  */
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
-        }
-        if (gameState.gamePlaying) {
-            renderEntities();
-            renderGameInformation();
         }
     }
 
@@ -278,6 +282,7 @@ var Engine = (function(global) {
 
 
     function cleanUp() {
+        // Set collision statuses to false if needed
         if (collisionStatus.playerInTheWater) {
             collisionStatus.togglePlayerInWaterStatus();
         } else if (collisionStatus.enemyPlayerCollided) {
