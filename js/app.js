@@ -104,8 +104,8 @@ var app = (function() {
         this.x = grid.x.tile3;
         this.y = grid.y.grass2;
 
-        collisionStatus.enemyPlayerCollided = false;
-        collisionStatus.playerInTheWater = false;
+        // collisionStatus.enemyPlayerCollided = false;
+        // collisionStatus.playerInTheWater = false;
     };
 
     Player.prototype.update = function() {

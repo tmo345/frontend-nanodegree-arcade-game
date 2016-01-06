@@ -57,11 +57,12 @@ var Engine = (function(global) {
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
-        /* Call our update/render functions, pass along the time delta to
+        /* Call our update/render/cleanUp functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
         update(dt);
         render();
+        cleanUp();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -110,7 +111,6 @@ var Engine = (function(global) {
 
     document.addEventListener('keyup', function(e) {
         var keyCode = e.keyCode;
-        console.log(keyCode);
         if (keyCode === 13) {
             gameState.startScreen = false;
             gameState.gamePlaying = true;
@@ -274,6 +274,15 @@ var Engine = (function(global) {
     function reset() {
         score.reset();
         timer.reset();
+    }
+
+
+    function cleanUp() {
+        if (collisionStatus.playerInTheWater) {
+            collisionStatus.togglePlayerInWaterStatus();
+        } else if (collisionStatus.enemyPlayerCollided) {
+            collisionStatus.toggleCollisionStatus();
+        }
     }
 
     /* Go ahead and load all of the images we know we're going to need to
