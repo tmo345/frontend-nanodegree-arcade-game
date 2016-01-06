@@ -154,7 +154,6 @@ var Engine = (function(global) {
     }
 
     function updateGameInformation() {
-        console.log('calling updategameinfo');
         score.update();
     }
 
@@ -165,8 +164,8 @@ var Engine = (function(global) {
             playerInTheWater;
 
         allEnemies.forEach(function(enemy) {
-            occupySameX = enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101);
-            occupySameY = enemy.y >= (player.y) && enemy.y <= (player.y + 171);
+            occupySameX = (enemy.x + 96) >= (player.x + 17) && enemy.x <= (player.x + 83);
+            occupySameY = enemy.y === player.y;
             enemyPlayerCollided = occupySameX && occupySameY;
 
             if (enemyPlayerCollided) {
