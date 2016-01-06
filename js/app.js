@@ -29,6 +29,33 @@ var app = (function() {
         }
     };
 
+    var GameStateManager = function() {
+        this.availableStates = {
+            startScreen: 'startScreen',
+            gamePlay: 'gamePlay',
+            endScreen: 'endScreen'
+        };
+        // default state at instantiation is startScreen
+        this.currentState = this.availableStates.startScreen;
+    };
+
+    GameStateManager.prototype.toStartScreen = function(){
+        this.currentState = this.availableStates.startScreen;
+    };
+
+    GameStateManager.prototype.toGamePlay = function(){
+        this.currentState = this.availableStates.gamePlay;
+    };
+
+
+    GameStateManager.prototype.toEndScreen = function(){
+        this.currentState = this.availableStates.endScreen;
+    };
+
+    GameStateManager.prototype.queryCurrentState = function() {
+        return this.currentState;
+    }
+
 
 
     // Enemies our player must avoid
@@ -261,6 +288,7 @@ var app = (function() {
     // Now instantiate your objects.
     // Place all enemy objects in an array called allEnemies
     // Place the player object in a variable called player
+    var gameStateManager = new GameStateManager();
     var timer = new GameTimer();
     var collisionStatus = new CollisionStatus();
     var score = new ScoreDisplay();
@@ -284,6 +312,7 @@ var app = (function() {
 
     return {
         grid: grid,
+        gameStateManager : gameStateManager,
         gameState: gameState,
         player: player,
         collisionStatus: collisionStatus,

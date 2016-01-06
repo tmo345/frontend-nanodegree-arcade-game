@@ -24,7 +24,7 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime,
-        // For convenience, set vars for app namespace
+        gameStateManager = app.gameStateManger,
         grid = app.grid,
         gameState = app.gameState,
         allEnemies = app.allEnemies,
@@ -76,7 +76,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        gameState.gamePlaying = true;
+        gameStateManager.toGamePlay();
         gameEndScreen.addRestartEventListener();
         reset();
         timer.startTimer();
@@ -110,8 +110,6 @@ var Engine = (function(global) {
     document.addEventListener('keyup', function(e) {
         var keyCode = e.keyCode;
         if (keyCode === 13) {
-            gameState.startScreen = false;
-            gameState.gamePlaying = true;
             init();
         }
     });
@@ -189,7 +187,6 @@ var Engine = (function(global) {
     function checkTimer() {
         if (timer.timeLimit === 0) {
             gameState.gameEnded = true;
-            window.clearInterval(timer.timerInterval);
         }
     }
 
