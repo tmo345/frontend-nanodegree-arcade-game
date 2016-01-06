@@ -26,6 +26,11 @@ var Engine = (function(global) {
         player = app.player,
         collisionStatus = app.collisionStatus,
         grid = app.grid,
+        score = app.score,
+        timer = app.timer,
+        gameState = app.gameState,
+        allEnemies = app.allEnemies,
+        gameEndScreen = app.gameEndScreen,
         lastTime;
 
     canvas.width = 505;
@@ -87,8 +92,8 @@ var Engine = (function(global) {
         ctx.font = '24px "Audiowide"';
         ctx.fillText('Steve Crosses the Road', 5, 40);
         ctx.font = '18px "Audiowide"';
-        ctx.rotate(-3 * Math.PI / 180);
-        ctx.fillText('Into Water for Some Reason', 200, 120);
+        ctx.rotate(-2 * Math.PI / 180);
+        ctx.fillText('Into The Water for Some Reason', 150, 110);
         ctx.resetTransform();
         ctx.font = '24px "Audiowide"';
         ctx.fillText('Press', grid.x.tile2 + 10, grid.y.grass1 + 125);
@@ -107,8 +112,8 @@ var Engine = (function(global) {
         var keyCode = e.keyCode;
         console.log(keyCode);
         if (keyCode === 13) {
-            app.gameState.startScreen = false;
-            app.gameState.gamePlaying = true;
+            gameState.startScreen = false;
+            gameState.gamePlaying = true;
             init();
         }
     });
@@ -125,11 +130,11 @@ var Engine = (function(global) {
      */
     function update(dt) {
         checkCollisions();
+        updateGameInformation();
         updateEntities(dt);
-
         checkTimer();
 
-        updateGameInformation();
+
 
 
     }
@@ -142,14 +147,15 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        app.allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        app.player.update();
+        player.update();
     }
 
     function updateGameInformation() {
-        app.score.update();
+        console.log('calling updategameinfo');
+        score.update();
     }
 
     function checkCollisions() {
@@ -158,7 +164,7 @@ var Engine = (function(global) {
             enemyPlayerCollided,
             playerInTheWater;
 
-        app.allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function(enemy) {
             occupySameX = enemy.x >= (player.x - 50) && enemy.x <= (player.x + 101);
             occupySameY = enemy.y >= (player.y) && enemy.y <= (player.y + 171);
             enemyPlayerCollided = occupySameX && occupySameY;
@@ -226,7 +232,7 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-        if (app.gameState.gamePlaying) {
+        if (gameState.gamePlaying) {
             renderEntities();
             renderGameInformation();
         }
@@ -240,18 +246,18 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        app.allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
-        app.player.render();
+        player.render();
     }
 
     function renderGameInformation() {
-        app.score.render();
-        app.timer.render();
-        if (app.gameState.gameEnded) {
-            app.gameEndScreen.render();
+        score.render();
+        timer.render();
+        if (gameState.gameEnded) {
+            gameEndScreen.render();
         }
     }
 
@@ -260,8 +266,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        app.score.reset();
-        app.timer.reset();
+        score.reset();
+        timer.reset();
     }
 
     /* Go ahead and load all of the images we know we're going to need to

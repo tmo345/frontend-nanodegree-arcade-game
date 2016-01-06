@@ -162,6 +162,7 @@ var app = (function() {
 
     ScoreDisplay.prototype.update = function() {
         if (collisionStatus.playerInTheWater) {
+            console.log('yup');
             this.scoreChange('up');
         } else if (collisionStatus.enemyPlayerCollided) {
             this.scoreChange('down');
