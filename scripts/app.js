@@ -8,11 +8,26 @@
 //  grass1     |   |   |   |   |   |
 //  grass2     |   |   | P |   |   |
 
-define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, grid) {
+var app = (function() {
 
-    var gameCanvas = canvas.canvas;
-    var ctx = canvas.ctx;
-
+    var grid = {
+        x: {
+            offScreen: -101,
+            tile1: 0,
+            tile2: 101,
+            tile3: 202,
+            tile4: 303,
+            tile5: 404
+        },
+        y: {
+            water: 0,
+            stone1: 60,
+            stone2: 143,
+            stone3: 226,
+            grass1: 309,
+            grass2: 392
+        }
+    };
 
     var GameStateManager = function() {
         this.availableStates = {
@@ -68,7 +83,7 @@ define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, 
 
     // Draw the enemy on the screen, required method for game
     Enemy.prototype.render = function() {
-        ctx.drawImage(resources.get(this.sprite), this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
     Enemy.prototype.setStart = function() {
@@ -123,7 +138,7 @@ define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, 
     };
 
     Player.prototype.render = function() {
-        ctx.drawImage(resources.get(this.sprite), this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
 
     Player.prototype.handleInput = function (keyCode) {
@@ -241,16 +256,30 @@ define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, 
     };
 
     GameEndScreen.prototype.render = function() {
+        this.scoreText = 'You scored ' + score.score + ' points!';
+        this.playAgainText = 'To play again: press spacebar';
+        ctx.font = '36px sans-serif';
 
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+        ctx.fillRect(50, 200, 400, 300);
 
+        ctx.textAlign = 'center';
+        // ctx.strokeStyle = '#ccc';
+        ctx.fillStyle = '#000';
+        // ctx.lineWidth = 2;
+        ctx.fillText(this.scoreText, canvas.width/2, (canvas.height/2));
+        ctx.font = '24px sans-serif';
+        ctx.fillText(this.playAgainText, canvas.width/2, (canvas.height/2) + 100);
+        // ctx.strokeText(this.text, canvas.width/2, (canvas.height/2) - 30);
 
 
     };
 
     GameEndScreen.prototype.addRestartEventListener = function() {
         document.addEventListener('keyup', function(e) {
-            if (gameState.getCurrentState === 'endscreen') {
+            if (gameState.gameEnded) {
                 if (e.keyCode === 32) {
+                    gameState.gameEnded = false;
                     init();
                 }
 
@@ -294,4 +323,4 @@ define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, 
         timer: timer,
         gameEndScreen: gameEndScreen
     };
-});
+}());

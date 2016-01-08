@@ -4,7 +4,7 @@
  * a simple "caching" layer so it will reuse cached images if you attempt
  * to load the same image multiple times.
  */
-define(function() {
+(function() {
     var resourceCache = {};
     var loading = [];
     var readyCallbacks = [];
@@ -102,10 +102,10 @@ define(function() {
     /* This object defines the publicly accessible functions available to
      * developers by creating a global Resources object.
      */
-    return {
+    window.Resources = {
         load: load,
         get: get,
         onReady: onReady,
         isReady: isReady
     };
-});
+})();
