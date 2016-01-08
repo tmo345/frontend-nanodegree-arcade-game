@@ -10,6 +10,6 @@ define(function() {
     return {
         canvas: canvas,
         ctx: ctx
-    }
+    };
 });
 

@@ -8,145 +8,146 @@
 //  grass1     |   |   |   |   |   |
 //  grass2     |   |   | P |   |   |
 
-define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, grid) {
+define(['utils/resources', 'utils/canvas', 'utils/grid', 'app/gamestate', 'app/enemy', 'app/player', 'app/collisions'],
+function(resources, canvas, grid, gamestate, enemy, player, collisions) {
 
     var gameCanvas = canvas.canvas;
     var ctx = canvas.ctx;
 
 
-    var GameStateManager = function() {
-        this.availableStates = {
-            startScreen: 'startScreen',
-            gamePlay: 'gamePlay',
-            endScreen: 'endScreen'
-        };
-        // default state at instantiation is startScreen
-        this.currentState = this.availableStates.startScreen;
-    };
+    // var GameStateManager = function() {
+    //     this.availableStates = {
+    //         startScreen: 'startScreen',
+    //         gamePlay: 'gamePlay',
+    //         endScreen: 'endScreen'
+    //     };
+    //     // default state at instantiation is startScreen
+    //     this.currentState = this.availableStates.startScreen;
+    // };
 
-    GameStateManager.prototype.toStartScreen = function(){
-        this.currentState = this.availableStates.startScreen;
-    };
+    // GameStateManager.prototype.toStartScreen = function(){
+    //     this.currentState = this.availableStates.startScreen;
+    // };
 
-    GameStateManager.prototype.toGamePlay = function(){
-        this.currentState = this.availableStates.gamePlay;
-    };
-
-
-    GameStateManager.prototype.toEndScreen = function(){
-        this.currentState = this.availableStates.endScreen;
-    };
-
-    GameStateManager.prototype.getCurrentState = function() {
-        return this.currentState;
-    }
+    // GameStateManager.prototype.toGamePlay = function(){
+    //     this.currentState = this.availableStates.gamePlay;
+    // };
 
 
-    // Enemies our player must avoid
+    // GameStateManager.prototype.toEndScreen = function(){
+    //     this.currentState = this.availableStates.endScreen;
+    // };
 
-    var Enemy = function() {
-
-        this.sprite = 'images/enemy-bug.png';
-        this.startingX = -101; // Offscreen
-        this.rightBoundary = 505;
-
-        this.resetSprite(); // set at startingX and give random speed and y
-    };
-
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
-    Enemy.prototype.update = function(dt) {
-
-        var updatedX = this.x + (this.speed * dt);
-        if (updatedX > this.rightBoundary) {
-            this.resetSprite();
-        } else {
-            this.x = updatedX;
-        }
-
-    };
-
-    // Draw the enemy on the screen, required method for game
-    Enemy.prototype.render = function() {
-        ctx.drawImage(resources.get(this.sprite), this.x, this.y);
-    };
-
-    Enemy.prototype.setStart = function() {
-        var possibleStarts = [
-                grid.y.stone1,
-                grid.y.stone2,
-                grid.y.stone3
-        ];
-        // Random generate 0, 1, or 2 to correspond to possibleStarts array indices
-        var randomNumber = Math.floor(Math.random() * 3);
-        var startLocation = possibleStarts[randomNumber];
-        return startLocation;
-    };
+    // GameStateManager.prototype.getCurrentState = function() {
+    //     return this.currentState;
+    // };
 
 
-    Enemy.prototype.setSpeed = function() {
-        var minSpeed = 50;
-        var maxSpeed = 300;
-        return minSpeed + Math.floor(Math.random() * maxSpeed);
-    };
+    // // Enemies our player must avoid
 
-    Enemy.prototype.resetSprite = function() {
-        this.x = this.startingX;
-        this.y = this.setStart();
-        this.speed = this.setSpeed();
-    };
+    // var Enemy = function() {
+
+    //     this.sprite = 'images/enemy-bug.png';
+    //     this.startingX = -101; // Offscreen
+    //     this.rightBoundary = 505;
+
+    //     this.resetSprite(); // set at startingX and give random speed and y
+    // };
+
+    // // Update the enemy's position, required method for game
+    // // Parameter: dt, a time delta between ticks
+    // Enemy.prototype.update = function(dt) {
+
+    //     var updatedX = this.x + (this.speed * dt);
+    //     if (updatedX > this.rightBoundary) {
+    //         this.resetSprite();
+    //     } else {
+    //         this.x = updatedX;
+    //     }
+
+    // };
+
+    // // Draw the enemy on the screen, required method for game
+    // Enemy.prototype.render = function() {
+    //     ctx.drawImage(resources.get(this.sprite), this.x, this.y);
+    // };
+
+    // Enemy.prototype.setStart = function() {
+    //     var possibleStarts = [
+    //             grid.y.stone1,
+    //             grid.y.stone2,
+    //             grid.y.stone3
+    //     ];
+    //     // Random generate 0, 1, or 2 to correspond to possibleStarts array indices
+    //     var randomNumber = Math.floor(Math.random() * 3);
+    //     var startLocation = possibleStarts[randomNumber];
+    //     return startLocation;
+    // };
 
 
-    // Now write your own player class
-    // This class requires an update(), render() and
-    // a handleInput() method.
-    var Player = function() {
-        this.sprite = 'images/char-boy.png';
+    // Enemy.prototype.setSpeed = function() {
+    //     var minSpeed = 50;
+    //     var maxSpeed = 300;
+    //     return minSpeed + Math.floor(Math.random() * maxSpeed);
+    // };
 
-        this.leftBoundary = 0;
-        this.rightBoundary = 404;
-        this.topBoundary = 60;
-        this.bottomBoundary = 392;
+    // Enemy.prototype.resetSprite = function() {
+    //     this.x = this.startingX;
+    //     this.y = this.setStart();
+    //     this.speed = this.setSpeed();
+    // };
 
-        this.resetSprite();
-    };
 
-    Player.prototype.resetSprite = function(){
-        this.x = grid.x.tile3;
-        this.y = grid.y.grass2;
-    };
+    // // Now write your own player class
+    // // This class requires an update(), render() and
+    // // a handleInput() method.
+    // var Player = function() {
+    //     this.sprite = 'images/char-boy.png';
 
-    Player.prototype.update = function() {
-        if (collisionStatus.playerInTheWater || collisionStatus.enemyPlayerCollided) {
-            player.resetSprite();
-        }
-    };
+    //     this.leftBoundary = 0;
+    //     this.rightBoundary = 404;
+    //     this.topBoundary = 60;
+    //     this.bottomBoundary = 392;
 
-    Player.prototype.render = function() {
-        ctx.drawImage(resources.get(this.sprite), this.x, this.y);
-    };
+    //     this.resetSprite();
+    // };
 
-    Player.prototype.handleInput = function (keyCode) {
-        var oneTileX = 101;
-        var oneTileY = 83;
+    // Player.prototype.resetSprite = function(){
+    //     this.x = grid.x.tile3;
+    //     this.y = grid.y.grass2;
+    // };
 
-        if (keyCode === 'left') {
-            if (this.x > this.leftBoundary) {
-                this.x -= oneTileX;
-            }
-        } else if (keyCode === 'right') {
-            if (this.x < this.rightBoundary) {
-                this.x += oneTileX;
-            }
-        } else if (keyCode === 'up') {
-                this.y -= oneTileY;
-        } else if (keyCode === 'down') {
-            if (this.y < this.bottomBoundary) {
-                this.y += oneTileY;
-            }
+    // Player.prototype.update = function() {
+    //     if (collisionStatus.playerInTheWater || collisionStatus.enemyPlayerCollided) {
+    //         player.resetSprite();
+    //     }
+    // };
 
-        }
-    };
+    // Player.prototype.render = function() {
+    //     ctx.drawImage(resources.get(this.sprite), this.x, this.y);
+    // };
+
+    // Player.prototype.handleInput = function (keyCode) {
+    //     var oneTileX = 101;
+    //     var oneTileY = 83;
+
+    //     if (keyCode === 'left') {
+    //         if (this.x > this.leftBoundary) {
+    //             this.x -= oneTileX;
+    //         }
+    //     } else if (keyCode === 'right') {
+    //         if (this.x < this.rightBoundary) {
+    //             this.x += oneTileX;
+    //         }
+    //     } else if (keyCode === 'up') {
+    //             this.y -= oneTileY;
+    //     } else if (keyCode === 'down') {
+    //         if (this.y < this.bottomBoundary) {
+    //             this.y += oneTileY;
+    //         }
+
+    //     }
+    // };
 
     // This listens for key presses and sends the keys to your
     // Player.handleInput() method. You don't need to modify this.
@@ -186,28 +187,28 @@ define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, 
         this.score = 0;
     };
 
-    // CollisionStatus Class
+    // // CollisionStatus Class
 
-    var CollisionStatus = function() {
-        this.enemyPlayerCollided = false;
-        this.playerInTheWater = false;
-    };
+    // var CollisionStatus = function() {
+    //     this.enemyPlayerCollided = false;
+    //     this.playerInTheWater = false;
+    // };
 
-    CollisionStatus.prototype.toggleCollisionStatus = function() {
-        if (! this.enemyPlayerCollided) {
-            this.enemyPlayerCollided = true;
-        } else {
-            this.enemyPlayerCollided = false;
-        }
-    };
+    // CollisionStatus.prototype.toggleCollisionStatus = function() {
+    //     if (! this.enemyPlayerCollided) {
+    //         this.enemyPlayerCollided = true;
+    //     } else {
+    //         this.enemyPlayerCollided = false;
+    //     }
+    // };
 
-    CollisionStatus.prototype.togglePlayerInWaterStatus = function() {
-        if (! this.playerInTheWater) {
-            this.playerInTheWater = true;
-        } else {
-            this.playerInTheWater = false;
-        }
-    }
+    // CollisionStatus.prototype.togglePlayerInWaterStatus = function() {
+    //     if (! this.playerInTheWater) {
+    //         this.playerInTheWater = true;
+    //     } else {
+    //         this.playerInTheWater = false;
+    //     }
+    // }
 
 
 
@@ -272,12 +273,12 @@ define(['resources', 'utils/canvas', 'utils/grid'], function(resources, canvas, 
     // Now instantiate your objects.
     // Place all enemy objects in an array called allEnemies
     // Place the player object in a variable called player
-    var gameStateManager = new GameStateManager();
+    var gameStateManager = new gamestate.GameStateManager();
     var timer = new GameTimer();
-    var collisionStatus = new CollisionStatus();
+    var collisionStatus = new collisions.CollisionStatus();
     var score = new ScoreDisplay();
-    var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
-    var player = new Player();
+    var allEnemies = [new enemy.Enemy(), new enemy.Enemy(), new enemy.Enemy()];
+    var player = new player.Player();
     var gameEndScreen = new GameEndScreen();
 
 

@@ -14,7 +14,7 @@
  * a little simpler to work with.
  */
 
-define(['app', 'resources', 'utils/canvas', 'utils/render'], function(app, resources, canvas, renderFunctions) {
+define(['app', 'utils/resources', 'utils/canvas', 'engine/render', 'app/enemy', 'app/player'], function(app, resources, canvas, renderFunctions, enemy, player) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
