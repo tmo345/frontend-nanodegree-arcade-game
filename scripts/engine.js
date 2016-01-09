@@ -1,5 +1,6 @@
-var app = require('./app');
-var resources = require('./resources');
+var app = require('./app'),
+    setupcanvas = require('./utilities/setupcanvas.js'),
+    resources = require('./utilities/resources.js');
 
 
 /* Engine.js
@@ -23,8 +24,8 @@ var Engine = (function(global) {
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
-    var canvas = document.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
+    var canvas = setupcanvas.canvas,
+        ctx = setupcanvas.ctx,
         lastTime,
         gameStateManager = app.gameStateManager,
         grid = app.grid,
@@ -37,9 +38,7 @@ var Engine = (function(global) {
         gameEndScreen = app.gameEndScreen;
 
 
-    canvas.width = 505;
-    canvas.height = 606;
-    document.body.appendChild(canvas);
+
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -174,7 +173,7 @@ var Engine = (function(global) {
             enemyPlayerCollided = occupySameX && occupySameY;
 
             if (enemyPlayerCollided) {
-                collisionStatus.toggleCollisionStatus();
+                player.toggleCollisionStatus();
             }
         });
     }
@@ -184,7 +183,7 @@ var Engine = (function(global) {
         var playerInTheWater = player.y < player.topBoundary;
 
         if (playerInTheWater) {
-            collisionStatus.togglePlayerInWaterStatus();
+            player.togglePlayerInWaterStatus();
         }
     }
 
