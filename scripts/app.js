@@ -1,3 +1,5 @@
+var resources = require('./resources');
+
 // Game Grid
 // OS = Offscreen / T = Tile / E = Enemy / P = Player
 //          OS  T1  T2  T3  T4  T5
@@ -83,7 +85,7 @@ var app = (function() {
 
     // Draw the enemy on the screen, required method for game
     Enemy.prototype.render = function() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        ctx.drawImage(resources.get(this.sprite), this.x, this.y);
     };
 
     Enemy.prototype.setStart = function() {
@@ -138,7 +140,7 @@ var app = (function() {
     };
 
     Player.prototype.render = function() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        ctx.drawImage(resources.get(this.sprite), this.x, this.y);
     };
 
     Player.prototype.handleInput = function (keyCode) {
@@ -312,7 +314,7 @@ var app = (function() {
 
 
 
-    return {
+    module.exports = {
         grid: grid,
         gameStateManager : gameStateManager,
         gameState: gameState,

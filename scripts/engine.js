@@ -1,3 +1,7 @@
+var app = require('./app');
+var resources = require('./resources');
+
+
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
@@ -19,9 +23,7 @@ var Engine = (function(global) {
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
-    var doc = global.document,
-        win = global.window,
-        canvas = doc.createElement('canvas'),
+    var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime,
         gameStateManager = app.gameStateManager,
@@ -37,13 +39,15 @@ var Engine = (function(global) {
 
     canvas.width = 505;
     canvas.height = 606;
-    doc.body.appendChild(canvas);
+    document.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
     function main() {
-
+        if (gameStateManager.getCurrentState() === 'endScreen') {
+            return;
+        }
 
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
@@ -68,7 +72,7 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+        window.requestAnimationFrame(main);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -101,10 +105,10 @@ var Engine = (function(global) {
         ctx.fillText('Start', grid.x.tile2 + 10, grid.y.grass2 + 125);
         ctx.fillText('Game', grid.x.tile3 + 10, grid.y.grass2 + 125);
         // Draw player and bug
-        ctx.drawImage(Resources.get('images/char-boy.png'), grid.x.tile5, grid.y.stone2);
-        ctx.drawImage(Resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone1);
-        ctx.drawImage(Resources.get('images/enemy-bug.png'), grid.x.tile3, grid.y.stone2);
-        ctx.drawImage(Resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone3);
+        ctx.drawImage(resources.get('images/char-boy.png'), grid.x.tile5, grid.y.stone2);
+        ctx.drawImage(resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone1);
+        ctx.drawImage(resources.get('images/enemy-bug.png'), grid.x.tile3, grid.y.stone2);
+        ctx.drawImage(resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone3);
     }
 
     document.addEventListener('keyup', function(e) {
@@ -233,7 +237,7 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
     }
@@ -287,20 +291,20 @@ var Engine = (function(global) {
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
-    Resources.load([
+    resources.load([
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png'
     ]);
-    Resources.onReady(startScreenInit);
+    resources.onReady(startScreenInit);
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
      */
-    global.ctx = ctx;
-    global.canvas = canvas;
+    window.ctx = ctx;
+    window.canvas = canvas;
 
 })(this);
