@@ -39,6 +39,14 @@ Player.prototype.togglePlayerInWaterStatus = function() {
     }
 };
 
+Player.prototype.getInWaterStatus = function() {
+    return this.inTheWater;
+};
+
+Player.prototype.getCollisionStatus = function() {
+    return this.collidedWithEnemy;
+};
+
 Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;
     this.y = grid.y.grass2;

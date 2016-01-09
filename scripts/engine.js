@@ -154,9 +154,12 @@ var Engine = (function(global) {
     }
 
     function processScoreChange() {
-        if (collisionStatus.playerInTheWater) {
+        var inTheWater = player.getInWaterStatus(),
+            collidedWithEnemy = player.getCollisionStatus();
+
+        if (inTheWater) {
             score.update('up');
-        } else if (collisionStatus.enemyPlayerCollided) {
+        } else if (collidedWithEnemy) {
             score.update('down');
         }
     }
