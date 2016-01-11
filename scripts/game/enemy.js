@@ -1,5 +1,8 @@
-var grid = require('../utilities/grid.js'),
+var canvas = require('../utilities/canvas.js'),
+    grid = require('../utilities/grid.js'),
     resources = require('../utilities/resources.js');
+
+var ctx = canvas.ctx;
 
 // Enemies our player must avoid
 
@@ -15,8 +18,8 @@ var Enemy = function() {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-
     var updatedX = this.x + (this.speed * dt);
+
     if (updatedX > this.rightBoundary) {
         this.resetSprite();
     } else {

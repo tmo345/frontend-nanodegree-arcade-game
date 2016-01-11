@@ -1,10 +1,9 @@
-var app = require('../app.js'),
-    grid = require('../utilities/grid.js'),
+var grid = require('../utilities/grid.js'),
     resources = require('../utilities/resources.js'),
-    setupCanvas = require('../utilities/setupcanvas.js');
+    canvas = require('../utilities/canvas.js'),
+    eventListeners = require('../enginefiles/eventlisteners.js');
 
-var ctx = setupCanvas.ctx,
-    collisionStatus = app.collisionStatus;
+var ctx = canvas.ctx;
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -86,5 +85,7 @@ Player.prototype.handleInput = function (keyCode) {
 
     }
 };
+
+
 
 module.exports = Player;
