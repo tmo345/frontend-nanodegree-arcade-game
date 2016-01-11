@@ -23,7 +23,7 @@ function handleArrowKeysToMove(callback) {
         40: 'down'
     };
 
-    player.handleInput(allowedKeys[window.event.keyCode]);
+    callback(allowedKeys[window.event.keyCode]);
 }
 
 var pressEnterToStart = new EventHandler('keyup', enterToStart),

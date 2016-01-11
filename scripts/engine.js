@@ -67,7 +67,7 @@ function buildStartScreen() {
 function init() {
     // Change from startScreen to gamePlay state
     gameStateManager.toGamePlay();
-
+    arrowsMovePlayer.listenerWrapper(player.handleInput.bind(player));
     arrowsMovePlayer.turnOnEventListener();
     reset();
     timer.startTimer();

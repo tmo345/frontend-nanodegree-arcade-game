@@ -87,5 +87,4 @@ Player.prototype.handleInput = function (keyCode) {
 };
 
 
-
 module.exports = Player;
