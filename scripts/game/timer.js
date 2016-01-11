@@ -32,7 +32,7 @@ GameTimer.prototype.render = function() {
 };
 
 GameTimer.prototype.reset = function() {
-    this.timeLimit = 3000;
+    this.timeLimit = 30000;
 };
 
 module.exports = GameTimer;
