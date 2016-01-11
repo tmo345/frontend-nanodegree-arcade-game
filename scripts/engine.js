@@ -19,6 +19,7 @@ var gameStateManager = app.gameStateManager,
     // Event Listeners
     arrowsMovePlayer = eventlisteners.arrowsMovePlayer,
     pressEnterToStart = eventlisteners.pressEnterToStart,
+    pressSpacebarToRestart = eventlisteners.pressSpacebarToRestart,
 
     // Element State Checks
     checkEnemyPlayerCollision = stateChecks.checkEnemyPlayerCollision,
@@ -92,6 +93,7 @@ function main() {
     if (isGameOver()) {
         player.resetSprite();
         arrowsMovePlayer.turnOffEventListener();
+        pressEnterToStart.turnOnEventListener();
     }
 
     var now = Date.now(),

@@ -9,9 +9,9 @@ function enterToStart(callback) {
     }
 }
 
-function spacebarForNewGame() {
+function spacebarForNewGame(callback) {
     if (window.event.keycode === 32) {
-        gameStateManager.toStartScreen();
+        callback();
     }
 }
 

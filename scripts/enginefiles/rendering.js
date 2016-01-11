@@ -97,7 +97,7 @@ function renderGameInformation() {
 
 function renderEndScreen() {
     var scoreText = 'You scored ' + score.score + ' points!',
-        playAgainText = 'To play again: press spacebar';
+        playAgainText = 'To play again: press enter';
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
     ctx.fillRect(50, 200, 400, 300);
