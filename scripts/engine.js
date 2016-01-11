@@ -1,36 +1,36 @@
+/* Dependencies
+ */
 var app = require('./app.js'),
     resources = require('./utilities/resources.js'),
     rendering = require('./enginefiles/rendering.js'),
     eventlisteners = require('./enginefiles/eventlisteners.js'),
-    stateChecks = require('./enginefiles/statecheck.js');
+    stateChecks = require('./enginefiles/statechecks.js'),
+    updates = require('./enginefiles/updates.js');
 
-
-
-/* Engine.js
- * This file provides the game loop functionality (update entities and render),
- * draws the initial game board on the screen, and then calls the update and
- * render methods on your player and enemy objects (defined in your app.js).
- *
- * A game engine works by drawing the entire game screen over and over, kind of
- * like a flipbook you may have created as a kid. When your player moves across
- * the screen, it may look like just that image/character is moving or being
- * drawn but that is not the case. What's really happening is the entire "scene"
- * is being drawn over and over, presenting the illusion of animation.
+/* Engine.js - Game engine with game loop
  */
+
     // Class Instances
 var gameStateManager = app.gameStateManager,
     allEnemies = app.allEnemies,
     player = app.player,
     score = app.score,
     timer = app.timer,
+
     // Event Listeners
     arrowsMovePlayer = eventlisteners.arrowsMovePlayer,
     pressEnterToStart = eventlisteners.pressEnterToStart,
+
     // Element State Checks
     checkEnemyPlayerCollision = stateChecks.checkEnemyPlayerCollision,
     checkPlayerInWater = stateChecks.checkPlayerInWater,
     checkTimerForEnd = stateChecks.checkTimerForEnd,
-    // Game loop time
+
+    // Element Updates
+    updateEntities = updates.updateEntities,
+    updateGameInformation = updates.updateGameInformation,
+
+    // Game loop
     lastTime;
 
 
@@ -110,34 +110,7 @@ function elementStateChecks() {
     checkTimerForEnd();
 }
 
-/* This is called by the update function and loops through all of the
- * objects within your allEnemies array as defined in app.js and calls
- * their update() methods. It will then call the update function for your
- * player object. These update methods should focus purely on updating
- * the data/properties related to the object. Do your drawing in your
- * render methods.
- */
-function updateEntities(dt) {
-    allEnemies.forEach(function(enemy) {
-        enemy.update(dt);
-    });
-    player.update();
-}
 
-function updateGameInformation() {
-    updateScore();
-}
-
-function updateScore() {
-    var playerInTheWater = player.getInWaterStatus(),
-        playerCollidedWithEnemy = player.getCollisionStatus();
-
-    if (playerInTheWater) {
-        score.update('up');
-    } else if (playerCollidedWithEnemy) {
-        score.update('down');
-    }
-}
 
 
 
