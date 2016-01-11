@@ -1,9 +1,8 @@
 var app = require('./app.js'),
-    grid = require('./utilities/grid.js'),
-    canvas = require('./utilities/canvas.js'),
     resources = require('./utilities/resources.js'),
     rendering = require('./enginefiles/rendering.js'),
-    eventlisteners = require('./enginefiles/eventlisteners.js');
+    eventlisteners = require('./enginefiles/eventlisteners.js'),
+    stateChecks = require('./enginefiles/statecheck.js');
 
 
 
@@ -18,15 +17,19 @@ var app = require('./app.js'),
  * drawn but that is not the case. What's really happening is the entire "scene"
  * is being drawn over and over, presenting the illusion of animation.
  */
-    // Class instances
+    // Class Instances
 var gameStateManager = app.gameStateManager,
     allEnemies = app.allEnemies,
     player = app.player,
     score = app.score,
     timer = app.timer,
-    // Event listeners
+    // Event Listeners
     arrowsMovePlayer = eventlisteners.arrowsMovePlayer,
     pressEnterToStart = eventlisteners.pressEnterToStart,
+    // Element State Checks
+    checkEnemyPlayerCollision = stateChecks.checkEnemyPlayerCollision,
+    checkPlayerInWater = stateChecks.checkPlayerInWater,
+    checkTimerForEnd = stateChecks.checkTimerForEnd,
     // Game loop time
     lastTime;
 
@@ -104,7 +107,7 @@ function update(dt) {
 function elementStateChecks() {
     checkEnemyPlayerCollision();
     checkPlayerInWater();
-    checkTimer();
+    checkTimerForEnd();
 }
 
 /* This is called by the update function and loops through all of the
@@ -122,10 +125,10 @@ function updateEntities(dt) {
 }
 
 function updateGameInformation() {
-    processScoreChange();
+    updateScore();
 }
 
-function processScoreChange() {
+function updateScore() {
     var playerInTheWater = player.getInWaterStatus(),
         playerCollidedWithEnemy = player.getCollisionStatus();
 
@@ -136,38 +139,7 @@ function processScoreChange() {
     }
 }
 
-// Check for collision and toggle collision status if collision detected
-function checkEnemyPlayerCollision() {
-    var occupySameX,
-        occupySameY,
-        enemyPlayerCollided;
 
-    allEnemies.forEach(function(enemy) {
-        occupySameX = (enemy.x + 96) >= (player.x + 17) && enemy.x <= (player.x + 83);
-        occupySameY = enemy.y === player.y;
-        enemyPlayerCollided = occupySameX && occupySameY;
-
-        if (enemyPlayerCollided) {
-            player.toggleCollisionStatus();
-        }
-    });
-}
-
-// Check for player in water and toggle player in water status if detected
-function checkPlayerInWater() {
-    var playerInTheWater = player.y < player.topBoundary;
-
-    if (playerInTheWater) {
-        player.togglePlayerInWaterStatus();
-    }
-}
-
-function checkTimer() {
-    if (timer.timeLimit === 0) {
-        timer.stopTimer();
-        gameStateManager.toEndScreen();
-    }
-}
 
 /* This function initially draws the "game level", it will then call
  * the renderEntities function. Remember, this function is called every
@@ -219,19 +191,4 @@ resources.load([
     'images/char-boy.png'
 ]);
 resources.onReady(buildStartScreen);
-
-// function spaceBarForNewGame(callback) {
-//     document.addEventListener('keyup', function(e) {
-//         if (e.keycode === 32) {
-//             gameStateManager.toStartScreen();
-//             callback();
-//         }
-//     });
-// }
-
-
-// One function for eventlisteners.js
-module.exports = {
-  init: init
-};
 

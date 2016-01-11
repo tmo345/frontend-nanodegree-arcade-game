@@ -14,7 +14,6 @@ GameTimer.prototype.startTimer = function() {
    var that = this;
 
    this.timerInterval = setInterval(function(){
-       console.log('calling interval');
        that.timeLimit -= 1000;
    }, 1000);
 };
