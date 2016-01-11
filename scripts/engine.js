@@ -48,15 +48,17 @@ resources.load([
 
 resources.onReady(buildStartScreen);
 
+/* Set callbacks for event listeners
+ */
+pressEnterToStart.listenerWrapper(init);
+// Use bind to set 'this' to player. Otherwise
+// addEventListener will change 'this' to window
+arrowsMovePlayer.listenerWrapper(player.handleInput.bind(player));
+
 
 function buildStartScreen() {
 
     rendering.renderStartScreen();
-
-    /* User can press enter key to start game.
-     * listenerWrapper calls listener with init function as a parameter
-     */
-    pressEnterToStart.listenerWrapper(init);
     pressEnterToStart.turnOnEventListener();
 }
 
@@ -67,7 +69,7 @@ function buildStartScreen() {
 function init() {
     // Change from startScreen to gamePlay state
     gameStateManager.toGamePlay();
-    arrowsMovePlayer.listenerWrapper(player.handleInput.bind(player));
+    pressEnterToStart.turnOffEventListener();
     arrowsMovePlayer.turnOnEventListener();
     reset();
     timer.startTimer();
@@ -84,10 +86,12 @@ function reset() {
  * and handles properly calling the update and render methods.
  */
 function main() {
-    var currentGameState = gameStateManager.getCurrentState();
-
-    if (currentGameState === 'endScreen') {
-        return;
+    // Check for gameState === endScreen
+    // If true, reset player position
+    // Turn off arrowsMovePlayer eventlistener
+    if (isGameOver()) {
+        player.resetSprite();
+        arrowsMovePlayer.turnOffEventListener();
     }
 
     var now = Date.now(),
@@ -109,6 +113,14 @@ function main() {
     window.requestAnimationFrame(main);
 }
 
+function isGameOver() {
+    var gameState = gameStateManager.getCurrentState();
+    if (gameState === 'endScreen') {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function elementStateChecks() {
     checkEnemyPlayerCollision();

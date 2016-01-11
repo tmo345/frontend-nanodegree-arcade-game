@@ -39,6 +39,15 @@ function checkTimerForEnd() {
     }
 }
 
+function isGameOver() {
+    var gameState = gameStateManager.getCurrentState();
+    if (gameState === 'endScreen') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 module.exports = {
     checkEnemyPlayerCollision: checkEnemyPlayerCollision,
     checkPlayerInWater: checkPlayerInWater,
