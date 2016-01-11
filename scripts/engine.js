@@ -76,11 +76,8 @@ function init() {
 }
 
 function buildStartScreen() {
-    /* render() checks game state following game grid rendering
-     * Game state is equal to startScreen at beginning so render() will only
-     * call rendering.startScreenRender in this case.
-     */
-    render();
+
+    rendering.renderStartScreen();
 
     /* User can press enter key to start game.
      * listenerWrapper calls listener with init function as a parameter
@@ -181,21 +178,12 @@ function checkTimer() {
 function render() {
     var gameState = gameStateManager.getCurrentState();
 
-    // Always render game grid
     rendering.renderGameGrid();
+    rendering.renderEntities();
+    rendering.renderGameInformation();
 
-    if (gameState === 'startScreen') {
-        rendering.renderStartScreen();
-    } else if (gameState === 'gamePlay' || gameState === 'endScreen') {
-        // render player/enemies and score/timer
-        rendering.renderEntities();
-        rendering.renderGameInformation();
-
-        if (gameState === 'endScreen') {
-            // render game over, score, and play again message in addition to the
-            // entities and game information
-            rendering.renderEndScreen();
-        }
+    if (gameState === 'endScreen') {
+        rendering.renderEndScreen();
     }
 }
 
