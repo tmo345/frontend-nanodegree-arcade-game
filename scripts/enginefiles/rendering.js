@@ -9,7 +9,8 @@ var ctx = canvas.ctx,
     score = app.score,
     player = app.player,
     allEnemies = app.allEnemies,
-    timer = app.timer;
+    timer = app.timer,
+    highScores = app.highScores;
 
 
 function renderGameGrid() {
@@ -110,11 +111,23 @@ function renderEndScreen() {
     ctx.fillText(playAgainText, canvasWidth/2, (canvasHeight/2 + 100));
 }
 
+function renderHighScores() {
+    var currentHighScores = highScores.getSortedStorageHighScores(),
+        scoreListItem;
+
+    for (var i = 0; i < currentHighScores.length; i++) {
+        scoreListItem = document.querySelector('.score-' + i);
+        scoreListItem.innerText = currentHighScores[i];
+    }
+}
+
+
+
 module.exports = {
     renderGameGrid: renderGameGrid,
     renderEntities: renderEntities,
     renderEndScreen: renderEndScreen,
     renderStartScreen: renderStartScreen,
-    renderGameInformation: renderGameInformation
-
+    renderGameInformation: renderGameInformation,
+    renderHighScores: renderHighScores
 };

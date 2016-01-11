@@ -15,6 +15,7 @@ var gameStateManager = app.gameStateManager,
     player = app.player,
     score = app.score,
     timer = app.timer,
+    highScores = app.highScores,
 
     // Event Listeners
     arrowsMovePlayer = eventlisteners.arrowsMovePlayer,
@@ -58,7 +59,7 @@ arrowsMovePlayer.listenerWrapper(player.handleInput.bind(player));
 
 
 function buildStartScreen() {
-
+    rendering.renderHighScores();
     rendering.renderStartScreen();
     pressEnterToStart.turnOnEventListener();
 }
@@ -72,6 +73,7 @@ function init() {
     gameStateManager.toGamePlay();
     pressEnterToStart.turnOffEventListener();
     arrowsMovePlayer.turnOnEventListener();
+    highScores.resetCalledStatus();
     reset();
     timer.startTimer();
     lastTime = Date.now();
@@ -94,6 +96,13 @@ function main() {
         player.resetSprite();
         arrowsMovePlayer.turnOffEventListener();
         pressEnterToStart.turnOnEventListener();
+        if (! highScores.calledForThisGame) {
+            highScores.pullFromStorage();
+            highScores.updateHighScore(score.score);
+            highScores.pushToStorage();
+            rendering.renderHighScores();
+            highScores.calledOnceForThisGame();
+        }
     }
 
     var now = Date.now(),
@@ -157,4 +166,6 @@ function cleanUp() {
     } else if (player.getCollisionStatus() === true) {
         player.toggleCollisionStatus();
     }
+
+
 }
