@@ -1,6 +1,4 @@
-var EventHandler = require('../utilities/eventhandler.js'),
-    gameStateManager = require('../app.js').gameStateManager,
-    player = require('../app.js').player;
+var EventHandler = require('../utilities/eventhandler.js');
 
 // Game Event Handlers
 function enterToStart(callback) {
