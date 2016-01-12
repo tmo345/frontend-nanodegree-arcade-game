@@ -1,7 +1,6 @@
 var grid = require('../utilities/grid.js'),
     resources = require('../utilities/resources.js'),
-    canvas = require('../utilities/canvas.js'),
-    eventListeners = require('../enginefiles/eventlisteners.js');
+    canvas = require('../utilities/canvas.js');
 
 var ctx = canvas.ctx;
 

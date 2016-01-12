@@ -27,3 +27,4 @@ module.exports = {
     timer: timer,
     highScores: highScores
 };
+

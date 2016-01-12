@@ -52,17 +52,17 @@ function renderStartScreen() {
     renderGameGrid();
 
     // Title
-    ctx.font = '24px "Audiowide"';
-    ctx.fillText('Steve Crosses the Road', 5, 40);
+    ctx.font = '30px "Bangers"';
+    ctx.fillText('Crossing the Road', 5, 40);
 
     // Subtitle - rotated
-    ctx.font = '18px "Audiowide"';
+    ctx.font = '24px "Bangers"';
     ctx.rotate(-2 * Math.PI / 180);
     ctx.fillText('Into The Water for Some Reason', 150, 110);
     ctx.resetTransform();
 
     // Instructions
-    ctx.font = '24px "Audiowide"';
+    ctx.font = '30px "Bangers"';
     ctx.fillText('Press', grid.x.tile2 + 10, grid.y.grass1 + 125);
     ctx.fillText('Enter', grid.x.tile3 + 10, grid.y.grass1 + 125);
     ctx.fillText('To', grid.x.tile4 + 10, grid.y.grass1 + 125);
@@ -103,11 +103,11 @@ function renderEndScreen() {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
     ctx.fillRect(50, 200, 400, 300);
 
-    ctx.font = '36px sans-serif';
+    ctx.font = '36px "Bangers"';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#000';
     ctx.fillText(scoreText, canvasWidth/2, canvasHeight/2);
-    ctx.font = '24px sans-serif';
+    ctx.font = '24px "Bangers"';
     ctx.fillText(playAgainText, canvasWidth/2, (canvasHeight/2 + 100));
 }
 
