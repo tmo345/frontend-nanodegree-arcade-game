@@ -3,7 +3,8 @@ var Enemy = require('./game/enemy.js'),
     Player = require('./game/player.js'),
     Score = require('./game/score.js'),
     GameTimer = require('./game/timer.js'),
-    HighScores = require('./game/highscores.js');
+    HighScores = require('./game/highscores.js'),
+    Gem = require('./game/gem.js');
 
 
 // Instantiate objects.
@@ -17,7 +18,7 @@ var gameStateManager = new GameStateManager();
 var timer = new GameTimer();
 var score = new Score();
 var highScores = new HighScores();
-
+var gem = new Gem();
 
 module.exports = {
     gameStateManager : gameStateManager,
@@ -25,6 +26,7 @@ module.exports = {
     score: score,
     allEnemies: allEnemies,
     timer: timer,
-    highScores: highScores
+    highScores: highScores,
+    gem: gem
 };
 

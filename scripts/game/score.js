@@ -37,10 +37,10 @@ Score.prototype.render = function() {
 
 };
 
-Score.prototype.update = function(directionOfChange) {
+Score.prototype.update = function(directionOfChange, amount) {
     var that = this;
     if (directionOfChange === 'up') {
-        this.score += 100;
+        this.score += amount;
         this.textColor = 'green';
         this.font = '45px "Bangers"';
         setTimeout(function() {
@@ -48,7 +48,7 @@ Score.prototype.update = function(directionOfChange) {
             that.font = '36px "Bangers"';
         }, 350);
     } else if (directionOfChange === 'down') {
-        this.score -= 100;
+        this.score -= amount;
         this.textColor = 'red';
         this.font = '45px "Bangers"';
         setTimeout(function() {

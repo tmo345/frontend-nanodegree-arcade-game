@@ -10,7 +10,8 @@ var ctx = canvas.ctx,
     player = app.player,
     allEnemies = app.allEnemies,
     timer = app.timer,
-    highScores = app.highScores;
+    highScores = app.highScores,
+    gem = app.gem;
 
 
 function renderGameGrid() {
@@ -46,6 +47,7 @@ function renderGameGrid() {
         }
     }
 }
+
 
 function renderStartScreen() {
     // Game grid
@@ -121,7 +123,15 @@ function renderHighScores() {
     }
 }
 
+function renderGem() {
+    if (!gem.drawn) {
+        gem.selectRandomCoordinate();
+        gem.drawn = true;
+    }
+    ctx.drawImage(resources.get(gem.sprite), gem.x, gem.y, 50, 50);
 
+
+}
 
 module.exports = {
     renderGameGrid: renderGameGrid,
@@ -129,5 +139,6 @@ module.exports = {
     renderEndScreen: renderEndScreen,
     renderStartScreen: renderStartScreen,
     renderGameInformation: renderGameInformation,
-    renderHighScores: renderHighScores
+    renderHighScores: renderHighScores,
+    renderGem: renderGem
 };

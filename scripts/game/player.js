@@ -9,7 +9,6 @@ var ctx = canvas.ctx;
 // a handleInput() method.
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-
     this.leftBoundary = 0;
     this.rightBoundary = 404;
     this.topBoundary = 60;
@@ -17,6 +16,7 @@ var Player = function() {
 
     this.collidedWithEnemy = false;
     this.inTheWater = false;
+    this.overGem = false;
 
     this.resetSprite();
 };
@@ -37,6 +37,14 @@ Player.prototype.togglePlayerInWaterStatus = function() {
     }
 };
 
+Player.prototype.toggleOverGemStatus = function() {
+    if (! this.overGem) {
+        this.overGem = true;
+    } else {
+        this.overGem = false;
+    }
+};
+
 Player.prototype.getInWaterStatus = function() {
     return this.inTheWater;
 };
@@ -44,6 +52,10 @@ Player.prototype.getInWaterStatus = function() {
 Player.prototype.getCollisionStatus = function() {
     return this.collidedWithEnemy;
 };
+
+Player.prototype.getOverGemStatus = function() {
+    return this.overGem;
+}
 
 Player.prototype.resetSprite = function(){
     this.x = grid.x.tile3;

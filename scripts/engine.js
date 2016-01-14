@@ -5,7 +5,9 @@ var app = require('./app.js'),
     rendering = require('./enginefiles/rendering.js'),
     eventlisteners = require('./enginefiles/eventlisteners.js'),
     stateChecks = require('./enginefiles/statechecks.js'),
-    updates = require('./enginefiles/updates.js');
+    updates = require('./enginefiles/updates.js'),
+    canvas = require('./utilities/canvas.js'),
+    Gem = require('./game/gem.js');
 
 /* Engine.js - Game engine with game loop
  */
@@ -16,6 +18,9 @@ var gameStateManager = app.gameStateManager,
     score = app.score,
     timer = app.timer,
     highScores = app.highScores,
+    gem = app.gem,
+    ctx = canvas.ctx,
+    allEnemies = app.allEnemies,
 
     // Event Listeners
     arrowsMovePlayer = eventlisteners.arrowsMovePlayer,
@@ -23,7 +28,8 @@ var gameStateManager = app.gameStateManager,
     pressSpacebarToRestart = eventlisteners.pressSpacebarToRestart,
 
     // Element State Checks
-    checkEnemyPlayerCollision = stateChecks.checkEnemyPlayerCollision,
+    checkPlayerEnemyCollided = stateChecks.checkPlayerEnemyCollided,
+    checkPlayerOverGem = stateChecks.checkPlayerOverGem,
     checkPlayerInWater = stateChecks.checkPlayerInWater,
     checkTimerForEnd = stateChecks.checkTimerForEnd,
 
@@ -42,7 +48,8 @@ resources.load([
     'images/water-block.png',
     'images/grass-block.png',
     'images/enemy-bug.png',
-    'images/char-boy.png'
+    'images/char-boy.png',
+    'images/Gem-Green.png'
 ]);
 
 /* On loading of the images, build the start screen
@@ -62,6 +69,7 @@ function buildStartScreen() {
     rendering.renderHighScores();
     rendering.renderStartScreen();
     pressEnterToStart.turnOnEventListener();
+
 }
 
 /* Init is called by pressEnterToStart event listener.
@@ -134,11 +142,11 @@ function isGameOver() {
 }
 
 function elementStateChecks() {
-    checkEnemyPlayerCollision();
+    checkPlayerEnemyCollided();
+    checkPlayerOverGem();
     checkPlayerInWater();
     checkTimerForEnd();
 }
-
 
 function update(dt) {
     updateGameInformation();
@@ -150,6 +158,7 @@ function render() {
     var gameState = gameStateManager.getCurrentState();
 
     rendering.renderGameGrid();
+    rendering.renderGem();
     rendering.renderEntities();
     rendering.renderGameInformation();
 
@@ -158,6 +167,12 @@ function render() {
     }
 }
 
+// function drawNewGem() {
+//     gem = new Gem();
+//     ctx.drawImage(resources.get(gem.sprite), gem.x, gem.y, 50, 50);
+//     gem.drawn = true;
+// }
+
 
 function cleanUp() {
     // Set collision statuses to false if needed
@@ -165,7 +180,13 @@ function cleanUp() {
         player.togglePlayerInWaterStatus();
     } else if (player.getCollisionStatus() === true) {
         player.toggleCollisionStatus();
+    } else if (player.getOverGemStatus() === true) {
+        player.toggleOverGemStatus();
     }
 
 
 }
+
+// window.setInterval(function() {
+//     gem.renderNow = true;
+// }, 2000);

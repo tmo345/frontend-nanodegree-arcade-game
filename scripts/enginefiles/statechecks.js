@@ -4,26 +4,25 @@ var app = require('../app.js');
 var player = app.player,
     allEnemies = app.allEnemies,
     timer = app.timer,
+    gem = app.gem,
     gameStateManager = app.gameStateManager;
 
-// Check for collision and toggle collision status if collision detected
-function checkEnemyPlayerCollision() {
-    var occupySameX,
-        occupySameY,
-        enemyPlayerCollided;
 
-    allEnemies.forEach(function(enemy) {
-        occupySameX = (enemy.x + 96) >= (player.x + 17) && enemy.x <= (player.x + 83);
-        occupySameY = enemy.y === player.y;
-        enemyPlayerCollided = occupySameX && occupySameY;
-
-        if (enemyPlayerCollided) {
-            player.toggleCollisionStatus();
-        }
-    });
+function checkPlayerEnemyCollided() {
+    var collisionOccured = checkEntitiesCollided(allEnemies, player);
+    if (collisionOccured) {
+        player.toggleCollisionStatus();
+    }
 }
 
-// Check for player in water and toggle player in water status if detected
+function checkPlayerOverGem() {
+    var collisionOccured = checkEntitiesCollided(gem, player);
+    if (collisionOccured) {
+        player.toggleOverGemStatus();
+    }
+
+}
+
 function checkPlayerInWater() {
     var playerInTheWater = player.y < player.topBoundary;
 
@@ -39,8 +38,38 @@ function checkTimerForEnd() {
     }
 }
 
+
+/*  Helper functions
+ *
+ */
+
+
+
+function checkEntitiesCollided(entityA, entityB) {
+    var collisionOccured;
+
+    if (entityA instanceof Array) { // entity A is array of objects
+        entityA.forEach(function(entity) {
+            collisionOccured = occupySameSpace(entity, entityB);
+        });
+    } else { // entityA is a single object
+        collisionOccured = occupySameSpace(entityA, entityB);
+    }
+    return collisionOccured;
+}
+
+function occupySameSpace(entityA, entityB) {
+    var occupySameX,
+        occupySameY;
+
+    occupySameX = (entityA.x + 96) >= (entityB.x + 17) && entityA.x <= (entityB.x + 83);
+    occupySameY = entityA.y === entityB.y;
+    return occupySameX && occupySameY;
+}
+
 module.exports = {
-    checkEnemyPlayerCollision: checkEnemyPlayerCollision,
+    checkPlayerEnemyCollided: checkPlayerEnemyCollided,
     checkPlayerInWater: checkPlayerInWater,
+    checkPlayerOverGem: checkPlayerOverGem,
     checkTimerForEnd: checkTimerForEnd
 };

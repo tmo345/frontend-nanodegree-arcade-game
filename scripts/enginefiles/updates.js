@@ -18,12 +18,15 @@ function updateGameInformation() {
 
 function updateScore() {
     var playerInTheWater = player.getInWaterStatus(),
-        playerCollidedWithEnemy = player.getCollisionStatus();
+        playerCollidedWithEnemy = player.getCollisionStatus(),
+        playerOverGem = player.getOverGemStatus();
 
     if (playerInTheWater) {
-        score.update('up');
+        score.update('up', 100);
     } else if (playerCollidedWithEnemy) {
-        score.update('down');
+        score.update('down', 100);
+    } else if (playerOverGem) {
+        score.update('up', 50);
     }
 }
 
