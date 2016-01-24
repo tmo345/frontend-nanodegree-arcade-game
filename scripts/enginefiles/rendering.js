@@ -1,7 +1,7 @@
-var canvas = require('../utilities/canvas.js'),
+var canvas = require('../gamedata/canvas.js'),
     app = require('../app.js'),
     resources = require('../utilities/resources.js'),
-    grid = require('../utilities/grid.js');
+    grid = require('../gamedata/grid.js');
 
 var ctx = canvas.ctx,
     canvasHeight = canvas.canvasHeight,
@@ -9,9 +9,9 @@ var ctx = canvas.ctx,
     score = app.score,
     player = app.player,
     allEnemies = app.allEnemies,
-    timer = app.timer,
-    highScores = app.highScores,
-    gem = app.gem;
+    gameTimer = app.gameTimer,
+    highScores = app.highScores;
+    // gem = app.gem;
 
 
 function renderGameGrid() {
@@ -94,12 +94,12 @@ function renderEntities() {
 }
 
 function renderGameInformation() {
-    score.render();
-    timer.render();
+    score.render(canvas.ctx);
+    gameTimer.render(canvas.ctx);
 }
 
 function renderEndScreen() {
-    var scoreText = 'You scored ' + score.score + ' points!',
+    var scoreText = 'You scored ' + score.currentScore + ' points!',
         playAgainText = 'To play again: press enter';
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
@@ -116,6 +116,7 @@ function renderEndScreen() {
 function renderHighScores() {
     var currentHighScores = highScores.getSortedStorageHighScores(),
         scoreListItem;
+    console.log(currentHighScores);
 
     for (var i = 0; i < currentHighScores.length; i++) {
         scoreListItem = document.querySelector('.score-' + i);
@@ -123,15 +124,15 @@ function renderHighScores() {
     }
 }
 
-function renderGem() {
-    if (!gem.drawn) {
-        gem.selectRandomCoordinate();
-        gem.drawn = true;
-    }
-    ctx.drawImage(resources.get(gem.sprite), gem.x, gem.y, 50, 50);
+// function renderGem() {
+//     if (!gem.drawn) {
+//         gem.selectRandomCoordinate();
+//         gem.drawn = true;
+//     }
+//     ctx.drawImage(resources.get(gem.sprite), gem.x, gem.y, 50, 50);
 
 
-}
+// }
 
 module.exports = {
     renderGameGrid: renderGameGrid,
@@ -140,5 +141,5 @@ module.exports = {
     renderStartScreen: renderStartScreen,
     renderGameInformation: renderGameInformation,
     renderHighScores: renderHighScores,
-    renderGem: renderGem
+    // renderGem: renderGem
 };

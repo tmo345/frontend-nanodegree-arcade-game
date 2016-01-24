@@ -1,4 +1,5 @@
-var app = require('../app.js');
+var app = require('../app.js'),
+    canvas = require('../gamedata/canvas.js');
 
     // Class instances
 var player = app.player,
@@ -13,20 +14,18 @@ function updateEntities(dt) {
 }
 
 function updateGameInformation() {
+    app.gameTimer.update();
     updateScore();
 }
 
 function updateScore() {
     var playerInTheWater = player.getInWaterStatus(),
-        playerCollidedWithEnemy = player.getCollisionStatus(),
-        playerOverGem = player.getOverGemStatus();
+        playerCollidedWithEnemy = player.getCollisionStatus();
 
     if (playerInTheWater) {
         score.update('up', 100);
     } else if (playerCollidedWithEnemy) {
         score.update('down', 100);
-    } else if (playerOverGem) {
-        score.update('up', 50);
     }
 }
 

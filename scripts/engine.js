@@ -4,10 +4,9 @@ var app = require('./app.js'),
     resources = require('./utilities/resources.js'),
     rendering = require('./enginefiles/rendering.js'),
     eventlisteners = require('./enginefiles/eventlisteners.js'),
-    stateChecks = require('./enginefiles/statechecks.js'),
+    stateChecks = require('./enginefiles/collisionhandler.js'),
     updates = require('./enginefiles/updates.js'),
-    canvas = require('./utilities/canvas.js'),
-    Gem = require('./game/gem.js');
+    canvas = require('./gamedata/canvas.js');
 
 /* Engine.js - Game engine with game loop
  */
@@ -16,7 +15,7 @@ var app = require('./app.js'),
 var gameStateManager = app.gameStateManager,
     player = app.player,
     score = app.score,
-    timer = app.timer,
+    gameTimer = app.gameTimer,
     highScores = app.highScores,
     gem = app.gem,
     ctx = canvas.ctx,
@@ -25,11 +24,9 @@ var gameStateManager = app.gameStateManager,
     // Event Listeners
     arrowsMovePlayer = eventlisteners.arrowsMovePlayer,
     pressEnterToStart = eventlisteners.pressEnterToStart,
-    pressSpacebarToRestart = eventlisteners.pressSpacebarToRestart,
 
     // Element State Checks
-    checkPlayerEnemyCollided = stateChecks.checkPlayerEnemyCollided,
-    checkPlayerOverGem = stateChecks.checkPlayerOverGem,
+    checkEnemyPlayerCollision = stateChecks.checkEnemyPlayerCollision,
     checkPlayerInWater = stateChecks.checkPlayerInWater,
     checkTimerForEnd = stateChecks.checkTimerForEnd,
 
@@ -66,6 +63,7 @@ arrowsMovePlayer.listenerWrapper(player.handleInput.bind(player));
 
 
 function buildStartScreen() {
+    gameStateManager.toStartScreen();
     rendering.renderHighScores();
     rendering.renderStartScreen();
     pressEnterToStart.turnOnEventListener();
@@ -83,14 +81,14 @@ function init() {
     arrowsMovePlayer.turnOnEventListener();
     highScores.resetCalledStatus();
     reset();
-    timer.startTimer();
     lastTime = Date.now();
     main();
 }
 
 function reset() {
+    console.log('resetting!');
     score.reset();
-    timer.reset();
+    gameTimer.reset();
 }
 
 /* This function serves as the kickoff point for the game loop itself
@@ -106,7 +104,7 @@ function main() {
         pressEnterToStart.turnOnEventListener();
         if (! highScores.calledForThisGame) {
             highScores.pullFromStorage();
-            highScores.updateHighScore(score.score);
+            highScores.updateHighScore(score.currentScore);
             highScores.pushToStorage();
             rendering.renderHighScores();
             highScores.calledOnceForThisGame();
@@ -142,10 +140,11 @@ function isGameOver() {
 }
 
 function elementStateChecks() {
-    checkPlayerEnemyCollided();
-    checkPlayerOverGem();
-    checkPlayerInWater();
-    checkTimerForEnd();
+    checkEnemyPlayerCollision(allEnemies, player);
+    checkPlayerInWater(player);
+    if (gameTimer.checkTimerForEnd() === true) {
+        gameStateManager.toEndScreen();
+    }
 }
 
 function update(dt) {
@@ -158,7 +157,7 @@ function render() {
     var gameState = gameStateManager.getCurrentState();
 
     rendering.renderGameGrid();
-    rendering.renderGem();
+    // rendering.renderGem();
     rendering.renderEntities();
     rendering.renderGameInformation();
 
@@ -167,11 +166,6 @@ function render() {
     }
 }
 
-// function drawNewGem() {
-//     gem = new Gem();
-//     ctx.drawImage(resources.get(gem.sprite), gem.x, gem.y, 50, 50);
-//     gem.drawn = true;
-// }
 
 
 function cleanUp() {
@@ -180,13 +174,6 @@ function cleanUp() {
         player.togglePlayerInWaterStatus();
     } else if (player.getCollisionStatus() === true) {
         player.toggleCollisionStatus();
-    } else if (player.getOverGemStatus() === true) {
-        player.toggleOverGemStatus();
     }
 
-
 }
-
-// window.setInterval(function() {
-//     gem.renderNow = true;
-// }, 2000);

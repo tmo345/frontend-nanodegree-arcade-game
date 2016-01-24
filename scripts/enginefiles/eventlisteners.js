@@ -1,14 +1,8 @@
-var EventHandler = require('../utilities/eventhandler.js');
+var EventHandler = require('../classes/eventhandler.js');
 
 // Game Event Handlers
 function enterToStart(callback) {
     if (window.event.keyCode === 13) {
-        callback();
-    }
-}
-
-function spacebarForNewGame(callback) {
-    if (window.event.keycode === 32) {
         callback();
     }
 }
@@ -25,11 +19,9 @@ function handleArrowKeysToMove(callback) {
 }
 
 var pressEnterToStart = new EventHandler('keyup', enterToStart),
-    pressSpacebarToRestart = new EventHandler('keyup', spacebarForNewGame),
     arrowsMovePlayer = new EventHandler('keyup', handleArrowKeysToMove);
 
 module.exports = {
     pressEnterToStart: pressEnterToStart,
-    pressSpacebarToRestart: pressSpacebarToRestart,
     arrowsMovePlayer: arrowsMovePlayer
 };
