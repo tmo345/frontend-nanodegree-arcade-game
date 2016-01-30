@@ -1,6 +1,9 @@
 var canvas = require('../gamedata/canvas.js'),
     app = require('../app.js'),
     resources = require('../utilities/resources.js'),
+    renderHelper = require('../utilities/renderhelper.js'),
+    startScreen = require('../gamedata/startscreen.js'),
+    landmarks = require('../utilities/landmarks.js'),
     grid = require('../gamedata/grid.js');
 
 var ctx = canvas.ctx,
@@ -14,7 +17,8 @@ var ctx = canvas.ctx,
     // gem = app.gem;
 
 
-function renderGameGrid() {
+function renderGameGrid(ctx) {
+
     /* This array holds the relative URL to the image used
      * for that particular row of the game level.
      */
@@ -50,32 +54,24 @@ function renderGameGrid() {
 
 
 function renderStartScreen() {
+    var ctx = canvas.ctx;
+
     // Game grid
-    renderGameGrid();
+    renderGameGrid(ctx);
 
-    // Title
-    ctx.font = '30px "Bangers"';
-    ctx.fillText('Crossing the Road', 5, 40);
+    // Set default styles which will be selectively overriden in each startScreen method
+    renderHelper.setDefaultStyles(ctx);
 
-    // Subtitle - rotated
-    ctx.font = '24px "Bangers"';
-    ctx.rotate(-2 * Math.PI / 180);
-    ctx.fillText('Into The Water for Some Reason', 150, 110);
-    ctx.resetTransform();
+    // Render headings
+    startScreen.renderHeading(ctx);
+    startScreen.renderSubHeading(ctx);
 
-    // Instructions
-    ctx.font = '30px "Bangers"';
-    ctx.fillText('Press', grid.x.tile2 + 10, grid.y.grass1 + 125);
-    ctx.fillText('Enter', grid.x.tile3 + 10, grid.y.grass1 + 125);
-    ctx.fillText('To', grid.x.tile4 + 10, grid.y.grass1 + 125);
-    ctx.fillText('Start', grid.x.tile2 + 10, grid.y.grass2 + 125);
-    ctx.fillText('Game', grid.x.tile3 + 10, grid.y.grass2 + 125);
+    // Render directions
+    startScreen.renderDirections(ctx);
 
-    // Draw player and bugs
-    ctx.drawImage(resources.get('images/char-boy.png'), grid.x.tile5, grid.y.stone2);
-    ctx.drawImage(resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone1);
-    ctx.drawImage(resources.get('images/enemy-bug.png'), grid.x.tile3, grid.y.stone2);
-    ctx.drawImage(resources.get('images/enemy-bug.png'), grid.x.tile2, grid.y.stone3);
+    // Render sprites
+    startScreen.renderPlayer(ctx);
+    startScreen.renderEnemies(ctx);
 }
 
 /* This function is called by the render function and is called on each game

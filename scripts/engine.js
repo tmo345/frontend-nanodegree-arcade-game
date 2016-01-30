@@ -157,7 +157,7 @@ function update(dt) {
 function render() {
     var gameState = gameStateManager.getCurrentState();
 
-    rendering.renderGameGrid();
+    rendering.renderGameGrid(ctx);
     // rendering.renderGem();
     rendering.renderEntities();
     rendering.renderGameInformation();
