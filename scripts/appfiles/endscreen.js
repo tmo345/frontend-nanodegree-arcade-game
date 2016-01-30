@@ -1,5 +1,5 @@
 var renderHelper = require('../utilities/renderhelper.js'),
-    canvas = require('../gamedata/canvas.js');
+    canvas = require('../appfiles/canvas.js');
 
 
 var endScreen = {

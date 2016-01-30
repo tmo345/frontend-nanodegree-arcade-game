@@ -2,6 +2,9 @@ var landmarks = require('../utilities/landmarks.js');
 
 var collisionHandler = {
 
+    // enemies: array of Enemy instances with x and y properties
+    // player: instance of Player with x and y properties
+    //          and toggleCollisionStatus method
     checkEnemyPlayerCollision: function(enemies, player) {
 
         var occupySameX,
@@ -19,6 +22,7 @@ var collisionHandler = {
         });
     },
 
+    // player: instance of Player with togglePlayerInWaterStatus method
     checkPlayerInWater: function(player) {
         var playerInTheWater = player.y < landmarks.boundaries.top;
 

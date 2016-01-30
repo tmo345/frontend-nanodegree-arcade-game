@@ -1,6 +1,6 @@
 var EventHandler = require('../classes/eventhandler.js');
 
-// Game Event Handlers
+// Game event listeners needed for each instantiation of EventHandler
 function enterToStart(callback) {
     if (window.event.keyCode === 13) {
         callback();

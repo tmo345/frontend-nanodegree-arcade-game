@@ -3,10 +3,10 @@
 var app = require('./app.js'),
     resources = require('./utilities/resources.js'),
     rendering = require('./enginefiles/rendering.js'),
-    eventlisteners = require('./enginefiles/eventlisteners.js'),
-    stateChecks = require('./enginefiles/collisionhandler.js'),
+    eventlisteners = require('./appfiles/eventlisteners.js'),
+    stateChecks = require('./appfiles/collisionhandler.js'),
     updates = require('./enginefiles/updates.js'),
-    canvas = require('./gamedata/canvas.js');
+    canvas = require('./appfiles/canvas.js');
 
 /* Engine.js - Game engine with game loop
  */
