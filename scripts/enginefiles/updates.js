@@ -25,7 +25,7 @@ function updateScore() {
     if (playerInTheWater) {
         score.update('up', 100);
     } else if (playerCollidedWithEnemy) {
-        score.update('down', 100);
+        score.update('down', 50);
     }
 }
 
