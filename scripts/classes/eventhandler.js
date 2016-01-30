@@ -1,36 +1,31 @@
-// Event handler class
+// EventHandler class
 
+// listener function should take callback param that it will conditionally invoke
+// ex: function listener(callback) { if (conditionMet) { callback() }
 var EventHandler = function(eventType, listener) {
     this.eventType = eventType;
     this.listener = listener;
 };
 
-// Some event listeners in the game perform a conditional check before executing
-// a game loop function. The game loop function needs to be passed as a parameter.
-// Typically, this would mean using an anonymous function in the addEventListener
-// function, but a named method is needed to pass to removeEventListener.
-
-// The listener wrapper takes an optional callback parameter for listeners that
-// call a game function.
-
+// set a wrapper function that takes a callback as a param
+// the wrapper's job is to invoke the listener function with callback argument
 EventHandler.prototype.listenerWrapper = function(callback) {
     var that = this;
     that.wrapper = function() {
-        if (callback) {
-            that.listener(callback);
-        } else {
-            that.listener();
-        }
+        that.listener(callback);
     };
 };
 
-
+// wrapper is passed to addEventListener
+// when event is triggered, the wrapper calls listener(callback)
+// the listener makes a condition check and if met invokes the callback
 EventHandler.prototype.turnOnEventListener = function() {
     var that = this;
     document.addEventListener(that.eventType, that.wrapper);
 };
 
-
+// as a bonus, we can now pass this.wrapper to removeEventListener to turn off
+// the eventlistener
 EventHandler.prototype.turnOffEventListener = function() {
     var that = this;
     document.removeEventListener(that.eventType, that.wrapper);
