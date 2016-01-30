@@ -1,24 +1,29 @@
-var grid = require('../gamedata/grid.js'),
+var landmarks = require('../utilities/landmarks.js'),
     resources = require('../utilities/resources.js'),
     canvas = require('../gamedata/canvas.js');
 
 var ctx = canvas.ctx;
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+
+/**
+ * Represents the user controlled player
+ * @constructor
+ *
+ * @property {string} sprite - Player sprite image path
+ * @property {Boolean} collidedWithEnemy
+ * @property {Boolean} inTheWater
+ */
+
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-    this.leftBoundary = 0;
-    this.rightBoundary = 404;
-    this.topBoundary = 60;
-    this.bottomBoundary = 392;
 
     this.collidedWithEnemy = false;
     this.inTheWater = false;
 
     this.resetSprite();
 };
+
+
 
 Player.prototype.toggleCollisionStatus = function() {
     if (! this.collidedWithEnemy) {
@@ -47,8 +52,8 @@ Player.prototype.getCollisionStatus = function() {
 
 
 Player.prototype.resetSprite = function(){
-    this.x = grid.x.tile3;
-    this.y = grid.y.grass2;
+    this.x = landmarks.xLeftSideOf.tile3;
+    this.y = landmarks.yEntityAdjust.grass2;
 
     this.collidedWithEnemy = false;
     this.inTheWater = false;
@@ -69,17 +74,17 @@ Player.prototype.handleInput = function (keyCode) {
     var oneTileY = 83;
 
     if (keyCode === 'left') {
-        if (this.x > this.leftBoundary) {
+        if (this.x > landmarks.boundaries.left) {
             this.x -= oneTileX;
         }
     } else if (keyCode === 'right') {
-        if (this.x < this.rightBoundary) {
+        if (this.x < landmarks.boundaries.right) {
             this.x += oneTileX;
         }
     } else if (keyCode === 'up') {
             this.y -= oneTileY;
     } else if (keyCode === 'down') {
-        if (this.y < this.bottomBoundary) {
+        if (this.y < landmarks.boundaries.bottom) {
             this.y += oneTileY;
         }
 

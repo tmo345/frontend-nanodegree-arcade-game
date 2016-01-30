@@ -1,5 +1,5 @@
 var canvas = require('../gamedata/canvas.js'),
-    grid = require('../gamedata/grid.js'),
+    landmarks = require('../utilities/landmarks.js'),
     resources = require('../utilities/resources.js');
 
 var ctx = canvas.ctx;
@@ -9,8 +9,8 @@ var ctx = canvas.ctx;
 var Enemy = function() {
 
     this.sprite = 'images/enemy-bug.png';
-    this.startingX = -101; // Offscreen
-    this.rightBoundary = 505;
+    this.startingX = landmarks.xLeftSideOf.offScreenLeft;
+    this.rightBoundary = landmarks.xLeftSideOf.offScreenRight;
 
     this.resetSprite(); // set at startingX and give random speed and y
 };
@@ -35,9 +35,9 @@ Enemy.prototype.render = function() {
 
 Enemy.prototype.setStart = function() {
     var possibleStarts = [
-            grid.y.stone1,
-            grid.y.stone2,
-            grid.y.stone3
+            landmarks.yEntityAdjust.stone1,
+            landmarks.yEntityAdjust.stone2,
+            landmarks.yEntityAdjust.stone3
     ];
     // Random generate 0, 1, or 2 to correspond to possibleStarts array indices
     var randomNumber = Math.floor(Math.random() * 3);

@@ -1,3 +1,5 @@
+var landmarks = require('../utilities/landmarks.js');
+
 var collisionHandler = {
 
     checkEnemyPlayerCollision: function(enemies, player) {
@@ -18,7 +20,7 @@ var collisionHandler = {
     },
 
     checkPlayerInWater: function(player) {
-        var playerInTheWater = player.y < player.topBoundary;
+        var playerInTheWater = player.y < landmarks.boundaries.top;
 
         if (playerInTheWater) {
             player.togglePlayerInWaterStatus();

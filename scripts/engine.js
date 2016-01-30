@@ -11,6 +11,7 @@ var app = require('./app.js'),
 /* Engine.js - Game engine with game loop
  */
 
+
     // Class Instances
 var gameStateManager = app.gameStateManager,
     player = app.player,
@@ -37,6 +38,8 @@ var gameStateManager = app.gameStateManager,
     // Game loop
     lastTime;
 
+
+
 /* Load grid image assets
 */
 
@@ -46,7 +49,6 @@ resources.load([
     'images/grass-block.png',
     'images/enemy-bug.png',
     'images/char-boy.png',
-    'images/Gem-Green.png'
 ]);
 
 /* On loading of the images, build the start screen
@@ -86,7 +88,6 @@ function init() {
 }
 
 function reset() {
-    console.log('resetting!');
     score.reset();
     gameTimer.reset();
 }

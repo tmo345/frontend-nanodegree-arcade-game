@@ -49,15 +49,17 @@ var startScreen = {
     renderDirections: function(ctx, x, y) {
         renderHelper.setNewContext(ctx, this.startDirectionStyle);
 
+        // Layout:
+        //
+        // Press Enter To
+        // Start Game
+
         ctx.fillText(this.directions.press, x, y);
         ctx.fillText(this.directions.enter, x * 2, y);
         ctx.fillText(this.directions.to, x * 3, y);
         ctx.fillText(this.directions.start, x, y * 2);
         ctx.fillText(this.directions.game, x * 2, y * 2);
     },
-
-
-
 
 
     renderGraphics: function(ctx) {
