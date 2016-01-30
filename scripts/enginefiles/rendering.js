@@ -1,11 +1,11 @@
-var canvas = require('../gamedata/canvas.js'),
+var canvas = require('../appfiles/canvas.js'),
     app = require('../app.js'),
     resources = require('../utilities/resources.js'),
     renderHelper = require('../utilities/renderhelper.js'),
-    startScreen = require('../gamedata/startscreen.js'),
-    endScreen = require('../gamedata/endscreen.js'),
+    startScreen = require('../appfiles/startscreen.js'),
+    endScreen = require('../appfiles/endscreen.js'),
     landmarks = require('../utilities/landmarks.js'),
-    grid = require('../gamedata/grid.js');
+    grid = require('../appfiles/grid.js');
 
 var ctx = canvas.ctx,
     canvasHeight = canvas.canvasHeight,
@@ -15,7 +15,6 @@ var ctx = canvas.ctx,
     allEnemies = app.allEnemies,
     gameTimer = app.gameTimer,
     highScores = app.highScores;
-    // gem = app.gem;
 
 
 function renderGameGrid(ctx) {
@@ -80,10 +79,10 @@ function renderEntities() {
      * the render function you have defined.
      */
     allEnemies.forEach(function(enemy) {
-        enemy.render();
+        enemy.render(canvas.ctx);
     });
 
-    player.render();
+    player.render(canvas.ctx);
 }
 
 function renderGameInformation() {

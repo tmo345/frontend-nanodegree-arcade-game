@@ -1,8 +1,5 @@
-var canvas = require('../gamedata/canvas.js'),
-    landmarks = require('../utilities/landmarks.js'),
+var landmarks = require('../utilities/landmarks.js'),
     resources = require('../utilities/resources.js');
-
-var ctx = canvas.ctx;
 
 // Enemies our player must avoid
 
@@ -29,7 +26,7 @@ Enemy.prototype.update = function(dt) {
 };
 
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
+Enemy.prototype.render = function(ctx) {
     ctx.drawImage(resources.get(this.sprite), this.x, this.y);
 };
 

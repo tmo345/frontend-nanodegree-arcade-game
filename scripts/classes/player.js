@@ -1,8 +1,5 @@
 var landmarks = require('../utilities/landmarks.js'),
-    resources = require('../utilities/resources.js'),
-    canvas = require('../gamedata/canvas.js');
-
-var ctx = canvas.ctx;
+    resources = require('../utilities/resources.js');
 
 
 /**
@@ -65,7 +62,7 @@ Player.prototype.update = function() {
     }
 };
 
-Player.prototype.render = function() {
+Player.prototype.render = function(ctx) {
     ctx.drawImage(resources.get(this.sprite), this.x, this.y);
 };
 
