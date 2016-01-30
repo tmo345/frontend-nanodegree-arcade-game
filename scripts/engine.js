@@ -67,7 +67,7 @@ arrowsMovePlayer.listenerWrapper(player.handleInput.bind(player));
 function buildStartScreen() {
     gameStateManager.toStartScreen();
     rendering.renderHighScores();
-    rendering.renderStartScreen();
+    rendering.renderStartScreen(canvas.ctx);
     pressEnterToStart.turnOnEventListener();
 
 }
@@ -163,7 +163,7 @@ function render() {
     rendering.renderGameInformation();
 
     if (gameState === 'endScreen') {
-        rendering.renderEndScreen();
+        rendering.renderEndScreen(canvas.ctx);
     }
 }
 

@@ -7,7 +7,7 @@ canvas.height = 606;
 document.body.appendChild(canvas);
 
 module.exports = {
-    canvasHeight: canvas.height,
-    canvasWidth: canvas.width,
+    height: canvas.height,
+    width: canvas.width,
     ctx: ctx
 };

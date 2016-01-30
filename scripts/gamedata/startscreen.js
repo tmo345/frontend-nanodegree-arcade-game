@@ -4,7 +4,8 @@ var renderHelper = require('../utilities/renderhelper.js'),
 
 var startScreen = {
 
-    // Default Style Overrides
+    // Default style overrides (see renderhelper.js function setNewContext,
+    // which takes an object of named styles as a param)
 
     headingStyle: {
         font: '30px "Bangers"'

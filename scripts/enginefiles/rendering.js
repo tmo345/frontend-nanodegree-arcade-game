@@ -3,6 +3,7 @@ var canvas = require('../gamedata/canvas.js'),
     resources = require('../utilities/resources.js'),
     renderHelper = require('../utilities/renderhelper.js'),
     startScreen = require('../gamedata/startscreen.js'),
+    endScreen = require('../gamedata/endscreen.js'),
     landmarks = require('../utilities/landmarks.js'),
     grid = require('../gamedata/grid.js');
 
@@ -53,8 +54,7 @@ function renderGameGrid(ctx) {
 }
 
 
-function renderStartScreen() {
-    var ctx = canvas.ctx;
+function renderStartScreen(ctx) {
 
     // Game grid
     renderGameGrid(ctx);
@@ -94,19 +94,18 @@ function renderGameInformation() {
     gameTimer.render(canvas.ctx);
 }
 
-function renderEndScreen() {
-    var scoreText = 'You scored ' + score.currentScore + ' points!',
-        playAgainText = 'To play again: press enter';
+function renderEndScreen(ctx) {
+    renderHelper.setDefaultStyles(ctx);
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
-    ctx.fillRect(50, 200, 400, 300);
+    // Box around score and directions
+    endScreen.renderRectangle(ctx);
 
-    ctx.font = '36px "Bangers"';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#000';
-    ctx.fillText(scoreText, canvasWidth/2, canvasHeight/2);
-    ctx.font = '24px "Bangers"';
-    ctx.fillText(playAgainText, canvasWidth/2, (canvasHeight/2 + 100));
+    // Player's score
+    endScreen.renderScoreText(ctx, app.score);
+
+    // Directions to play again
+    endScreen.renderDirections(ctx);
+
 }
 
 function renderHighScores() {
