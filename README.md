@@ -1,6 +1,16 @@
-frontend-nanodegree-arcade-game
-===============================
+# Classic Arcade Game Clone
+### Frontend Nanodegree Project 3
 
-Students should use this [rubric](https://www.udacity.com/course/viewer/#!/c-nd001/l-2696458597/m-2687128535) for self-checking their submission.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+#### Game Overview
+
+On the start screen, hit enter to start the game.
+
+- Use the arrow keys to move the player.
+- Move the player across the stone road to reach the water.
+- You earn 100 points for every time you reach the water.
+- Avoid the bugs as you cross the road.
+- Every time you hit a bug you lose 50 points and move back to starting position
+- The timer is set for 30 seconds. Go for your personal best (store locally).
+
+

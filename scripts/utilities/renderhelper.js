@@ -23,6 +23,7 @@ function setDefaultStyles(ctx) {
     setNewContext(ctx, defaultStyles);
 }
 
+
 module.exports = {
     setNewContext: setNewContext,
     setDefaultStyles: setDefaultStyles

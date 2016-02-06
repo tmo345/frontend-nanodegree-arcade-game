@@ -13,7 +13,15 @@ var highScores = {
 
     calledForThisGame: false,
 
-    calledOnceForThisGame: function() {
+    hasBeenCalledForGame: function() {
+        if (this.calledForThisGame === true) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    setAsCalledForGame: function() {
         this.calledForThisGame = true;
     },
 

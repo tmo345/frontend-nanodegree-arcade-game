@@ -55,9 +55,6 @@ function renderGameGrid(ctx) {
 
 function renderStartScreen(ctx) {
 
-    // Game grid
-    renderGameGrid(ctx);
-
     // Set default styles which will be selectively overriden in each startScreen method
     renderHelper.setDefaultStyles(ctx);
 
@@ -135,5 +132,4 @@ module.exports = {
     renderStartScreen: renderStartScreen,
     renderGameInformation: renderGameInformation,
     renderHighScores: renderHighScores,
-    // renderGem: renderGem
 };

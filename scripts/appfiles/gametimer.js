@@ -53,7 +53,7 @@ var gameTimer = {
         this.startTimer();
     },
 
-    checkTimerForEnd: function() {
+    isTimeUp: function() {
         if (this.timeLeft.time === 0) {
             this.timeIsUp = true;
             return true;
