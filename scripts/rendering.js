@@ -1,24 +1,19 @@
-var canvas = require('../appfiles/canvas.js'),
-    app = require('../app.js'),
-    resources = require('../utilities/resources.js'),
-    renderHelper = require('../utilities/renderhelper.js'),
-    startScreen = require('../appfiles/startscreen.js'),
-    endScreen = require('../appfiles/endscreen.js'),
-    landmarks = require('../utilities/landmarks.js'),
-    grid = require('../appfiles/grid.js');
+var gameEls = require('./gameelements');
+var canvas = require('./rendering/canvas');
+var resources = require('./utilities/resources');
+var renderHelper = require('./rendering/renderhelper');
+var startScreen = require('./rendering/startscreen');
+var endScreen = require('./rendering/endscreen');
 
+// Convenience declarations to cut down on lots of something.something.something.n. calls
 var ctx = canvas.ctx,
-    canvasHeight = canvas.canvasHeight,
-    canvasWidth = canvas.canvasWidth,
-    score = app.score,
-    player = app.player,
-    allEnemies = app.allEnemies,
-    gameTimer = app.gameTimer,
-    highScores = app.highScores;
+    score = gameEls.score,
+    player = gameEls.player,
+    allEnemies = gameEls.allEnemies,
+    gameTimer = gameEls.gameTimer,
+    highScores = gameEls.highScores;
 
-
-function renderGameGrid(ctx) {
-
+function renderGameGrid() {
     /* This array holds the relative URL to the image used
      * for that particular row of the game level.
      */
@@ -53,7 +48,7 @@ function renderGameGrid(ctx) {
 }
 
 
-function renderStartScreen(ctx) {
+function renderStartScreen() {
 
     // Set default styles which will be selectively overriden in each startScreen method
     renderHelper.setDefaultStyles(ctx);
@@ -76,28 +71,28 @@ function renderEntities() {
      * the render function you have defined.
      */
     allEnemies.forEach(function(enemy) {
-        enemy.render(canvas.ctx);
+        enemy.render(ctx);
     });
 
-    player.render(canvas.ctx);
+    player.render(ctx);
 }
 
 function renderGameInformation() {
     renderHelper.setDefaultStyles(ctx);
-    score.render(canvas.ctx);
+    score.render(ctx);
 
     renderHelper.setDefaultStyles(ctx);
-    gameTimer.render(canvas.ctx);
+    gameTimer.render(ctx);
 }
 
-function renderEndScreen(ctx) {
+function renderEndScreen() {
     renderHelper.setDefaultStyles(ctx);
 
     // Box around score and directions
     endScreen.renderRectangle(ctx);
 
     // Player's score
-    endScreen.renderScoreText(ctx, app.score);
+    endScreen.renderScoreText(ctx, score);
 
     // Directions to play again
     endScreen.renderDirections(ctx);
@@ -107,23 +102,12 @@ function renderEndScreen(ctx) {
 function renderHighScores() {
     var currentHighScores = highScores.getSortedStorageHighScores(),
         scoreListItem;
-    console.log(currentHighScores);
 
     for (var i = 0; i < currentHighScores.length; i++) {
         scoreListItem = document.querySelector('.score-' + i);
         scoreListItem.innerText = currentHighScores[i];
     }
 }
-
-// function renderGem() {
-//     if (!gem.drawn) {
-//         gem.selectRandomCoordinate();
-//         gem.drawn = true;
-//     }
-//     ctx.drawImage(resources.get(gem.sprite), gem.x, gem.y, 50, 50);
-
-
-// }
 
 module.exports = {
     renderGameGrid: renderGameGrid,
@@ -132,4 +116,5 @@ module.exports = {
     renderStartScreen: renderStartScreen,
     renderGameInformation: renderGameInformation,
     renderHighScores: renderHighScores,
+    ctx: ctx
 };

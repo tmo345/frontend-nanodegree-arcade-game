@@ -1,4 +1,4 @@
-var renderHelper = require('../utilities/renderhelper.js'),
+var renderHelper = require('../rendering/renderhelper.js'),
     landmarks = require('../utilities/landmarks.js');
 
 
@@ -39,7 +39,6 @@ var gameScore = {
 
     changeScore: function(directionOfChange) {
         var that = this;
-
         if (directionOfChange === 'up') {
             this.currentScore += this.scoreUpAmount;
             this.highlightedGreen = true;
@@ -60,7 +59,7 @@ var gameScore = {
     // Expect an instance of player with getInWaterStatus and getCollisionStatus methods
     update: function(player) {
         var playerInTheWater = player.getInWaterStatus(),
-        playerCollidedWithEnemy = player.getCollisionStatus();
+            playerCollidedWithEnemy = player.getCollisionStatus();
 
         if (playerInTheWater) {
             this.changeScore('up');

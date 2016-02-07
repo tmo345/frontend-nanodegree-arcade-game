@@ -51,8 +51,8 @@ Player.prototype.resetSprite = function(){
     this.x = landmarks.xLeftSideOf.tile3;
     this.y = landmarks.yEntityAdjust.grass2;
 
-    this.collidedWithEnemy = false;
-    this.inTheWater = false;
+    // this.collidedWithEnemy = false;
+    // this.inTheWater = false;
 };
 
 Player.prototype.update = function() {

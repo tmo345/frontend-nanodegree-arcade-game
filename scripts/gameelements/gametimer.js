@@ -1,4 +1,4 @@
-var renderHelper = require('../utilities/renderhelper.js'),
+var renderHelper = require('../rendering/renderhelper.js'),
     landmarks = require('../utilities/landmarks.js');
 
 var gameTimer = {

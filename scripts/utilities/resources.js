@@ -4,7 +4,7 @@
  * a simple "caching" layer so it will reuse cached images if you attempt
  * to load the same image multiple times.
  */
-(function() {
+
     var resourceCache = {};
     var loading = [];
     var readyCallbacks = [];
@@ -108,4 +108,4 @@
         onReady: onReady,
         isReady: isReady
     };
-})();
+

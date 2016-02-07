@@ -10,7 +10,7 @@ var EventHandler = function(eventType, listener) {
 
 // set a wrapper function that takes a callback as a param
 // the wrapper's job is to invoke the listener function with callback argument
-EventHandler.prototype.listenerWrapper = function(callback) {
+EventHandler.prototype.setListenerCallback = function(callback) {
     var that = this;
     that.wrapper = function() {
         that.listener(callback);
