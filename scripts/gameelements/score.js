@@ -1,96 +1,97 @@
-var renderHelper = require('../rendering/renderhelper.js'),
-    landmarks = require('../utilities/landmarks.js');
+var renderHelper = require('../rendering/renderhelper.js');
+var landmarks = require('../utilities/landmarks.js');
+var canvas = require('../rendering/canvas.js');
 
 
-var gameScore = {
-
-    currentScore: 0,
-    scoreUpAmount: 100,
-    scoreDownAmount: 50,
-
-    heading: {
+var _currentScore = 0,
+    _scoreUpAmount = 100,
+    _scoreDownAmount = 50,
+    _heading = {
         text: 'Score: ',
         x: landmarks.xLeftSideOf.tile1 + 10,
         y: landmarks.yTopOf.water + 50
     },
 
-    scoreText: {
+    _scoreText = {
         fillerSpace: ' ',
         x: landmarks.xLeftSideOf.tile2 + 10,
         y: landmarks.yTopOf.water + 50
     },
 
-    highlightedGreen: false,
-    highlightedRed: false,
+    _highlightedGreen = false,
+    _highlightedRed = false,
 
-    scoreUpStyles: {
+    _scoreUpStyles = {
         fillStyle: 'green',
         font: '45px "Bangers"'
     },
 
-    scoreDownStyles: {
+    _scoreDownStyles = {
         fillStyle: 'red',
         font: '45px "Bangers"'
-    },
+    };
 
-    reset: function() {
-        this.currentScore = 0;
-    },
+function reset () {
+    _currentScore = 0;
+}
 
-    changeScore: function(directionOfChange) {
-        var that = this;
-        if (directionOfChange === 'up') {
-            this.currentScore += this.scoreUpAmount;
-            this.highlightedGreen = true;
-            // Green score flash and larger font for 350ms
-            window.setTimeout(function() {
-                that.highlightedGreen = false;
-            }, 350);
-        } else if (directionOfChange === 'down') {
-            this.currentScore -= this.scoreDownAmount;
-            this.highlightedRed = true;
-            // Red score flash and larger font for 350ms
-            window.setTimeout(function() {
-                that.highlightedRed = false;
-            }, 350);
-        }
-    },
+function _changeScore(directionOfChange) {
 
+    if (directionOfChange === 'up') {
+        _currentScore += _scoreUpAmount;
+        _highlightedGreen = true;
+        // Green score flash and larger font for 350ms
+        window.setTimeout(function() {
+            _highlightedGreen = false;
+        }, 350);
 
-    update: function(collisions) {
-        var collisionOccured = collisions.collisionOccured(),
-            playerReachedWater = collisions.playerReachedWater();
-
-        if (playerReachedWater) {
-            this.changeScore('up');
-        } else if (collisionOccured) {
-            this.changeScore('down');
-        }
-    },
-
-    render: function(ctx) {
-
-        ctx.strokeText(this.heading.text, this.heading.x, this.heading.y);
-        ctx.fillText(this.heading.text, this.heading.x, this.heading.y);
-
-        // Highlighted green and red properties toggled in update method
-        // when score changes
-        if (this.highlightedGreen === true) {
-            renderHelper.setNewContext(ctx, this.scoreUpStyles);
-        } else if (this.highlightedRed === true) {
-            renderHelper.setNewContext(ctx, this.scoreDownStyles);
-        }
-
-        // Add extra space for positive so that negatives don't seem to shift
-        // over to the right with negative sign
-        if (this.score >= 0) {
-            ctx.strokeText(this.scoreText.fillerSpace + this.currentScore, this.scoreText.x, this.scoreText.y);
-            ctx.fillText(this.scoreText.fillerSpace + this.currentScore, this.scoreText.x, this.scoreText.y);
-        } else {
-            ctx.strokeText(this.currentScore, this.scoreText.x, this.scoreText.y);
-            ctx.fillText(this.currentScore, this.scoreText.x, this.scoreText.y);
-        }
+    } else if (directionOfChange === 'down') {
+        _currentScore -= _scoreDownAmount;
+        _highlightedRed = true;
+        // Red score flash and larger font for 350ms
+        window.setTimeout(function() {
+            _highlightedRed = false;
+        }, 350);
     }
-};
+}
 
-module.exports = gameScore;
+
+function update(collisions) {
+    var collisionOccured = collisions.collisionOccured(),
+        playerReachedWater = collisions.playerReachedWater();
+
+    if (playerReachedWater) {
+        _changeScore('up');
+    } else if (collisionOccured) {
+        _changeScore('down');
+    }
+}
+
+function render() {
+
+    canvas.ctx.strokeText(_heading.text, _heading.x, _heading.y);
+    canvas.ctx.fillText(_heading.text, _heading.x, _heading.y);
+
+    // Highlighted green and red properties toggled in update method
+    // when score changes
+    if (_highlightedGreen === true) {
+        renderHelper.setNewContext(canvas.ctx, _scoreUpStyles);
+    } else if (_highlightedRed === true) {
+        renderHelper.setNewContext(canvas.ctx, _scoreDownStyles);
+    }
+
+    // Add extra space for positive so that negatives don't seem to shift
+    // over to the right with negative sign
+    if (_currentScore >= 0) {
+        canvas.ctx.strokeText(_scoreText.fillerSpace + _currentScore, _scoreText.x, _scoreText.y);
+        canvas.ctx.fillText(_scoreText.fillerSpace + _currentScore, _scoreText.x, _scoreText.y);
+    } else {
+        canvas.ctx.strokeText(_currentScore, _scoreText.x, _scoreText.y);
+        canvas.ctx.fillText(_currentScore, _scoreText.x, _scoreText.y);
+    }
+}
+
+module.exports = {
+    update: update,
+    render: render
+};
