@@ -19,10 +19,8 @@
 *            ---------------------
 **/
 
-var landmarks = {
-
     // left sides of tiles
-    xLeftSideOf: {
+var xLeftSideOf = {
         offScreenLeft: -101,
         tile1: 0,
         tile2: 101,
@@ -33,7 +31,7 @@ var landmarks = {
     },
 
     // upper side of tiles
-    yTopOf: {
+    yTopOf = {
         canvasTop: 0,
         water: 50,
         stone1: 133,
@@ -45,7 +43,7 @@ var landmarks = {
 
     // Y coordinates for enemies and player to appear in proper place in specified game tile
     // The sprites have empty space above them in some cases
-    yEntityAdjust: {
+    yEntityAdjust = {
         water: 0,
         stone1: 60,
         stone2: 143,
@@ -55,13 +53,17 @@ var landmarks = {
     },
 
     // Movement boundaries
-    boundaries: {
+    boundaries = {
         top: 60,
         right: 404,
         bottom: 392,
         left: 0
     }
 
-};
 
-module.exports = landmarks;
+module.exports = {
+    xLeftSideOf: xLeftSideOf,
+    yTopOf: yTopOf,
+    yEntityAdjust: yEntityAdjust,
+    boundaries: boundaries
+};
