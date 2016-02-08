@@ -56,14 +56,14 @@ var gameScore = {
         }
     },
 
-    // Expect an instance of player with getInWaterStatus and getCollisionStatus methods
-    update: function(player) {
-        var playerInTheWater = player.getInWaterStatus(),
-            playerCollidedWithEnemy = player.getCollisionStatus();
 
-        if (playerInTheWater) {
+    update: function(collisions) {
+        var collisionOccured = collisions.collisionOccured(),
+            playerReachedWater = collisions.playerReachedWater();
+
+        if (playerReachedWater) {
             this.changeScore('up');
-        } else if (playerCollidedWithEnemy) {
+        } else if (collisionOccured) {
             this.changeScore('down');
         }
     },

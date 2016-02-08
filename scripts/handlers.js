@@ -33,17 +33,10 @@ function toggleEventListeners() {
     }
 
 }
-
 // Collision detection - toggles collision states in player object if collision occurs
 function checkCollisions() {
-    // console.log(allEnemies);
-    //     console.log(player);
-    var didtheyhit = collisions.checkEnemyPlayerCollision(allEnemies, player);
-
-    if (didtheyhit) {
-        player.toggleCollisionStatus();
-    }
-    collisions.checkPlayerInWater(player);
+    collisions.collisionCheck(allEnemies, player);
+    collisions.playerReachedWaterCheck(player);
 }
 
 // Checks to see if time has run out and toggles game state if time is up
@@ -68,7 +61,7 @@ function updateEntities(dt) {
     allEnemies.forEach(function(enemy) {
         enemy.update(dt);
     });
-    player.update();
+    player.update(collisions);
     if (isGameOver()) {
         player.resetSprite();
     }
@@ -76,7 +69,7 @@ function updateEntities(dt) {
 
 function updateGameInformation() {
     gameTimer.update();
-    score.update(player);
+    score.update(collisions);
 }
 
 
@@ -100,16 +93,14 @@ function resetGameInformation() {
     score.reset();
     gameTimer.reset();
     highScores.resetCalledStatus();
+    collisions.reset();
 }
 
 
 // Clean ups per frame
 function resetPlayerCollisionStatuses() {
-    if (player.getInWaterStatus() === true) {
-        player.togglePlayerInWaterStatus();
-    } else if (player.getCollisionStatus() === true) {
-        player.toggleCollisionStatus();
-    }
+    collisions.reset();
+
 }
 
 module.exports = {

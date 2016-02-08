@@ -126,14 +126,14 @@ function init() {
  * water. Score sees player as not being water so does not call scoreChange
  */
 function update(dt) {
-    ctrl.updateGameInformation();
+
     ctrl.updateEntities(dt);
+    ctrl.updateGameInformation();
 
 
 }
 
 function stateChangeHandling() {
-    // ctrl.checkCollisions();
     ctrl.checkCollisions();
     ctrl.checkTimer();
 }
@@ -160,6 +160,7 @@ function reset() {
 // Called during each game loop run
 function cleanUp() {
     ctrl.resetPlayerCollisionStatuses();
+
 }
 
 
