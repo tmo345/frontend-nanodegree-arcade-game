@@ -22,7 +22,9 @@ var Player = function() {
 
 
 Player.prototype.toggleCollisionStatus = function() {
+    console.log(this);
     if (! this.collidedWithEnemy) {
+
         this.collidedWithEnemy = true;
     } else {
         this.collidedWithEnemy = false;

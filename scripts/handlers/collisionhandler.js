@@ -9,17 +9,21 @@ var collisionHandler = {
 
         var occupySameX,
             occupySameY,
-            enemyPlayerCollided;
+            enemyPlayerCollided,
+            collisionHasOccured = false;
 
         enemies.forEach(function(enemy) {
             occupySameX = (enemy.x + 96) >= (player.x + 17) && enemy.x <= (player.x + 83);
             occupySameY = enemy.y === player.y;
             enemyPlayerCollided = occupySameX && occupySameY;
-
-            if (enemyPlayerCollided) {
-                player.toggleCollisionStatus();
+            // console.log(enemyPlayerCollided);
+            if (enemyPlayerCollided === true) {
+                // console.log('hit, you sunk my battle ship!');
+                collisionHasOccured = true;
             }
         });
+
+        return collisionHasOccured;
     },
 
     // player: instance of Player with togglePlayerInWaterStatus method

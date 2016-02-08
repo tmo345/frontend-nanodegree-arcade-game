@@ -1,5 +1,13 @@
 var app = require('../app.js');
 
+function stateChecks() {
+    collisions.checkEnemyPlayerCollision(allEnemies, player);
+    collisions.checkPlayerInWater(player);
+
+    if (app.gameTimer.isTimeUp() === true) {
+        app.gameStateManager.toEndScreen();
+    }
+}
 
 function updateEntities(dt) {
     app.allEnemies.forEach(function(enemy) {

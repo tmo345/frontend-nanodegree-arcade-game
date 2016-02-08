@@ -17,10 +17,7 @@ function handleArrowKeysToMove(callback) {
             40: 'down'
         };
 
-    // if (allowedKeys.hasOwnProperty(key)) {
-       callback(allowedKeys[window.event.keyCode]);
-    // }
-
+    callback(allowedKeys[window.event.keyCode]);
 }
 
 module.exports = {

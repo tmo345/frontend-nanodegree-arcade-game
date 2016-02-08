@@ -1,8 +1,9 @@
+var gameEls = require('./gameelements');
 var collisions = require('./handlers/collisionhandler');
 var EventHandler = require('./handlers/eventhandler');
 var gameState = require('./handlers/gamestate');
 var eventListeners = require('./handlers/eventlisteners');
-var gameEls = require('./gameelements');
+
 
 
 var score = gameEls.score,
@@ -35,7 +36,13 @@ function toggleEventListeners() {
 
 // Collision detection - toggles collision states in player object if collision occurs
 function checkCollisions() {
-    collisions.checkEnemyPlayerCollision(allEnemies, player);
+    // console.log(allEnemies);
+    //     console.log(player);
+    var didtheyhit = collisions.checkEnemyPlayerCollision(allEnemies, player);
+
+    if (didtheyhit) {
+        player.toggleCollisionStatus();
+    }
     collisions.checkPlayerInWater(player);
 }
 

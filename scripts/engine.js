@@ -10,6 +10,7 @@ var resources = require('./utilities/resources');
  * convenience
  */
 var ctx = rendering.ctx,
+    allEnemies = gameElements.allEnemies,
     player = gameElements.player,
     gameState = ctrl.gameState,
     lastTime;
