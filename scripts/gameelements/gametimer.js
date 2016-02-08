@@ -1,92 +1,110 @@
 var renderHelper = require('../rendering/renderhelper.js'),
-    landmarks = require('../utilities/landmarks.js');
+    landmarks = require('../utilities/landmarks.js'),
+    canvas = require('../rendering/canvas.js');
 
-var gameTimer = {
 
-    // Default style overrides (see renderhelper.js function setNewContext,
-    // which takes an object of named context styles as a param)
-    timeRunningOutStyles: {
+
+// Default style overrides (see renderhelper.js function setNewContext,
+// which takes an object of named context styles as a param)
+
+var _timeRunningOutStyles = {
         fillStyle: 'red'
     },
 
-    timeLimit: 7000,
+    _timeLimit = 7000,
 
-    heading: {
+    _heading = {
         text: 'Timer: ',
         x: landmarks.xLeftSideOf.tile4 + 20,
         y: landmarks.yTopOf.water + 50
     },
 
-    timeLeft: {
-        // time property is set in method: setUpTimeLeft
+    _timeLeft = {
+        // amount property is set in method: setUpTimeLeft
         x: landmarks.xLeftSideOf.tile5 + 20,
         y: landmarks.yTopOf.water + 50
     },
 
     // Determine if the rendered time is red to indicate time is running out.
-    timeRunningOut: false,
+    _timeRunningOut = false,
 
     // Used by engine.js to determine is if needs to change game state to endScreen
-    timeIsUp: false,
+    _timeIsUp = false,
 
-    // We want this.timeLimit be the only place where the game time limit is set
-    setUpTimeLeft: function() {
-        this.timeLeft.time = this.timeLimit;
-    },
+    // Will be initialized to value of a window.setInterval
+    _timerInterval;
 
-    startTimer: function() {
-        var that = this;
-        this.timerInterval = window.setInterval(function(){
-                that.timeLeft.time -= 1000;
-        }, 1000);
-    },
+// We want _timeLimit be the only place where the game time limit is set
+function _setUpTimeLeft() {
+    _timeLeft.amount = _timeLimit;
+}
 
-    stopTimer: function() {
-        var that = this;
-        window.clearInterval(that.timerInterval);
-    },
+function _startTimer() {
+    _timerInterval = window.setInterval(function(){
+            _timeLeft.time -= 1000;
+    }, 1000);
+}
 
-    reset: function() {
-        this.setUpTimeLeft();
-        this.timeIsUp = false;
-        this.timeRunningOut = false;
-        this.startTimer();
-    },
+function _stopTimer() {
+    window.clearInterval(_timerInterval);
+}
 
-    isTimeUp: function() {
-        if (this.timeLeft.time === 0) {
-            this.timeIsUp = true;
-            return true;
-        }
-    },
+function reset() {
+    _setUpTimeLeft();
+    _timeIsUp = false;
+    _timeRunningOut = false;
+    _startTimer();
+}
 
-    update: function() {
-        if (this.timeLeft.time <= 5000) {
-            this.timeRunningOut = true;
-        }
-        if (this.timeIsUp) {
-            this.stopTimer();
-        }
-    },
+function checkForTimeUp() {
+    if (_timeLeft.amount === 0) {
+        _timeIsUp = true;
+    }
+}
 
-    render: function(ctx) {
-        var timeLeftInSeconds = this.timeLeft.time / 1000;
+function checkForTimeRunningOut() {
+    if (_timeLeft.amount <= 5000) {
+        _timeRunningOut = true;
+    }
+}
 
-        ctx.strokeText(this.heading.text, this.heading.x, this.heading.y);
-        ctx.fillText(this.heading.text, this.heading.x, this.heading.y);
+function timeIsUp() {
+    return _timeIsUp;
+}
 
-        // when time is almost out, make the time left red
-        if (this.timeRunningOut) {
-            renderHelper.setNewContext(ctx, this.timeRunningOutStyles);
-        }
+function timeRunningOut() {
+    return _timeRunningOut;
+}
 
-        ctx.strokeText(timeLeftInSeconds, this.timeLeft.x, this.timeLeft.y);
-        ctx.fillText(timeLeftInSeconds, this.timeLeft.x, this.timeLeft.y);
+function update() {
+    if (_timeIsUp) {
+        _stopTimer();
+    }
+}
 
+function render() {
+    var timeLeftInSeconds = _timeLeft.time / 1000;
+
+    canvas.ctx.strokeText(_heading.text, _heading.x, _heading.y);
+    canvas.ctx.fillText(_heading.text, _heading.x, _heading.y);
+
+    // when time is almost out, make the time left red
+    if (_timeRunningOut) {
+        renderHelper.setNewContext(canvas.ctx, _timeRunningOutStyles);
     }
 
+    canvas.ctx.strokeText(timeLeftInSeconds, _timeLeft.x, _timeLeft.y);
+    canvas.ctx.fillText(timeLeftInSeconds, _timeLeft.x, _timeLeft.y);
 
+}
+
+
+module.exports = {
+    update: update,
+    render: render,
+    reset: reset,
+    checkForTimeUp: checkForTimeUp,
+    checkForTimeRunningOut: checkForTimeRunningOut,
+    timeIsUp: timeIsUp,
+    timeRunningOut: timeRunningOut
 };
-
-
-module.exports = gameTimer;
