@@ -3,6 +3,7 @@ var collisions = require('./handlers/collisionhandler');
 var EventHandler = require('./handlers/eventhandler');
 var gameState = require('./handlers/gamestate');
 var eventListeners = require('./handlers/eventlisteners');
+var stateTracker = require('./handlers/statetracker');
 
 
 
@@ -35,8 +36,8 @@ function toggleEventListeners() {
 }
 // Collision detection - toggles collision states in player object if collision occurs
 function checkCollisions() {
-    collisions.collisionCheck(allEnemies, player);
-    collisions.playerReachedWaterCheck(player);
+    collisions.collisionCheck(allEnemies, player, stateTracker);
+    collisions.playerReachedWaterCheck(player, stateTracker);
 }
 
 // Checks to see if time has run out and toggles game state if time is up
@@ -95,13 +96,15 @@ function resetGameInformation() {
     score.reset();
     gameTimer.reset();
     highScores.resetCalledStatus();
-    collisions.reset();
+    // collisions.reset(player);
+
 }
 
 
 // Clean ups per frame
 function resetPlayerCollisionStatuses() {
-    collisions.reset();
+    // collisions.reset(player);
+    stateTracker.resetStates();
 
 }
 

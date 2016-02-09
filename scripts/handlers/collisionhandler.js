@@ -6,7 +6,7 @@ var _collisionHasOccured = false,
 
 // enemies: array of Enemy instances with x and y properties
 // player: instance of Player with x and y properties
-function collisionCheck(enemies, player) {
+function collisionCheck(enemies, player, stateTracker) {
 
     var occupySameX,
         occupySameY,
@@ -17,22 +17,26 @@ function collisionCheck(enemies, player) {
         occupySameY = enemy.y === player.y;
         enemyPlayerCollided = occupySameX && occupySameY;
         if (enemyPlayerCollided === true) {
-            _collisionHasOccured = true;
+            // _collisionHasOccured = true;
+            // player.toggleCollisionStatus();
+            stateTracker.publishStateChange('collisionOccured');
         }
     });
 }
 
 // player: instance of Player with y property
-function playerReachedWaterCheck(player) {
+function playerReachedWaterCheck(player, stateTracker) {
     var playerInTheWater = player.y < landmarks.boundaries.top;
     if (playerInTheWater === true) {
-        _playerReachedWater = true;
+        // _playerReachedWater = true;
+        stateTracker.publishStateChange('playerReachedWater');
     }
 }
 
-function reset() {
+function reset(player) {
     _collisionHasOccured = false;
     _playerReachedWater = false;
+    player.toggleCollisionStatus();
 }
 
 function collisionOccured() {
