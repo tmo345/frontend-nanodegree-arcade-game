@@ -6,6 +6,7 @@ var Player = require('./gameelements/player.js');
 var score = require('./gameelements/score.js');
 var gameTimer = require('./gameelements/gametimer.js');
 var highScores = require('./gameelements/highscores.js');
+var stateTracker = require('./handlers/statetracker');
 
 // Instantiate objects.
 var allEnemies = [];
@@ -14,6 +15,7 @@ for (var i = 0; i < 3; i++) {
 }
 
 var player = new Player();
+player.setSubscriptions(stateTracker);
 
 
 module.exports = {
