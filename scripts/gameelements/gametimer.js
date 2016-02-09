@@ -41,7 +41,7 @@ function _setUpTimeLeft() {
 
 function _startTimer() {
     _timerInterval = window.setInterval(function(){
-            _timeLeft.time -= 1000;
+            _timeLeft.amount -= 1000;
     }, 1000);
 }
 
@@ -83,8 +83,7 @@ function update() {
 }
 
 function render() {
-    var timeLeftInSeconds = _timeLeft.time / 1000;
-
+    var timeLeftInSeconds = _timeLeft.amount / 1000;
     canvas.ctx.strokeText(_heading.text, _heading.x, _heading.y);
     canvas.ctx.fillText(_heading.text, _heading.x, _heading.y);
 
