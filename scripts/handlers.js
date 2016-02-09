@@ -42,7 +42,7 @@ function checkCollisions() {
 
 // Checks to see if time has run out and toggles game state if time is up
 function checkTimer() {
-    gameTimer.checkForTimeUp();
+    gameTimer.checkForTimeUp(stateTracker);
     gameTimer.checkForTimeRunningOut();
     // if (gameTimer.isTimeUp() === true) {
     //     gameState.toEndScreen();

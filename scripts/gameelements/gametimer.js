@@ -56,9 +56,10 @@ function reset() {
     _startTimer();
 }
 
-function checkForTimeUp() {
+function checkForTimeUp(stateTracker) {
     if (_timeLeft.amount === 0) {
         _timeIsUp = true;
+        stateTracker.publishStateChange('timeIsUp');
     }
 }
 
@@ -68,13 +69,13 @@ function checkForTimeRunningOut() {
     }
 }
 
-function timeIsUp() {
-    return _timeIsUp;
-}
+// function timeIsUp() {
+//     return _timeIsUp;
+// }
 
-function timeRunningOut() {
-    return _timeRunningOut;
-}
+// function timeRunningOut() {
+//     return _timeRunningOut;
+// }
 
 function update() {
     if (_timeIsUp) {
@@ -104,6 +105,6 @@ module.exports = {
     reset: reset,
     checkForTimeUp: checkForTimeUp,
     checkForTimeRunningOut: checkForTimeRunningOut,
-    timeIsUp: timeIsUp,
-    timeRunningOut: timeRunningOut
+    // timeIsUp: timeIsUp,
+    // timeRunningOut: timeRunningOut
 };
