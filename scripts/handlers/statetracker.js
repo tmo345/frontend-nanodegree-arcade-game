@@ -4,7 +4,7 @@
  * States:
  *      timer: time Up
  *      collisions: player collided with enemy, player in water
- *      gamestate: startscreen, gameplay, endscreen(gameover)
+ *      gamestate: startscreen, gameplay, gameover
  */
 
 var _states = {
@@ -54,7 +54,7 @@ function resetStates() {
 
 function _SubscribeException(incorrectState) {
     this.incorrectState = incorrectState;
-    this.message = 'The state ' + this.incorrectState + ' you are trying to subscribe to does not exist. Try: timeIsUp, collisionOccured, playerReachedWater, or gameOver.';
+    this.message = 'The state ' + this.incorrectState + ' you are trying to subscribe to does not exist. Try: timeIsUp, collisionOccured, playerReachedWater';
 }
 
 module.exports = {

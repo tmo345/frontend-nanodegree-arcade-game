@@ -1,4 +1,4 @@
-var player = require('../gameelements/player');
+// var player = require('../gameelements/player');
 
 
 // Will receive the game loop function init as the argument in engine.js

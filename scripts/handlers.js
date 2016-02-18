@@ -1,7 +1,7 @@
 var gameEls = require('./gameelements');
 var collisions = require('./handlers/collisionhandler');
 var EventHandler = require('./handlers/eventhandler');
-var gameState = require('./handlers/gamestate');
+var gameState = require('./gameelements/gamestate');
 var eventListeners = require('./handlers/eventlisteners');
 var stateTracker = require('./handlers/statetracker');
 
@@ -27,7 +27,7 @@ function toggleEventListeners() {
     if ((currentState === 'gamePlay') && (arrowListenerState === 'off')) {
         pressEnterToStart.turnOffEventListener();
         arrowsMovePlayer.turnOnEventListener();
-    } else if ((currentState === 'startScreen' || currentState === 'endScreen') &&
+    } else if ((currentState === 'startScreen' || currentState === 'gameOver') &&
                 enterListenerState === 'off') {
         pressEnterToStart.turnOnEventListener();
         arrowsMovePlayer.turnOffEventListener();
@@ -45,14 +45,14 @@ function checkTimer() {
     gameTimer.checkForTimeUp(stateTracker);
     gameTimer.checkForTimeRunningOut();
     // if (gameTimer.isTimeUp() === true) {
-    //     gameState.toEndScreen();
+    //     gameState.togameOver();
     // }
 }
 
 // Check for game over at start of main loop to determine if game over state events
 // need to be initiated
 function isGameOver() {
-    if (gameState.getCurrentState() === 'endScreen') {
+    if (gameState.getCurrentState() === 'gameOver') {
         return true;
     } else {
         return false;
@@ -64,7 +64,7 @@ function updateEntities(dt) {
     allEnemies.forEach(function(enemy) {
         enemy.update(dt);
     });
-    player.update(collisions);
+    player.update();
     if (isGameOver()) {
         player.resetSprite();
     }
@@ -72,7 +72,7 @@ function updateEntities(dt) {
 
 function updateGameInformation() {
     gameTimer.update();
-    score.update(collisions);
+    score.update();
 }
 
 
@@ -121,5 +121,4 @@ module.exports = {
     setHighScoreForGame: setHighScoreForGame,
     resetGameInformation: resetGameInformation,
     resetPlayerCollisionStatuses: resetPlayerCollisionStatuses,
-    gameState: gameState
 };

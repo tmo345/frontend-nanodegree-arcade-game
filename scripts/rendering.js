@@ -3,7 +3,7 @@ var canvas = require('./rendering/canvas');
 var resources = require('./utilities/resources');
 var renderHelper = require('./rendering/renderhelper');
 var startScreen = require('./rendering/startscreen');
-var endScreen = require('./rendering/endscreen');
+var gameOver = require('./rendering/gameover');
 
 // Convenience declarations to cut down on lots of something.something.something.n. calls
 var ctx = canvas.ctx,
@@ -85,17 +85,17 @@ function renderGameInformation() {
     gameTimer.render(ctx);
 }
 
-function renderEndScreen() {
+function renderGameOver() {
     renderHelper.setDefaultStyles(ctx);
 
     // Box around score and directions
-    endScreen.renderRectangle(ctx);
+    gameOver.renderRectangle(ctx);
 
     // Player's score
-    endScreen.renderScoreText(ctx, score);
+    gameOver.renderScoreText(ctx, score);
 
     // Directions to play again
-    endScreen.renderDirections(ctx);
+    gameOver.renderDirections(ctx);
 
 }
 
@@ -112,7 +112,7 @@ function renderHighScores() {
 module.exports = {
     renderGameGrid: renderGameGrid,
     renderEntities: renderEntities,
-    renderEndScreen: renderEndScreen,
+    renderGameOver: renderGameOver,
     renderStartScreen: renderStartScreen,
     renderGameInformation: renderGameInformation,
     renderHighScores: renderHighScores,

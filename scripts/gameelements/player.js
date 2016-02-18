@@ -12,10 +12,14 @@ var Player = function() {
 };
 
 Player.prototype.setSubscriptions = function(stateTracker) {
-    var toggleBound = this.toggleCollisionStatus.bind(this);
+    // ensure that this refers to player when stateTracker calls toggleCollisionStatus
+    var toggleCollisionBound = this.toggleCollisionStatus.bind(this),
+        toggleInWaterBound = this.togglePlayerInWaterStatus.bind(this);
+
+    // Try catch to pick up errors in calling for a state subscription that does not exit
     try {
-        stateTracker.subscribe('collisionOccured', toggleBound);
-        stateTracker.subscribe('playerReachedWater', toggleBound);
+        stateTracker.subscribe('collisionOccured', toggleCollisionBound);
+        stateTracker.subscribe('playerReachedWater', toggleInWaterBound);
     } catch (e) {
         console.error(e.message);
     }
@@ -41,14 +45,24 @@ Player.prototype.togglePlayerInWaterStatus = function() {
     }
 };
 
+Player.prototype.cleanUp = function() {
+    if (this.collidedWithEnemy) {
+        this.collidedWithEnemy = false;
+    }
+    if (this.inTheWater) {
+        this.inTheWater = false;
+    }
 
-Player.prototype.getInWaterStatus = function() {
-    return this.inTheWater;
 };
 
-Player.prototype.getCollisionStatus = function() {
-    return this.collidedWithEnemy;
-};
+
+// Player.prototype.getInWaterStatus = function() {
+//     return this.inTheWater;
+// };
+
+// Player.prototype.getCollisionStatus = function() {
+//     return this.collidedWithEnemy;
+// };
 
 
 Player.prototype.resetSprite = function(){
@@ -59,12 +73,11 @@ Player.prototype.resetSprite = function(){
     // this.inTheWater = false;
 };
 
-Player.prototype.update = function(collisions) {
+Player.prototype.update = function() {
     var oneTileX = 101;
     var oneTileY = 83;
 
-    if (this.collidedWithEnemy) {
-        console.log(this.collidedWithEnemy);
+    if (this.collidedWithEnemy || this.inTheWater)  {
         this.resetSprite();
     }
 

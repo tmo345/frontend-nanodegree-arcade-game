@@ -12,7 +12,8 @@ var resources = require('./utilities/resources');
 var ctx = rendering.ctx,
     allEnemies = gameElements.allEnemies,
     player = gameElements.player,
-    gameState = ctrl.gameState,
+    score = gameElements.score,
+    gameState = gameElements.gameState,
     lastTime;
 /* Load entity and image assets
 */
@@ -134,8 +135,9 @@ function update(dt) {
 }
 
 function stateChangeHandling() {
-    ctrl.checkCollisions();
+
     ctrl.checkTimer();
+    ctrl.checkCollisions();
 }
 
 function render(ctx) {
@@ -146,20 +148,28 @@ function render(ctx) {
     // If game is over, will continue rendering grid, entities, and information,
     // but the end screen information will overlay it
     if (ctrl.isGameOver() === true) {
-        rendering.renderEndScreen(ctx);
+        rendering.renderGameOver(ctx);
     }
 }
 
 
 // Reset score, timer, and highScoreCalledStatus
 // Called once on init
-function reset() {
+function reset(player) {
     ctrl.resetGameInformation();
 }
 
 // Called during each game loop run
 function cleanUp() {
     ctrl.resetPlayerCollisionStatuses();
+    player.cleanUp();
+    score.cleanUp();
+
+    // if (player.getInWaterStatus() === true) {
+    //     player.togglePlayerInWaterStatus();
+    // } else if (player.getCollisionStatus() === true) {
+    //     player.toggleCollisionStatus();
+    // }
 
 }
 
@@ -239,7 +249,7 @@ function cleanUp() {
 // * and handles properly calling the update and render methods.
 // */
 // function main() {
-// // Check for gameState === endScreen
+// // Check for gameState === gameOver
 // // If true, reset player position
 // // Turn off arrowsMovePlayer eventlistener
 // if (isGameOver()) {
@@ -277,7 +287,7 @@ function cleanUp() {
 //     app.collisionHandler.checkEnemyPlayerCollision(app.allEnemies, app.player);
 //     app.collisionHandler.checkPlayerInWater(app.player);
 //     if (app.gameTimer.isTimeUp() === true) {
-//         app.gameState.toEndScreen();
+//         app.gameState.togameOver();
 //     };
 // }
 
@@ -295,7 +305,7 @@ function cleanUp() {
 //     rendering.renderGameInformation();
 
 //     if (isGameOver()) {
-//         rendering.renderEndScreen(canvas.ctx);
+//         rendering.rendergameOver(canvas.ctx);
 //     }
 // }
 

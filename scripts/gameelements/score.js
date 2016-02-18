@@ -29,7 +29,10 @@ var _currentScore = 0,
     _scoreDownStyles = {
         fillStyle: 'red',
         font: '45px "Bangers"'
-    };
+    },
+    _collisionOccured = false,
+    _playerReachedWater = false;
+
 
 function reset () {
     _currentScore = 0;
@@ -55,14 +58,45 @@ function _changeScore(directionOfChange) {
     }
 }
 
+function setSubscriptions(stateTracker) {
+    stateTracker.subscribe('collisionOccured', toggleCollisionOccured);
+    stateTracker.subscribe('playerReachedWater', togglePlayerReachedWater);
+}
 
-function update(collisions) {
-    var collisionOccured = collisions.collisionOccured(),
-        playerReachedWater = collisions.playerReachedWater();
+function toggleCollisionOccured() {
+    if (! _collisionOccured) {
+        _collisionOccured = true;
+    } else {
+        _collisionOccured = false;
+    }
+}
 
-    if (playerReachedWater) {
+function togglePlayerReachedWater() {
+    if (! _playerReachedWater) {
+        _playerReachedWater = true;
+    } else {
+        _playerReachedWater = false;
+    }
+}
+
+function getCurrentScore() {
+    return _currentScore;
+}
+
+function cleanUp() {
+    if (_collisionOccured) {
+        _collisionOccured = false;
+    }
+    if (_playerReachedWater) {
+        _playerReachedWater = false;
+    }
+}
+
+function update() {
+
+    if (_playerReachedWater) {
         _changeScore('up');
-    } else if (collisionOccured) {
+    } else if (_collisionOccured) {
         _changeScore('down');
     }
 }
@@ -93,5 +127,9 @@ function render() {
 
 module.exports = {
     update: update,
-    render: render
+    render: render,
+    reset: reset,
+    cleanUp: cleanUp,
+    setSubscriptions: setSubscriptions,
+    getCurrentScore: getCurrentScore
 };
