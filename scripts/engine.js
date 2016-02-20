@@ -1,24 +1,18 @@
-/* Dependencies
- */
-var ctrl = require('./engine_logic/handlers');
 var resources = require('./utilities/resources');
 var render = require('./engine_logic/render');
 var stateChecks = require('./engine_logic/state_checks');
 var subscriptions = require('./engine_logic/subscriptions');
 var entities = require('./game_objects/instantiate_entities');
-var score = require('./game_objects/score');
 var gameStateHandler = require('./state_handling/gamestate_handler');
 var statePubSub = require('./state_handling/state_pubsub');
 var highScores = require('./game_objects/high_scores');
 var eventListeners = require('./state_handling/event_listeners');
+var updates = require('./engine_logic/updates');
+var resets = require('./engine_logic/resets');
 
 
-/* Predefine necessary game element objects as variables in this scope for
- * convenience
- */
-var allEnemies = entities.allEnemies,
-    player = entities.player,
-    lastTime;
+var lastTime;
+
 /* Load entity and image assets
 */
 resources.load([
@@ -38,32 +32,20 @@ resources.onReady(buildStartScreen);
  * press arrows: player.handleInput
  */
 eventListeners.pressEnterToStart.setListenerCallback(init);
-eventListeners.arrowsMovePlayer.setListenerCallback(player.handleInput.bind(player));
+eventListeners.arrowsMovePlayer.setListenerCallback(entities.player.handleInput.bind(entities.player));
 
-/* Set the event listeners on/off statuses for current game state (startScreen now)
- * See comments in function in handlers.js
+/* The most important part of the engine is the handling of object/module interaction
+ * by using a publish subscribe pattern. Objects reporting state changes publish to
+ * statePubSub module and objects monitoring for state changes subscribe to each state
+ * through the statePubSub module
  */
-// ctrl.pressEnterToStart.turnOnEventListener();
 
 subscriptions.setStateSubscriptions();
 
 /* Game loop is initiated when the pressEnterToStart event listener calls init
  * Init includes the first call to main to start the loop
  */
-function main(ctx) {
-    // Start game loop by checking to see if we are in the game over state
-    // if (ctrl.isGameOver()) {
-
-    //     ctrl.toggleEventListeners();
-    //     // Check to see if high score has not been set for game
-    //     if (! ctrl.highScoreHasBeenSet() ) {
-    //         // If not set, access localStorage to update high scores
-    //         ctrl.setHighScoreForGame();
-    //         // and then render them in the DOM next to canvas
-    //         render.renderHighScores(ctx);
-    //     }
-    // }
-
+function main() {
 
     /* Time delta information needed for smooth animation
      */
@@ -103,39 +85,17 @@ function buildStartScreen(ctx) {
  * game loop.
  */
 function init() {
-
     gameStateHandler.toGamePlay(statePubSub);
-    // ctrl.toggleEventListeners();
-    // ctrl.arrowsMovePlayer.turnOnEventListener();
-    // ctrl.pressEnterToStart.turnOffEventListener();
     reset();
     lastTime = Date.now();
-
     // Start the game loop
     main();
 }
 
-/* IMPORTANT: update game information must be called first in the
- * update function or score increases and decreases will not work!
- * Ex:
- * Collision handler is called during stateChangeHandling and detects
- * player is in water (y < landmarks.boundaries.top)
- * Player in water status is set to on
- * Update game information is called. Score checks to see if player is
- * is in water. It sees player in water so scoreChange is called to
- * increase score.
- * Update entities is called, which detects player in water and resets
- * the sprite, which resets the position and sets inTheWater to false
- *
- * If update entities is called first, it resets the player and the in
- * water status prior to score being able to check for player being in
- * water. Score sees player as not being water so does not call scoreChange
- */
+
 function update(dt) {
-    ctrl.updateEntities(dt, statePubSub);
-    ctrl.updateGameInformation(statePubSub);
-
-
+    updates.updateEntities(dt, statePubSub);
+    updates.updateGameInformation(statePubSub);
 }
 
 function stateChangeHandling() {
@@ -154,9 +114,8 @@ function rendering(ctx) {
     }
 }
 
-
 // Reset score and timer
 // Called once on init
 function reset() {
-    ctrl.resetGameInformation();
+    resets.resetGameInformation();
 }
