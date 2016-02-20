@@ -28,7 +28,6 @@ var player = entities.player,
 
 function checkCollisions() {
     collisionHandler.collisionCheck(allEnemies, player, statePubSub);
-    // collisionHandler.playerReachedWaterCheck(player, statePubSub);
 }
 
 function checkTimer() {

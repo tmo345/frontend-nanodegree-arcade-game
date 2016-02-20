@@ -132,7 +132,6 @@ function init() {
  * water. Score sees player as not being water so does not call scoreChange
  */
 function update(dt) {
-
     ctrl.updateEntities(dt, statePubSub);
     ctrl.updateGameInformation(statePubSub);
 
@@ -140,7 +139,6 @@ function update(dt) {
 }
 
 function stateChangeHandling() {
-
     stateChecks.checkTimer();
     stateChecks.checkCollisions();
 }
@@ -157,163 +155,8 @@ function rendering(ctx) {
 }
 
 
-// Reset score, timer, and highScoreCalledStatus
+// Reset score and timer
 // Called once on init
 function reset() {
     ctrl.resetGameInformation();
 }
-
-// Called during each game loop run
-// function cleanUp() {
-//     // player.cleanUp();
-//     score.cleanUp();
-
-// }
-
-
-
-
-
-
-
-// var app = require('./app.js');
-// var resources = require('./utilities/resources.js');
-// var render = require('./enginefiles/render.js');
-// var updates = require('./enginefiles/updates.js');
-// var canvas = require('./appfiles/canvas.js');
-// // var engine = require('./enginefiles/engine.js');
-// // var eventHelper = require('./utilities/eventhelper.js');
-
-
-// var lastTime;
-
-
-
-
-// function enterListener() {
-// ctrl.callOnEnterPress(event, init);
-// }
-
-// function arrowListener() {
-// ctrl.callOnArrowKeyPress(event, app.player.handleInput)
-// }
-
-// window.addEventListener('keyup', 'enterListener');
-
-// function buildStartScreen() {
-// app.gameState.toStartScreen();
-
-// render.renderHighScores();
-// render.renderGameGrid(canvas.ctx);
-// render.renderStartScreen(canvas.ctx);
-
-// // Set callbacks for event listeners
-// setListenerWrappers();
-// // Toggles an event listener that will call init() on "enter" pressing
-// toggleEventListeners();
-// }
-
-// /* Init is called by pressEnterToStart event listener.
-// * Kicks off the main game loop after setting up the necessary elements
-// */
-
-// function init() {
-// // Set game state to gameplay
-// app.gameState.toGamePlay();
-
-// toggleEventListeners();
-// // reset score, timer, and high score called status (so it can be set if a new
-// // high score is achieved this game)
-// reset();
-
-// // will be used to determine time change between frames
-// lastTime = Date.now();
-
-// // Start the game loop
-// main();
-// }
-
-// function reset() {
-// // reset high score called status so a high score can be recalculated and rendered
-// // at end of game
-// app.highScores.resetCalledStatus();
-
-// app.score.reset();
-// app.gameTimer.reset();
-// }
-
-// /* This function serves as the kickoff point for the game loop itself
-// * and handles properly calling the update and render methods.
-// */
-// function main() {
-// // Check for gameState === gameOver
-// // If true, reset player position
-// // Turn off arrowsMovePlayer eventlistener
-// if (isGameOver()) {
-//     app.player.resetSprite();
-//     toggleEventListeners();
-//     if (! highScoreHasBeenSet()) {
-//         setHighScoreForGame();
-//         render.renderHighScores();
-//     }
-
-// }
-
-// var now = Date.now(),
-//     dt = (now - lastTime) / 1000.0;
-
-
-// handleStateChange();
-// update(dt);
-// render();
-// cleanUp();
-
-// /* Set our lastTime variable which is used to determine the time delta
-//  * for the next time this function is called.
-//  */
-// lastTime = now;
-
-// /* Use the browser's requestAnimationFrame function to call this
-//  * function again as soon as the browser is able to draw another frame.
-//  */
-//     window.requestAnimationFrame(main);
-// }
-
-
-// function handleStateChange() {
-//     app.collisionHandler.checkEnemyPlayerCollision(app.allEnemies, app.player);
-//     app.collisionHandler.checkPlayerInWater(app.player);
-//     if (app.gameTimer.isTimeUp() === true) {
-//         app.gameState.togameOver();
-//     };
-// }
-
-
-// function update(dt) {
-//     updates.updateGameInformation();
-//     updates.updateEntities(dt);
-// }
-
-
-// function render() {
-
-//     render.renderGameGrid(canvas.ctx);
-//     render.renderEntities();
-//     render.renderGameInformation();
-
-//     if (isGameOver()) {
-//         render.rendergameOver(canvas.ctx);
-//     }
-// }
-
-
-
-// function cleanUp() {
-//     // Set collision statuses to false if needed
-//     if (app.player.getInWaterStatus() === true) {
-//         app.player.togglePlayerInWaterStatus();
-//     } else if (app.player.getCollisionStatus() === true) {
-//         app.player.toggleCollisionStatus();
-//     }
-
-// }

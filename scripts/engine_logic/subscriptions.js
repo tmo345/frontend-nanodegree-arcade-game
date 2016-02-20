@@ -22,7 +22,6 @@ function setStateSubscriptions() {
     highScores.subscribeToTimeIsUpStatus(statePubSub);
 
     entities.player.subscribeToCollisionStatus(statePubSub);
-    // entities.player.subscribeToPlayerInWaterStatus(statePubSub);
     entities.player.subscribeToTimeIsUpStatus(statePubSub);
 
     score.subscribeToCollisionStatus(statePubSub);
