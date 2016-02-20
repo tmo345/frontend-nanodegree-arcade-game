@@ -102,10 +102,6 @@ var highScores = {
         this.setRenderSub = statePubSub.subscribe('timeIsUp', renderBound);
     },
 
-    // unSubscribeFromTimeUpStatus: function() {
-    //     this.setHighScoreSub.unsubscribe();
-    //     this.setRenderSub.unsubscribe();
-    // }
 };
 
 
