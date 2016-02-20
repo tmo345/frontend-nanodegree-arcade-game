@@ -1,4 +1,4 @@
-var renderHelper = require('./renderhelper.js'),
+var renderHelper = require('../utilities/render_helper.js'),
     resources = require('../utilities/resources.js'),
     landmarks = require('../utilities/landmarks.js');
 

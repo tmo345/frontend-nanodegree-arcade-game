@@ -1,19 +1,23 @@
 /* Dependencies
  */
-var ctrl = require('./handlers');
-var rendering = require('./rendering');
-var gameElements = require('./gameelements');
+var ctrl = require('./engine_logic/handlers');
 var resources = require('./utilities/resources');
+var render = require('./engine_logic/render');
+var stateChecks = require('./engine_logic/state_checks');
+var subscriptions = require('./engine_logic/subscriptions');
+var entities = require('./game_objects/instantiate_entities');
+var score = require('./game_objects/score');
+var gameStateHandler = require('./state_handling/gamestate_handler');
+var statePubSub = require('./state_handling/state_pubsub');
+var highScores = require('./game_objects/high_scores');
+var eventListeners = require('./state_handling/event_listeners');
 
 
 /* Predefine necessary game element objects as variables in this scope for
  * convenience
  */
-var ctx = rendering.ctx,
-    allEnemies = gameElements.allEnemies,
-    player = gameElements.player,
-    score = gameElements.score,
-    gameState = gameElements.gameState,
+var allEnemies = entities.allEnemies,
+    player = entities.player,
     lastTime;
 /* Load entity and image assets
 */
@@ -33,31 +37,32 @@ resources.onReady(buildStartScreen);
  * press enter: init
  * press arrows: player.handleInput
  */
-ctrl.pressEnterToStart.setListenerCallback(init);
-ctrl.arrowsMovePlayer.setListenerCallback(player.handleInput.bind(player));
+eventListeners.pressEnterToStart.setListenerCallback(init);
+eventListeners.arrowsMovePlayer.setListenerCallback(player.handleInput.bind(player));
 
 /* Set the event listeners on/off statuses for current game state (startScreen now)
  * See comments in function in handlers.js
  */
-ctrl.pressEnterToStart.turnOnEventListener();
+// ctrl.pressEnterToStart.turnOnEventListener();
 
+subscriptions.setStateSubscriptions();
 
 /* Game loop is initiated when the pressEnterToStart event listener calls init
  * Init includes the first call to main to start the loop
  */
 function main(ctx) {
     // Start game loop by checking to see if we are in the game over state
-    if (ctrl.isGameOver()) {
+    // if (ctrl.isGameOver()) {
 
-        ctrl.toggleEventListeners();
-        // Check to see if high score has not been set for game
-        if (! ctrl.highScoreHasBeenSet() ) {
-            // If not set, access localStorage to update high scores
-            ctrl.setHighScoreForGame();
-            // and then render them in the DOM next to canvas
-            rendering.renderHighScores(ctx);
-        }
-    }
+    //     ctrl.toggleEventListeners();
+    //     // Check to see if high score has not been set for game
+    //     if (! ctrl.highScoreHasBeenSet() ) {
+    //         // If not set, access localStorage to update high scores
+    //         ctrl.setHighScoreForGame();
+    //         // and then render them in the DOM next to canvas
+    //         render.renderHighScores(ctx);
+    //     }
+    // }
 
 
     /* Time delta information needed for smooth animation
@@ -67,9 +72,9 @@ function main(ctx) {
 
 
     stateChangeHandling();
-    update(dt);
-    render();
-    cleanUp();
+    update(dt, statePubSub);
+    rendering();
+    // cleanUp();
 
     /* Set our lastTime variable which is used to determine the time delta
      * for the next time this function is called.
@@ -85,11 +90,11 @@ function main(ctx) {
 /* Builds the initial start screen on page load
  */
 function buildStartScreen(ctx) {
-    gameState.toStartScreen();
+    gameStateHandler.toStartScreen(statePubSub);
 
-    rendering.renderHighScores();
-    rendering.renderGameGrid(ctx);
-    rendering.renderStartScreen(ctx);
+    highScores.render();
+    render.renderGameGrid(ctx);
+    render.renderStartScreen(ctx);
 
 }
 
@@ -99,10 +104,10 @@ function buildStartScreen(ctx) {
  */
 function init() {
 
-    gameState.toGamePlay();
+    gameStateHandler.toGamePlay(statePubSub);
     // ctrl.toggleEventListeners();
-    ctrl.arrowsMovePlayer.turnOnEventListener();
-    ctrl.pressEnterToStart.turnOffEventListener();
+    // ctrl.arrowsMovePlayer.turnOnEventListener();
+    // ctrl.pressEnterToStart.turnOffEventListener();
     reset();
     lastTime = Date.now();
 
@@ -128,50 +133,42 @@ function init() {
  */
 function update(dt) {
 
-    ctrl.updateEntities(dt);
-    ctrl.updateGameInformation();
+    ctrl.updateEntities(dt, statePubSub);
+    ctrl.updateGameInformation(statePubSub);
 
 
 }
 
 function stateChangeHandling() {
 
-    ctrl.checkTimer();
-    ctrl.checkCollisions();
+    stateChecks.checkTimer();
+    stateChecks.checkCollisions();
 }
 
-function render(ctx) {
-    rendering.renderGameGrid(ctx);
-    rendering.renderEntities();
-    rendering.renderGameInformation();
-
-    // If game is over, will continue rendering grid, entities, and information,
+function rendering(ctx) {
+    render.renderGameGrid(ctx);
+    render.renderEntities();
+    render.renderGameInformation();
+    // If game is over, will continue render grid, entities, and information,
     // but the end screen information will overlay it
-    if (ctrl.isGameOver() === true) {
-        rendering.renderGameOver(ctx);
+    if (stateChecks.isGameOver() === true) {
+        render.renderGameOverScreen(ctx);
     }
 }
 
 
 // Reset score, timer, and highScoreCalledStatus
 // Called once on init
-function reset(player) {
+function reset() {
     ctrl.resetGameInformation();
 }
 
 // Called during each game loop run
-function cleanUp() {
-    ctrl.resetPlayerCollisionStatuses();
-    player.cleanUp();
-    score.cleanUp();
+// function cleanUp() {
+//     // player.cleanUp();
+//     score.cleanUp();
 
-    // if (player.getInWaterStatus() === true) {
-    //     player.togglePlayerInWaterStatus();
-    // } else if (player.getCollisionStatus() === true) {
-    //     player.toggleCollisionStatus();
-    // }
-
-}
+// }
 
 
 
@@ -181,7 +178,7 @@ function cleanUp() {
 
 // var app = require('./app.js');
 // var resources = require('./utilities/resources.js');
-// var rendering = require('./enginefiles/rendering.js');
+// var render = require('./enginefiles/render.js');
 // var updates = require('./enginefiles/updates.js');
 // var canvas = require('./appfiles/canvas.js');
 // // var engine = require('./enginefiles/engine.js');
@@ -206,9 +203,9 @@ function cleanUp() {
 // function buildStartScreen() {
 // app.gameState.toStartScreen();
 
-// rendering.renderHighScores();
-// rendering.renderGameGrid(canvas.ctx);
-// rendering.renderStartScreen(canvas.ctx);
+// render.renderHighScores();
+// render.renderGameGrid(canvas.ctx);
+// render.renderStartScreen(canvas.ctx);
 
 // // Set callbacks for event listeners
 // setListenerWrappers();
@@ -257,7 +254,7 @@ function cleanUp() {
 //     toggleEventListeners();
 //     if (! highScoreHasBeenSet()) {
 //         setHighScoreForGame();
-//         rendering.renderHighScores();
+//         render.renderHighScores();
 //     }
 
 // }
@@ -300,12 +297,12 @@ function cleanUp() {
 
 // function render() {
 
-//     rendering.renderGameGrid(canvas.ctx);
-//     rendering.renderEntities();
-//     rendering.renderGameInformation();
+//     render.renderGameGrid(canvas.ctx);
+//     render.renderEntities();
+//     render.renderGameInformation();
 
 //     if (isGameOver()) {
-//         rendering.rendergameOver(canvas.ctx);
+//         render.rendergameOver(canvas.ctx);
 //     }
 // }
 

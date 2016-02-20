@@ -38,5 +38,9 @@ EventHandler.prototype.reportOnOffState = function() {
     return this.onOffState;
 };
 
+EventHandler.prototype.setSubscription = function(statePubSub, state, callback) {
+    statePubSub.subscribe(state, callback);
+};
+
 
 module.exports = EventHandler;

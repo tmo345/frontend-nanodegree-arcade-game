@@ -1,8 +1,8 @@
-var renderHelper = require('./renderhelper.js'),
-    canvas = require('./canvas.js');
+var renderHelper = require('../utilities/render_helper.js'),
+    canvas = require('../graphics_objects/canvas.js');
 
 
-var endScreen = {
+var gameOver = {
 
     // Default style overrides (see renderhelper.js function setNewContext,
     // which takes an object of named context styles as a param)
@@ -48,7 +48,7 @@ var endScreen = {
 
     // Expect a score object with property currentScore
     renderScoreText: function(ctx, score) {
-        var scoreTextFull = this.scoreText.start + score.currentScore + this.scoreText.end;
+        var scoreTextFull = this.scoreText.start + score.getCurrentScore() + this.scoreText.end;
 
         renderHelper.setNewContext(ctx, this.scoreTextStyle);
         ctx.fillText(scoreTextFull, this.scoreText.x, this.scoreText.y);
@@ -61,4 +61,4 @@ var endScreen = {
 
 };
 
-module.exports = endScreen;
+module.exports = gameOver;

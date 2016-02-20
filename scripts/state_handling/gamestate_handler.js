@@ -1,3 +1,5 @@
+'use strict';
+
 // TODO: In game as it currently stands, the most important game state change is
 // to the gameOver. The mechanism to distinguish between startScreen and
 // gamePlay are present as well and the state changes accordingy as the game
@@ -13,38 +15,34 @@ var _availableStates = {
     },
     _currentState;
 
-function toStartScreen() {
+function toStartScreen(statePubSub) {
     _currentState = _availableStates.startScreen;
+    statePubSub.publishStateChange('gameStateChange', _currentState);
 }
 
-function toGamePlay(){
+function toGamePlay(statePubSub){
     _currentState = _availableStates.gamePlay;
+    statePubSub.publishStateChange('gameStateChange', _currentState);
 }
 
-function toGameOver(){
+function toGameOver(statePubSub){
     _currentState = _availableStates.gameOver;
+    statePubSub.publishStateChange('gameStateChange', _currentState);
 }
 
 function getCurrentState() {
     return _currentState;
 }
 
-// function checkForGameOver(timer) {
-//     if (timer.timeIsUp === true) {
-//         togameOver();
-//     }
-// }
 
-function subscribeToGameOver(stateTracker) {
-    var boundToGameOver = this.toGameOver.bind(this);
-    stateTracker.subscribe('timeIsUp', boundToGameOver);
+function subscribeToTimeIsUp(statePubSub) {
+    statePubSub.subscribe('timeIsUp', toGameOver);
 }
 
 module.exports = {
     toGameOver: toGameOver,
     toGamePlay: toGamePlay,
     toStartScreen: toStartScreen,
-    // checkForGameOver: checkForGameOver,
     getCurrentState: getCurrentState,
-    subscribeToGameOver: subscribeToGameOver
+    subscribeToTimeIsUp: subscribeToTimeIsUp
 };

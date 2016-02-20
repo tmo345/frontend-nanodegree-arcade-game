@@ -1,17 +1,30 @@
-var gameEls = require('./gameelements');
-var canvas = require('./rendering/canvas');
-var resources = require('./utilities/resources');
-var renderHelper = require('./rendering/renderhelper');
-var startScreen = require('./rendering/startscreen');
-var gameOver = require('./rendering/gameover');
+'use strict';
 
-// Convenience declarations to cut down on lots of something.something.something.n. calls
+/** Render functions used in engine.js game loop
+ *  Exported methods:
+ *      renderEntities: render player and enemies
+ *      renderGameInformation: render score and timer
+ *      renderGameGrid: render game tiles
+ *      renderStartScreen: render start of game specific information
+ *      renderGameOverScreen: render end of game specific information
+ */
+
+var resources = require('../utilities/resources');
+var renderHelper = require('../utilities/render_helper');
+
+var entities = require('../game_objects/instantiate_entities');
+var score = require('../game_objects/score');
+var timer = require('../game_objects/timer');
+var highScores = require('../game_objects/high_scores');
+
+var canvas = require('../graphics_objects/canvas');
+var startScreen = require('../graphics_objects/start_screen');
+var gameOver = require('../graphics_objects/gameover_screen');
+
 var ctx = canvas.ctx,
-    score = gameEls.score,
-    player = gameEls.player,
-    allEnemies = gameEls.allEnemies,
-    gameTimer = gameEls.gameTimer,
-    highScores = gameEls.highScores;
+    player = entities.player,
+    allEnemies = entities.allEnemies;
+
 
 function renderGameGrid() {
     /* This array holds the relative URL to the image used
@@ -70,7 +83,7 @@ function renderEntities() {
     /* Loop through all of the objects within the allEnemies array and call
      * the render function you have defined.
      */
-    allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function(enemy) {
         enemy.render(ctx);
     });
 
@@ -82,10 +95,10 @@ function renderGameInformation() {
     score.render(ctx);
 
     renderHelper.setDefaultStyles(ctx);
-    gameTimer.render(ctx);
+    timer.render(ctx);
 }
 
-function renderGameOver() {
+function renderGameOverScreen() {
     renderHelper.setDefaultStyles(ctx);
 
     // Box around score and directions
@@ -99,22 +112,12 @@ function renderGameOver() {
 
 }
 
-function renderHighScores() {
-    var currentHighScores = highScores.getSortedStorageHighScores(),
-        scoreListItem;
 
-    for (var i = 0; i < currentHighScores.length; i++) {
-        scoreListItem = document.querySelector('.score-' + i);
-        scoreListItem.innerText = currentHighScores[i];
-    }
-}
 
 module.exports = {
     renderGameGrid: renderGameGrid,
     renderEntities: renderEntities,
-    renderGameOver: renderGameOver,
+    renderGameOverScreen: renderGameOverScreen,
     renderStartScreen: renderStartScreen,
     renderGameInformation: renderGameInformation,
-    renderHighScores: renderHighScores,
-    ctx: ctx
 };

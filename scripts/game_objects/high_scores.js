@@ -10,7 +10,8 @@ if (! dataStorage.highScores) {
 
 
 var highScores = {
-
+    // mirrors the currentScore in the score object through a subscription to score changes
+    currentScore: 0,
     calledForThisGame: false,
 
     hasBeenCalledForGame: function() {
@@ -19,6 +20,16 @@ var highScores = {
         } else {
             return false;
         }
+    },
+
+    updateCurrentScore: function(gameCurrentScore) {
+        this.currentScore = gameCurrentScore;
+    },
+
+    subscribeToScoreChangeStatus: function(statePubSub) {
+        var updateCurrentScoreBound = this.updateCurrentScore.bind(this);
+
+        statePubSub.subscribe('scoreChange', updateCurrentScoreBound);
     },
 
     setAsCalledForGame: function() {
@@ -31,6 +42,7 @@ var highScores = {
 
     pullFromStorage: function() {
         this.highScores = stringToIntArray(dataStorage.highScores);
+        console.log('pullFromStorage');
     },
 
     pushToStorage: function() {
@@ -61,6 +73,39 @@ var highScores = {
 
         this.highScores = currentHighScores;
     },
+
+
+    // Steps to pull high scores from local storage, update them in temp var, then
+    // push back new high scores to local storage
+    setHighScoreForGame: function(statePubSub) {
+            this.pullFromStorage();
+            this.updateHighScore(this.currentScore);
+            this.pushToStorage();
+            this.setAsCalledForGame();
+    },
+
+    render: function() {
+        var currentHighScores = this.getSortedStorageHighScores(),
+            scoreListItem;
+
+        for (var i = 0; i < currentHighScores.length; i++) {
+            scoreListItem = document.querySelector('.score-' + i);
+            scoreListItem.innerText = currentHighScores[i];
+        }
+    },
+
+    subscribeToTimeIsUpStatus: function(statePubSub) {
+        var setHighScoreForGameBound = this.setHighScoreForGame.bind(this),
+            renderBound = this.render.bind(this);
+
+        this.setHighScoreSub = statePubSub.subscribe('timeIsUp', setHighScoreForGameBound);
+        this.setRenderSub = statePubSub.subscribe('timeIsUp', renderBound);
+    },
+
+    // unSubscribeFromTimeUpStatus: function() {
+    //     this.setHighScoreSub.unsubscribe();
+    //     this.setRenderSub.unsubscribe();
+    // }
 };
 
 

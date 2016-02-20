@@ -1,6 +1,6 @@
-var renderHelper = require('../rendering/renderhelper.js'),
+var renderHelper = require('../utilities/render_helper.js'),
     landmarks = require('../utilities/landmarks.js'),
-    canvas = require('../rendering/canvas.js');
+    canvas = require('../graphics_objects/canvas.js');
 
 
 
@@ -11,7 +11,7 @@ var _timeRunningOutStyles = {
         fillStyle: 'red'
     },
 
-    _timeLimit = 7000,
+    _timeLimit = 3000,
 
     _heading = {
         text: 'Timer: ',
@@ -56,10 +56,13 @@ function reset() {
     _startTimer();
 }
 
-function checkForTimeUp(stateTracker) {
-    if (_timeLeft.amount === 0) {
+function checkForTimeUp(statePubSub) {
+    if (_timeLeft.amount === 0 && _timeIsUp === false) {
         _timeIsUp = true;
-        stateTracker.publishStateChange('timeIsUp');
+        // passing statePubSub as argument so that it can be passed to
+        // gameStateHandler.toGameOver, which needs to publish the gameState change
+        // through the statePubSub object
+        statePubSub.publishStateChange('timeIsUp', statePubSub);
     }
 }
 
@@ -69,13 +72,7 @@ function checkForTimeRunningOut() {
     }
 }
 
-// function timeIsUp() {
-//     return _timeIsUp;
-// }
 
-// function timeRunningOut() {
-//     return _timeRunningOut;
-// }
 
 function update() {
     if (_timeIsUp) {
@@ -105,6 +102,4 @@ module.exports = {
     reset: reset,
     checkForTimeUp: checkForTimeUp,
     checkForTimeRunningOut: checkForTimeRunningOut,
-    // timeIsUp: timeIsUp,
-    // timeRunningOut: timeRunningOut
 };
