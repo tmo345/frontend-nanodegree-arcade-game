@@ -114,8 +114,9 @@ function rendering(ctx) {
     }
 }
 
-// Reset score and timer
+// Reset score, timer, and enemies
 // Called once on init
 function reset() {
     resets.resetGameInformation();
+    resets.renderEntities();
 }
