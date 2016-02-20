@@ -38,8 +38,8 @@ function checkTimer() {
 // Everything except the conditional rendering of the game over screen in game
 // uses the statePubSub to monitor game state. The reason for not using a subscription
 // is that the rendering of the end screen data occurs every loop over an actively
-// rendering grid with enemies moving across it. It cannot only be called when the game state
-// changes to game over.
+// rendering grid with enemies moving across it. It needs to be called more than the one time
+// when the game state changes to game over.
 function isGameOver() {
     if (gameStateHandler.getCurrentState() === 'gameOver') {
         return true;

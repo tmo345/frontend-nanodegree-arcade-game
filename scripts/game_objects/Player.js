@@ -6,7 +6,6 @@ var resources = require('../utilities/resources.js');
 
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-
     this.resetSprite();
 };
 
