@@ -1,5 +1,8 @@
 # Classic Arcade Game Clone
 ## Frontend Nanodegree Project 3
+
+[Play the Game](http://tmo345.github.io/frontend-nanodegree-arcade-game/)
+
 | Start Screen | Game Play | Game Over |
 | --- | --- | --- |
 | ![Arcade Game: Start Screen](images/GameStartScreen.png) | ![Arcade Game: Gam ePlay](images/gamePlay.png) | ![Arcade Game: Game Over](images/gameOver.png) |
