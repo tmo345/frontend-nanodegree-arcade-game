@@ -1,6 +1,6 @@
 # Classic Arcade Game Clone
 ### Frontend Nanodegree Project 3
-![Arcade Game Start Screen](images/GameStartScreen.png)
+![Arcade Game: Start Screen](images/GameStartScreen.png)![Arcade Game: Gam ePlay](images/gamePlay.png)![Arcade Game: Game Over](images/gameOver.png)
 
 #### Game Overview
 
