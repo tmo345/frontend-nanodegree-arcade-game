@@ -19,6 +19,7 @@ On the start screen, hit enter to start the game.
 ##### Code Organization
 - Implemented commonJS modules in browser with browserify/watchify
 - File Structure
-  - bundle.js: browserify concatenates all javascript files 
+  - bundle.js: concatenated javascript files 
   - engine.js: entry point for program
-  - engine_logic/: modules for 
+  - engine_logic/: 
+  - game_objects/: 
