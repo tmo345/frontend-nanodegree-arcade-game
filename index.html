@@ -1,9 +1,11 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Effective JavaScript: Frogger</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
     <script>
     // Load google fonts prior to canvas rendering using Google webfont loader
         WebFont.load({
@@ -12,21 +14,73 @@
            }
         });
     </script>
-
+	<link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 <body>
-    <div class="highScores">
-        <h1>High Scores</h1>
-        <ol class="scores">
-            <li class="score-0"></li>
-            <li class="score-1"></li>
-            <li class="score-2"></li>
-            <li class="score-3"></li>
-            <li class="score-4"></li>
-        </ol>
+
+<div class="top-bar">
+<div class="row">
+
+
+        <div class="large-9 medium-8 column">
+            <h1>Project 3: Arcade Game Clone</h1>
+            <h2>Udacity Frontend NanoDegree</h2>
+        </div>
+
+
+
+
+        <div class="large-3 medium-4 column header-right">
+            <h4>Submitted by Timothy Moore</h4>
+            <h4><a href="https://github.com/tmo345/frontend-nanodegree-arcade-game" target="blank">View Project on GitHub</a></h4>
+        </div>
     </div>
-    <script src="scripts/bundle.js"></script>
+</div>
+<!--<div class="top-bar-right">-->
+<!--    <h2>Timothy Moore</h2>-->
+<!--</div>-->
+
+
+</div>
+</div>
+
+<div class="row main-content">
+    <div class="large-6 medium-6 column canvas-holder">
+
+    </div>
+    <div class="large-6 medium-6 column scores">
+        <div class="highScores large-12 medium-12 column">
+            <h3>High Scores</h3>
+            <ol class="scores">
+                <li class="score-0"></li>
+                <li class="score-1"></li>
+                <li class="score-2"></li>
+                <li class="score-3"></li>
+                <li class="score-4"></li>
+            </ol>
+        </div>
+        <div class="instructions large-12 medium-12 column">
+            <h3>Instructions</h3>
+            <ul class="instruction-list">
+                <li>On the start screen, hit enter to start the game.</li>
+                <li>Use the arrow keys to move the player.</li>
+                <li>Move the player across the stone road to reach the water.</li>
+                <li>You earn 100 points for every time you reach the water.</li>
+                <li>Avoid the bugs as you cross the road.</li>
+                <li>Every time you hit a bug you lose 50 points and move back to starting position</li>
+                <li>The timer is set for 30 seconds. Go for your personal best (stored locally in your browser).</li>
+                <li>Press enter to start a new game.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="scripts/vendor/jquery.min.js"></script>
+<script src="scripts/foundation.js"></script>
+<script src="scripts/bundle.js"></script>
+<script>
+      $(document).foundation();
+    </script>
 </body>
 </html>
