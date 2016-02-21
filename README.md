@@ -19,15 +19,34 @@ On the start screen, hit enter to start the game.
 - The timer is set for 30 seconds. Go for your personal best (store locally).
 - Press enter to start a new game.
 
+### Set Up Needed to Play Game
+- CommonJS modules in browser with Browserify or Watchify
+- bundle.js for game is included in repository so no setup necessary to use game as is
+- However, if any changes are made to js files, need to rebundle all javascript files into bundle.js
+
+##### To bundle javascript files into scripts/bundle.js:
+- Install Browserify or Watchify per their docs
+- [Browserify](http://browserify.org/)
+- [Watchify](https://www.npmjs.com/package/watchify)
+- From project root directory:
+
+```
+$ browserify scripts/engine.js -o scripts/bundle.js
+```
+
+or
+
+```
+$ watchify scripts/engine.js -o scripts/bundle.js
+```
+
 ### Game Mechanics
-#### Tools
-- Implemented commonJS modules in browser with Browserify/Watchify
 
 #### Code Organization
 
 - File Structure
   - bundle.js 
-    - Concatenated javascript files 
+    - Browserify concatenated javascript file including all scripts with engine.js as entry point
   - engine.js 
     - Entry point for program. Main game loop.
   - engine_logic/
