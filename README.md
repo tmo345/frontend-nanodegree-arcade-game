@@ -78,3 +78,25 @@ On the start screen, hit enter to start the game.
   15. Rendered to the DOM outside of canvas
 11. Enter Press starts process again at number 4 with Init call
   12. Init calling reset is important here because enemies, score, and timer are all reset for new game
+
+#### Publishing and Subscriptions
+
+State_PubSub module receives published state changes and sends information to subscribers for each state by executing the subscriber functions 
+
+States Monitored:
+- timeIsUp
+- collisionOccured
+- playerReachedWater
+- scoreChange
+- gameStateChange
+
+
+| Publishing Object/Module | State | Values Passed (optional) | Subscribers (Module / Function) |
+| --- | --- | --- | --- |
+| timer | timeIsUp | | player / resetSprite | 
+| | | | gameStateHandler / toGameOver |
+| | | | highScores / setHighScoreForGame and Render |
+| collision_handler | collisionOccured | | player / resetSprite score: _scoreDown |
+| | | | |
+| | | | |
+| | | | |
