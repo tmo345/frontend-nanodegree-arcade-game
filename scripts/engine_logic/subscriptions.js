@@ -5,11 +5,11 @@
  *
  *  Export:
  *      setStateSubscriptions:
- *          Subscribe player to collisionStatus and timeIsUpStatus
- *          Subscribe score to collisionStatus and playerInWaterStatus
- *          Subscribe highScores to scoreChangeStatus and timeIsUpStatus
- *          Subscribe gameStateHandler to timeIsUp status
- *          Subscribe eventListeners to gameStateChangeStatus
+ *          Subscribe player to collisionOccured and timeIsUp
+ *          Subscribe score to collisionOccured and playerReachedWater
+ *          Subscribe highScores to scoreChange and timeIsUp
+ *          Subscribe gameStateHandler to timeIsUp
+ *          Subscribe eventListeners to gameStateChange
  */
 
 var statePubSub = require('../state_handling/state_pubsub');

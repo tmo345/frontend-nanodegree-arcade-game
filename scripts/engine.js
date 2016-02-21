@@ -3,31 +3,7 @@
 /** Game engine
  *  Udacity Nanodegree Project 3 - Classic Arcade Game Clone
  *
- *  Basic flow of game engine (see individual modules for details of implementation)
- *
- *  Most inter-object/module interaction occurs through statePubSub module with
- *   state change publishing and subscriptions
- *
- *  Setup: Resource loading, Eventlistener callbacks set, and Subscriptions started
- *
- *  1. On resource load, build startScreen and gameState to startScreen.
- *  2. Event listeners toggle enterPressToStart on in response to gameState
- *     (User enter press event calls init.)
- *  3. Init sets initial time, resets entities/game information, sets gameState to
- *      gamePlay and calls main (game loop).
- *  4. Event listeners toggle enterPressToStart off and arrowsMovePlayer on
- *  5. Main tracks time passage with dt (delta time) and coordinates state checking,
- *      game element updating, and game element rendering.
- *  6. Main calls itself at end of frame with window.requestAnimation frame.
- *  7. When timer reaches 0, gameState set to gameOver
- *  8. Event Listeners toggle enterPressToStart on and arrowsMovePlayer off
- *  9. gameOverScreen is rendered over the continuing game loop (enemies still move)
- *  10. High scores are pulled from localStorage and checked against currentScore
- *  11. High scores are updated if new one achieved, sent back to local storage,
- *        and finally rendered to the DOM outside of the canvas
- *     (Enter Press starts process again at number 4)
- *  12. Init calling reset is important here because enemies, score, and timer
- *       are all reset for new game
+ *  See README for details about the basic flow of the game engine
  */
 
 var resources = require('./utilities/resources');
