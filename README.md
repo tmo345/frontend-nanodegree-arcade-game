@@ -46,16 +46,17 @@ On the start screen, hit enter to start the game.
 ###### Setup 
 - Resource loading, Eventlistener callbacks set, and Subscriptions started
 
+###### Game Loop Entry and Flow
 1. On resource load 
-  2. build startScreen
-  3. set gameState to startScreen.
-2. Event listeners toggle enterPressToStart on in response to gameState change.
-  3. User enter press event calls init.
+  2. Render startScreen
+  3. Set gameState to startScreen
+2. Event listeners toggle enterPressToStart on in response to gameState change
+  3. User enter press event calls init
 3. Init 
-  4. Sets initial time.
-  5. Resets entities/game information.
-  6. Sets gameState to gamePlay.
-  7. Calls main (game loop).
+  4. Sets initial time
+  5. Resets entities/game information
+  6. Sets gameState to gamePlay
+  7. Calls main (game loop)
 4. Event listeners toggle enterPressToStart off and arrowsMovePlayer on
   5. Player now moves in response to user arrow key presses
 5. Main:
@@ -63,12 +64,17 @@ On the start screen, hit enter to start the game.
   7. Performs
     8. State checking
     9. Game element updating
-    10. Game element rendering.
-6. Main calls itself at end of frame with window.requestAnimation frame.
-7. When timer reaches 0, gameState set to gameOver
+    10. Game element rendering
+  6. Calls itself at end of frame with window.requestAnimationframe.
+7. State checks detect timer reaching 0
+  8. GameState set to gameOver
 8. Event Listeners toggle enterPressToStart on and arrowsMovePlayer off
 9. gameOverScreen is rendered over the continuing game loop (enemies still move)
-10. High scores are pulled from localStorage and checked against currentScore
-11. High scores are updated if new one achieved, sent back to local storage, and finally rendered to the DOM outside of the canvas
-  - *Enter Press starts process again at number 4 with Init call*
-12. Init calling reset is important here because enemies, score, and timer are all reset for new game
+10. High scores
+  11. Pulled from localStorage
+  12. Checked against currentScore
+  13. Updated if new high score achieved
+  14. Pushed back to local storage
+  15. Rendered to the DOM outside of canvas
+11. Enter Press starts process again at number 4 with Init call
+  12. Init calling reset is important here because enemies, score, and timer are all reset for new game
