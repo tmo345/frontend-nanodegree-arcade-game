@@ -91,14 +91,14 @@ States Monitored:
 - gameStateChange
 
 
-| State | Publishing Object/Module  | Values Passed (optional) | Subscribers (Module / Function) |
+| State | Publishing Object/Module  | Values Passed (optional) | Subscribers (Object/Module / Function) |
 | --- | --- | --- | --- |
-| **timeIsUp** | timer | | player / resetSprite | 
+| **timeIsUp** | timer | -- | player / resetSprite | 
 | | | | gameStateHandler / toGameOver |
 | | | | highScores / setHighScoreForGame and Render |
-| **collisionOccured** | collision_handler  | | player / resetSprite |
+| **collisionOccured** | collision_handler  | -- | player / resetSprite |
 | | | | score / _scoreDown |
-|  | | | |
-| | | | |
+| **playerReachedWater** |  Player | -- | score / _scoreUp |
+| **scoreChange** | score | _currentScore | highScores /  |
 | | | | |
 | | | | |
