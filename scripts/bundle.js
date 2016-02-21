@@ -3,6 +3,7 @@
 
 /** Game engine
  *  Udacity Nanodegree Project 3 - Classic Arcade Game Clone
+ *  Timothy Moore
  *
  *  See README for details about the basic flow of the game engine
  */
