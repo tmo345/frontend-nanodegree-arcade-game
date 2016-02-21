@@ -9,12 +9,13 @@
  */
 
 var canvas = document.createElement('canvas'),
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d'),
+    canvasHolder = document.querySelector('.canvas-holder');
 
 canvas.width = 505;
 canvas.height = 606;
 
-document.body.appendChild(canvas);
+canvasHolder.appendChild(canvas);
 
 module.exports = {
     height: canvas.height,

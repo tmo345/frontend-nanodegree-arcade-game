@@ -1,13 +1,40 @@
 body {
-    text-align: center;
+    /*text-align: center;*/
     font-family: "Lato", sans-serif;
     font-size: 12px;
 }
 
+.top-bar {
+    padding-left: 20px;
+    background-color: #1B3C76;
+    color: #fff;
+}
+
+.header-right {
+    padding-top: 5px;
+}
+
+.header-right a {
+    color: #E5DE62;
+}
+
+.header-right a:hover, .header-right a:focus  {
+    color: #DDA493;
+}
+
+.main-content {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/*.canvas-holder {*/
+/*    min-width: 505px;*/
+/*}*/
+
 .highScores {
     font-size: 1.25em;
     text-align: left;
-    list-style-position: outside;
+    margin-top: 30px;
 }
 
 .highScores li {
@@ -19,38 +46,43 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.8em;
 }
 
 h2 {
-    font-size: 1.5em;
+    font-size: 1.6em;
     text-align: left;
 }
 
 h3 {
-    font-size: 1.45em;
+    font-size: 1.5em;
 }
 
-.container .navbar .container-fluid {
-    background-color: #eee;
-    color: #222;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+h4 {
+    font-size: 1.3em;
 }
 
-.instructions {
-    text-align: left;
+canvas {
+    max-width: 505px;
+    width: 100%;
 }
 
-.arrows {
-    text-align: left;
+.instruction-list {
+    font-size: 1.3em;
 }
 
-.arrows p {
-    text-align: center;
-}
 
-.arrows p {
-    margin-bottom: 0;
-    font-size: 20px;
+
+@media screen and (max-width: 1000px) {
+    .scores {
+        width: 100%;
+    }
+
+    .canvas-holder {
+        width: 100%;
+    }
+
+    .highScores {
+        margin-top: 10px;
+    }
 }
