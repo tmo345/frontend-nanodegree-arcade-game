@@ -1,11 +1,32 @@
+'use strict';
+
+/** Score module - tracks current score, adjusts score in response to collisions
+ *      and player reaching water
+ *
+ *  Exports:
+ *       getCurrentScore: returns _currentScore
+ *       reset: set _currentScore to 0
+ *       render: render "Score: " and _currentScore to canvas
+ *       subscribeToPlayerInWaterStatus: set subscription
+ *       subscribeToCollisionStatus: set subscription
+ *
+ *  Subscriptions + subscriber function:
+ *      playerInWater: scoreUp (calls _changeScore with 'up' as parameter)
+ *      collisionOccured: scoreDown (calls _changeScore with 'down' as a parameter)
+ *
+ *  Publishes:
+ *      scoreChange (also passes _currentScore to statePubSub to be relayed to
+ *          subscribers)
+ *
+ */
+
 var renderHelper = require('../utilities/render_helper.js');
 var landmarks = require('../utilities/landmarks.js');
 var canvas = require('../graphics_objects/canvas.js');
 
 
-
 var _currentScore = 0,
-    _scoreUpAmount = 4000,
+    _scoreUpAmount = 100,
     _scoreDownAmount = 50,
     _heading = {
         text: 'Score: ',
@@ -33,14 +54,36 @@ var _currentScore = 0,
     };
 
 
+function getCurrentScore() {
+    return _currentScore;
+}
+
 function reset () {
     _currentScore = 0;
+}
+
+function subscribeToCollisionStatus(statePubSub) {
+    statePubSub.subscribe('collisionOccured', _scoreDown);
+
+}
+
+function subscribeToPlayerInWaterStatus(statePubSub) {
+    statePubSub.subscribe('playerReachedWater', _scoreUp);
+}
+
+function _scoreUp(statePubSub) {
+     _changeScore('up', statePubSub);
+}
+
+function _scoreDown(statePubSub) {
+    _changeScore('down', statePubSub);
 }
 
 function _changeScore(directionOfChange, statePubSub) {
 
     if (directionOfChange === 'up') {
         _currentScore += _scoreUpAmount;
+
         statePubSub.publishStateChange('scoreChange', _currentScore);
 
         _highlightedGreen = true;
@@ -51,35 +94,15 @@ function _changeScore(directionOfChange, statePubSub) {
 
     } else if (directionOfChange === 'down') {
         _currentScore -= _scoreDownAmount;
+
         statePubSub.publishStateChange('scoreChange', _currentScore);
+
         _highlightedRed = true;
         // Red score flash and larger font for 350ms
         window.setTimeout(function() {
             _highlightedRed = false;
         }, 350);
     }
-}
-
-function subscribeToCollisionStatus(statePubSub) {
-    statePubSub.subscribe('collisionOccured', scoreDown);
-
-}
-
-function subscribeToPlayerInWaterStatus(statePubSub) {
-    statePubSub.subscribe('playerReachedWater', scoreUp);
-}
-
-
-function getCurrentScore() {
-    return _currentScore;
-}
-
-function scoreUp(statePubSub) {
-     _changeScore('up', statePubSub);
-}
-
-function scoreDown(statePubSub) {
-    _changeScore('down', statePubSub);
 }
 
 function render() {
@@ -106,10 +129,13 @@ function render() {
     }
 }
 
+
+
 module.exports = {
-    render: render,
+    getCurrentScore: getCurrentScore,
     reset: reset,
+    render: render,
     subscribeToPlayerInWaterStatus: subscribeToPlayerInWaterStatus,
     subscribeToCollisionStatus: subscribeToCollisionStatus,
-    getCurrentScore: getCurrentScore
+
 };

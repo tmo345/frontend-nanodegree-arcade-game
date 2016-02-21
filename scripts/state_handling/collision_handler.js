@@ -1,3 +1,16 @@
+'use strict';
+
+/** Collision handling - monitors player and enemy coordinate for collisions and
+ *  publishes if occurs
+ *
+ *  Exports:
+ *      collisionCheck: publishes collisionOccured when enemy and player coordinates
+ *          overlap
+ *
+ *  Publishes:
+ *      collisionOccured
+ */
+
 // enemies: array of Enemy instances with x and y properties
 // player: instance of Player with x and y properties
 function collisionCheck(enemies, player, statePubSub) {

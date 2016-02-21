@@ -1,7 +1,7 @@
 'use strict';
 
 /** Render functions used in engine.js game loop
- *  Exported methods:
+ *  Exports:
  *      renderEntities: render player and enemies
  *      renderGameInformation: render score and timer
  *      renderGameGrid: render game tiles
@@ -15,7 +15,6 @@ var renderHelper = require('../utilities/render_helper');
 var entities = require('../game_objects/instantiate_entities');
 var score = require('../game_objects/score');
 var timer = require('../game_objects/timer');
-var highScores = require('../game_objects/high_scores');
 
 var canvas = require('../graphics_objects/canvas');
 var startScreen = require('../graphics_objects/start_screen');

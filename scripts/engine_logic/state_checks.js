@@ -12,8 +12,8 @@
 *           Check for timer running low (see timer.render method - text turns
 *           red when time is running out)
  *      isGameOver:
- *          Used in engine.js to check for gameOver game state at the start of
- *          each loop
+ *          Used in engine.js in rendering function to determine if game over
+ *          screen should be rendered on top of each frame.
  */
 
 var statePubSub = require('../state_handling/state_pubsub');

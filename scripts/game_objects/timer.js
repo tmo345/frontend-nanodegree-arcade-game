@@ -1,17 +1,35 @@
+'use strict';
+
+/** Timer module - tracks time left in game and publishes when time has run out
+ *
+ *  NOTE: The module must internally track if _timeIsUp is true or false. The
+ *          checkForTimeUp function will only publish the result when timeLeft.amount is
+ *          0 and _timeIsUp is false. Once the timeIsUp state is published, _timeIsUp is
+ *          set to true. By doing this, you avoid the timeIsUp state being continously
+ *          published once the timer hits 0.
+ *
+ *  Exports:
+ *      update: stops timer is _timeLeft = 0
+ *      render: render "Timer: " and _timeLeft to canvas
+ *      reset: set _timeLeft.amount to _timeLimit, resets local timeIsUp and timeRunningOut to false,
+ *          starts timer
+ *      checkForTimeRunningOut: publishes timeIsUp when _timeLeft = 0, sets local
+ *          timeIsUp to true to ensure it is only called once
+ *      checkForTimeRunningOut: sets timeIsRunningOut to true when _timeLeft.amount < 5000
+ *
+ *  Publishes:
+ *      timeIsUp
+ */
+
 var renderHelper = require('../utilities/render_helper.js'),
     landmarks = require('../utilities/landmarks.js'),
     canvas = require('../graphics_objects/canvas.js');
-
-
-
-// Default style overrides (see renderhelper.js function setNewContext,
-// which takes an object of named context styles as a param)
 
 var _timeRunningOutStyles = {
         fillStyle: 'red'
     },
 
-    _timeLimit = 3000,
+    _timeLimit = 30000,
 
     _heading = {
         text: 'Timer: ',
@@ -28,7 +46,7 @@ var _timeRunningOutStyles = {
     // Determine if the rendered time is red to indicate time is running out.
     _timeRunningOut = false,
 
-    // Used by engine.js to determine is if needs to change game state to endScreen
+    // Important to ensure that timeIsUp is only published once
     _timeIsUp = false,
 
     // Will be initialized to value of a window.setInterval
@@ -71,8 +89,6 @@ function checkForTimeRunningOut() {
         _timeRunningOut = true;
     }
 }
-
-
 
 function update() {
     if (_timeIsUp) {

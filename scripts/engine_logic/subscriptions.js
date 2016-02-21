@@ -3,10 +3,13 @@
 /** Set up subscriptions to statePubSub module for state change monitoring
  *  in engine.js
  *
- *  Exported method:
+ *  Export:
  *      setStateSubscriptions:
- *          Subscribe player and score to collisionStatus and playerInWater Status.
- *          Subscribe gameStateHandler to timeIsUp status.
+ *          Subscribe player to collisionStatus and timeIsUpStatus
+ *          Subscribe score to collisionStatus and playerInWaterStatus
+ *          Subscribe highScores to scoreChangeStatus and timeIsUpStatus
+ *          Subscribe gameStateHandler to timeIsUp status
+ *          Subscribe eventListeners to gameStateChangeStatus
  */
 
 var statePubSub = require('../state_handling/state_pubsub');
@@ -18,18 +21,18 @@ var eventListeners = require('../state_handling/event_listeners');
 
 
 function setStateSubscriptions() {
-    highScores.subscribeToScoreChangeStatus(statePubSub);
-    highScores.subscribeToTimeIsUpStatus(statePubSub);
-
     entities.player.subscribeToCollisionStatus(statePubSub);
     entities.player.subscribeToTimeIsUpStatus(statePubSub);
 
     score.subscribeToCollisionStatus(statePubSub);
     score.subscribeToPlayerInWaterStatus(statePubSub);
 
-    eventListeners.subscribeToGameStateStatus(statePubSub);
+    highScores.subscribeToScoreChangeStatus(statePubSub);
+    highScores.subscribeToTimeIsUpStatus(statePubSub);
 
     gameStateHandler.subscribeToTimeIsUp(statePubSub);
+
+    eventListeners.subscribeToGameStateStatus(statePubSub);
 }
 
 

@@ -1,10 +1,28 @@
-/**
- * Need to keep an up to date central reference for the various states of
- * importantce to the game.
- * States:
- *      timer: time Up
- *      collisions: player collided with enemy, player in water
- *      gamestate: startscreen, gameplay, gameover
+'use strict';
+
+/** State Publish-Subscribe coordination module
+ *
+ * Module/object publishes a state change to statePubSub
+ * statePubSub then iterates over array of subscriber functions and calls each
+ *
+ * Example:
+ * collision_handler.js detects collision between player and enemy so it publishes
+ *  this to statePubSub as a collisionOccured state change
+ * The subscribers list includes player.resetSprite and the score module's scoreDown
+ * statePubSub iterates over the collisionOccured subscribers array, calling each function
+ * The result is the player spirte is reset and the score is decreased
+ *
+ * States: timeIsUp, collisionOccured, playerReachedWater, scoreChange, gameStateChange
+ *
+ * Exports:
+ *      publishStateChange: called by object publishing a state change, it iterates
+ *          over subscribers array for that state, calling each subscriber function
+ *          Has an optional value parameter which can be used to pass data from the
+ *          publisher to subscriber
+ *      subscribe: called by subscriber, it pushes the subscribing function to the
+ *          subscribers list of the requested state
+ *          Returns an object with unsubscribe method. The object has closure over
+ *          the index at which the subscriber function was placed in the subscriber array
  */
 
 var _states = {

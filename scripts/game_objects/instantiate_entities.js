@@ -1,3 +1,12 @@
+'use strict';
+
+/** Instantiate player and 3 enemies (enemy instances are put into allEnemies array)
+ *
+ *  Exports:
+ *      allEnemies: array of enemy instances
+ *      player: player instance
+ */
+
 var Enemy = require('./Enemy.js');
 var Player = require('./Player.js');
 

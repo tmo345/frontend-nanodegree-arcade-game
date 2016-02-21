@@ -1,5 +1,21 @@
 'use strict';
 
+/** Player Class
+ *
+ *  Properties: sprite (image file)
+ *  Methods: resetSprite, subscribeToCollisionStatus, subscribeToTimeIsUpStatus,
+ *   update, render, handleInput
+ *
+ *  On instantiation, location is reset to starting tile
+ *
+ *  Subscriptions + subscriber funciton:
+ *      collisionOccured: resetSprite
+ *      timeIsUpStatus: resetSprite
+ *
+ *  Publishes:
+ *      playerReachedWater
+ */
+
 var landmarks = require('../utilities/landmarks.js');
 var resources = require('../utilities/resources.js');
 

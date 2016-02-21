@@ -1,3 +1,13 @@
+'use strict';
+
+/** Object containing styles and text for game over screen overlay
+ *
+ *  Properties: scoreTextStyle, directionsStyle, rectFillStyle, scoreText, directions,
+ *      rectangle
+ *  Methods: renderRectangle, renderScoreText, renderDirections
+ *
+ */
+
 var renderHelper = require('../utilities/render_helper.js'),
     canvas = require('../graphics_objects/canvas.js');
 

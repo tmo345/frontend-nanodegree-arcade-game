@@ -1,11 +1,20 @@
-// EventHandler class
+'use strict';
+
+/** Event Handler Class - used to instantiate event listener objects. An instance
+ *      has a listener function, an event type, and can have a callback assigned to it
+ *      for the listener to invoke when the event is triggered. The object can
+ *      turn the event listener it stores on and off.
+ *
+ *  Properties: eventType, listener (function)
+ *  Methods: setListenerCallback, turnOnEventListener, turnOffEventListener
+ */
+
 
 // listener function should take callback param that it will conditionally invoke
 // ex: function listener(callback) { if (conditionMet) { callback() }
 var EventHandler = function(eventType, listener) {
     this.eventType = eventType;
     this.listener = listener;
-    this.onOffState = 'off';
 };
 
 // set a wrapper function that takes a callback as a param
@@ -26,20 +35,11 @@ EventHandler.prototype.turnOnEventListener = function() {
     document.addEventListener(that.eventType, that.wrapper);
 };
 
-// as a bonus, we can now pass this.wrapper to removeEventListener to turn off
-// the eventlistener
+// We can now pass this.wrapper to removeEventListener to turn off the eventlistener
 EventHandler.prototype.turnOffEventListener = function() {
     var that = this;
     this.onOffState = 'off';
     document.removeEventListener(that.eventType, that.wrapper);
-};
-
-EventHandler.prototype.reportOnOffState = function() {
-    return this.onOffState;
-};
-
-EventHandler.prototype.setSubscription = function(statePubSub, state, callback) {
-    statePubSub.subscribe(state, callback);
 };
 
 

@@ -1,12 +1,23 @@
 'use strict';
 
-// TODO: In game as it currently stands, the most important game state change is
-// to the gameOver. The mechanism to distinguish between startScreen and
-// gamePlay are present as well and the state changes accordingy as the game
-// flows. Plan to have features that use all the states such as having options
-// on the start screen like character choosing. The change back to startScreen
-// would be signficant in order to bring user to the start screen to choose a
-// new character if desired.
+/** Gamestate Handler module - stores current gamestate (_currentState) from a
+ *      list of available states and has functions that change _currentState and
+ *      publish it
+ *
+ *  Exports:
+ *      toStartScreen: change _currentState to startScreen and publish
+ *      toGamePlay: change _currentState to gamePlay and publish
+ *      toGameOver: change _currentState to gameOver and publish
+ *      getCurrentState: return _currentState
+ *      subscribeToTimeIsUp: set subscription to timeIsUp
+ *
+ *  Subscriptions + subscriber function:
+ *      timeIsUp: toGameOver (when timeIsUp, gameState needs to be change to gameOver)
+ *
+ *  Publishes:
+ *      gameStateChange (each gameState conversion publishes this state change and
+ *      passes the new _currentState to statePubSub to relay to subscribers)
+ */
 
 var _availableStates = {
         startScreen: 'startScreen',

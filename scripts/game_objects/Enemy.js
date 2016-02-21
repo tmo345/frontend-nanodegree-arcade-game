@@ -1,3 +1,13 @@
+'use strict';
+
+/** Enemy class
+ *
+ *  Properties: sprite (image file), startingX (coordinate), rightBoundary
+ *  Methods: setStart, setSpeed, resetSprite, update, render
+ *
+ *  On instantiation, enemy is reset to random starting y with a random speed
+ */
+
 var landmarks = require('../utilities/landmarks.js'),
     resources = require('../utilities/resources.js');
 

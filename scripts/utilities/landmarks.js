@@ -1,3 +1,5 @@
+'use strict';
+
 /** Mapping of some commonly used coordinates in rendering of various game elements for convenience
 *
 *   Representation of landmarks on the canvas
@@ -17,6 +19,13 @@
 *            ---------------------
 * grass2     |   |   | P |   |   |
 *            ---------------------
+*
+* Exports:
+*   xLeftSideOf: x coordinates for left side of each tile as well as offscreen left
+*               and right
+*   yTopOf: y coordinates for top of canvas and top of tiles
+*   yEntityAdjust: y coordinates with adjustment to place enemies and player in them
+*   boundaries: 4 side boundaries for player movement x and y coordinates
 **/
 
     // left sides of tiles
@@ -42,7 +51,7 @@ var xLeftSideOf = {
     },
 
     // Y coordinates for enemies and player to appear in proper place in specified game tile
-    // The sprites have empty space above them in some cases
+    // The sprites have empty space above them in some cases as part of image
     yEntityAdjust = {
         water: 0,
         stone1: 60,

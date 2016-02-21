@@ -1,3 +1,13 @@
+'use strict';
+
+/** Object containing styles and text for start screen
+ *
+ *  Properties: headingStyle, subHeadingStyle, startDirectionsStyle, mainHeading,
+ *      subHeading, directions, player, enemy
+ *  Methods: renderHeading, renderSubHeading, renderDirections, renderPlayer,
+ *      renderEnemies
+ */
+
 var renderHelper = require('../utilities/render_helper.js'),
     resources = require('../utilities/resources.js'),
     landmarks = require('../utilities/landmarks.js');
@@ -78,12 +88,12 @@ var startScreen = {
         ]
     },
 
-    // 5, 40
+
     renderHeading: function(ctx) {
         renderHelper.setNewContext(ctx, this.headingStyle);
         ctx.fillText(this.mainHeading.text, this.mainHeading.x, this.mainHeading.y);
     },
-    //  -2 * Math.PI / 180 150 110
+
     renderSubHeading: function(ctx) {
         renderHelper.setNewContext(ctx, this.subHeadingStyle);
         ctx.rotate(this.subHeading.rotation);
