@@ -12,5 +12,13 @@ On the start screen, hit enter to start the game.
 - Avoid the bugs as you cross the road.
 - Every time you hit a bug you lose 50 points and move back to starting position
 - The timer is set for 30 seconds. Go for your personal best (store locally).
+- Press enter to start a new game.
 
+#### Game Mechanics
 
+##### Code Organization
+- Implemented commonJS modules in browser with browserify/watchify
+- File Structure
+  - bundle.js: browserify concatenates all javascript files 
+  - engine.js: entry point for program
+  - engine_logic/: modules for 
